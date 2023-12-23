@@ -1,2 +1,2 @@
 game:
-	g++ src/main.cpp -o src/main.out
+	g++ src/main.cpp -o main.out -Isrc -lraylib
