@@ -23,8 +23,8 @@ void inline drawGameplayScreen(const int screenWidth, const int screenHeight,
                                const GameLogic::PlayerState player) {
   DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
   DrawRectangle(player.x_position, player.y_position, 50, 50, RED);
-  DrawText("GAMEPLAY SCREEN", 20, 20, 40, MAROON);
-  DrawText("PRESS Q to go to ENDING SCREEN", 130, 220, 20, MAROON);
+  DrawText("GAMEPLAY SCREEN", 10, 10, 20, MAROON);
+  DrawText("PRESS Q to go to ENDING SCREEN", 400, 10, 20, MAROON);
 }
 
 void inline drawEndingScreen(const int screenWidth, const int screenHeight) {
