@@ -3,3 +3,6 @@ game:
 
 run:
 	./main.out
+
+clean:
+	rm *.out
