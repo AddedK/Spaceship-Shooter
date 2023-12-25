@@ -7,11 +7,6 @@ using namespace std;
 
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
-struct Player {
-  int x = 0;
-  int y = 0;
-};
-
 void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
   DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
   DrawText("TITLE SCREEN", 20, 20, 40, DARKGREEN);
