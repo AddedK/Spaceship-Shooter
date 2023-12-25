@@ -44,10 +44,10 @@ optional<GameLogic::KeyPress> keyPressToGameKeyPress(int keyPress) {
     return GameLogic::KeyPress::LEFT;
     break;
   case KEY_RIGHT:
-    return GameLogic::KeyPress::UP;
+    return GameLogic::KeyPress::RIGHT;
     break;
   case KEY_ENTER:
-    return GameLogic::KeyPress::RIGHT;
+    return GameLogic::KeyPress::ENTER;
     break;
   case KEY_Q:
     return GameLogic::KeyPress::Q;
