@@ -1,5 +1,8 @@
 #include "GameLogic.hpp"
 #include "raylib.h"
+#include <optional>
+
+using namespace std;
 
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
@@ -16,9 +19,9 @@ void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
 }
 
 void inline drawGameplayScreen(const int screenWidth, const int screenHeight,
-                               const Player player) {
+                               const GameLogic::PlayerState player) {
   DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
-  DrawRectangle(player.x, player.y, 50, 50, RED);
+  DrawRectangle(player.x_position, player.y_position, 50, 50, RED);
   DrawText("GAMEPLAY SCREEN", 20, 20, 40, MAROON);
   DrawText("PRESS Q to go to ENDING SCREEN", 130, 220, 20, MAROON);
 }
@@ -29,14 +32,28 @@ void inline drawEndingScreen(const int screenWidth, const int screenHeight) {
   DrawText("PRESS ENTER to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE);
 }
 
-GameLogic::KeyPress keyPressToGameKeyPress(int keyPress) {
-  // TODO
+optional<GameLogic::KeyPress> keyPressToGameKeyPress(int keyPress) {
   switch (keyPress) {
   case KEY_UP:
     return GameLogic::KeyPress::UP;
     break;
-  default:
+  case KEY_DOWN:
+    return GameLogic::KeyPress::DOWN;
+    break;
+  case KEY_LEFT:
+    return GameLogic::KeyPress::LEFT;
+    break;
+  case KEY_RIGHT:
     return GameLogic::KeyPress::UP;
+    break;
+  case KEY_ENTER:
+    return GameLogic::KeyPress::RIGHT;
+    break;
+  case KEY_Q:
+    return GameLogic::KeyPress::Q;
+    break;
+  default:
+    return nullopt;
     break;
   }
 }
@@ -54,7 +71,8 @@ int main(void) {
   int framesCounter = 0; // Useful to count frames
 
   SetTargetFPS(60); // Set desired framerate (frames-per-second)
-  Player player = {100, 100};
+
+  GameLogic::GameState game;
 
   // Main game loop
   while (!WindowShouldClose()) // Detect window close button or ESC key
@@ -64,14 +82,17 @@ int main(void) {
       // TODO: Update TITLE screen variables here!
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        player.x = 100;
-        player.y = 100;
+        game.setPlayer({100, 100});
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;
     case GameScreen::GAMEPLAY: {
       // TODO: Update GAMEPLAY screen variables here!
 
+      auto keyPressed = keyPressToGameKeyPress(GetKeyPressed());
+      if (keyPressed != nullopt) {
+        game.handleKeyPress(keyPressed.value());
+      }
       if (IsKeyPressed(KEY_Q)) {
         currentScreen = GameScreen::ENDING;
       }
@@ -96,7 +117,7 @@ int main(void) {
 
     } break;
     case GameScreen::GAMEPLAY: {
-      drawGameplayScreen(screenWidth, screenHeight, player);
+      drawGameplayScreen(screenWidth, screenHeight, game.getPlayer());
 
     } break;
     case GameScreen::ENDING: {
