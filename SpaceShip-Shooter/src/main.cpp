@@ -1,6 +1,7 @@
 #include "GameLogic.hpp"
 #include "raylib.h"
 #include <optional>
+#include <vector>
 
 using namespace std;
 
@@ -32,30 +33,27 @@ void inline drawEndingScreen(const int screenWidth, const int screenHeight) {
   DrawText("PRESS ENTER to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE);
 }
 
-optional<GameLogic::KeyPress> keyPressToGameKeyPress(int keyPress) {
-  switch (keyPress) {
-  case KEY_UP:
-    return GameLogic::KeyPress::UP;
-    break;
-  case KEY_DOWN:
-    return GameLogic::KeyPress::DOWN;
-    break;
-  case KEY_LEFT:
-    return GameLogic::KeyPress::LEFT;
-    break;
-  case KEY_RIGHT:
-    return GameLogic::KeyPress::RIGHT;
-    break;
-  case KEY_ENTER:
-    return GameLogic::KeyPress::ENTER;
-    break;
-  case KEY_Q:
-    return GameLogic::KeyPress::Q;
-    break;
-  default:
-    return nullopt;
-    break;
+vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
+  vector<GameLogic::KeyPress> keyPresses;
+  if (IsKeyDown(KEY_UP)) {
+    keyPresses.push_back(GameLogic::KeyPress::UP);
   }
+  if (IsKeyDown(KEY_DOWN)) {
+    keyPresses.push_back(GameLogic::KeyPress::DOWN);
+  }
+  if (IsKeyDown(KEY_LEFT)) {
+    keyPresses.push_back(GameLogic::KeyPress::LEFT);
+  }
+  if (IsKeyDown(KEY_RIGHT)) {
+    keyPresses.push_back(GameLogic::KeyPress::RIGHT);
+  }
+  if (IsKeyDown(KEY_ENTER)) {
+    keyPresses.push_back(GameLogic::KeyPress::ENTER);
+  }
+  if (IsKeyDown(KEY_Q)) {
+    keyPresses.push_back(GameLogic::KeyPress::Q);
+  }
+  return keyPresses;
 }
 
 int main(void) {
@@ -66,7 +64,8 @@ int main(void) {
 
   GameScreen currentScreen = GameScreen::TITLE;
 
-  // TODO: Initialize all required variables and load all required data here!
+  // TODO: Initialize all required variables and load all required data
+  // here!
 
   int framesCounter = 0; // Useful to count frames
 
@@ -89,10 +88,11 @@ int main(void) {
     case GameScreen::GAMEPLAY: {
       // TODO: Update GAMEPLAY screen variables here!
 
-      auto keyPressed = keyPressToGameKeyPress(GetKeyPressed());
-      if (keyPressed != nullopt) {
-        game.handleKeyPress(keyPressed.value());
+      auto keyPresses = keyPressToGameKeyPress();
+      for (auto &keyPress : keyPresses) {
+        game.handleKeyPress(keyPress);
       }
+
       if (IsKeyPressed(KEY_Q)) {
         currentScreen = GameScreen::ENDING;
       }

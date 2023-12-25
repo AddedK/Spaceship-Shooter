@@ -27,7 +27,7 @@ void GameState::movePlayer(KeyPress keyPress) {
     }
     break;
   case KeyPress::DOWN:
-    if (player.y_position > 450) { // TODO magic number
+    if (player.y_position < 450) { // TODO magic number
       ++player.y_position;
       std::cout << "Moved player down to: " << player.y_position << std::endl;
     }
