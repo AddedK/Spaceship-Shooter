@@ -21,15 +21,22 @@ public:
 
 class GameState {
   PlayerState player;
+  int screenWidth;
+  int screenHeight;
 
 public:
   PlayerState getPlayer() const { return player; }
   void setPlayer(PlayerState player);
   void handleKeyPress(KeyPress keyPress);
   void movePlayer(KeyPress keyPress);
+  void setDimensions(int screenWidth, int screenHeight);
 
-  GameState() = default;
-  GameState(PlayerState player) : player(player) {}
+  // TODO: Make sanity checks on how people construct GameState
+  GameState()
+      : screenWidth(200), screenHeight(200) {
+  } // PlayerState default constructed
+  GameState(PlayerState player, int screenWidth, int screenHeight)
+      : player(player), screenWidth(screenWidth), screenHeight(screenHeight) {}
   GameState(const GameState &otherGame) = delete;
   GameState &operator=(const GameState &otherGame) = delete;
   ~GameState() = default;

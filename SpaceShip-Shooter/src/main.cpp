@@ -77,6 +77,7 @@ int main(void) {
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
         game.setPlayer({100, 100});
+        game.setDimensions(screenWidth, screenHeight);
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;
