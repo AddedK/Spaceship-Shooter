@@ -1,6 +1,12 @@
+#include "GameLogic.hpp"
 #include "raylib.h"
 
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
+
+struct Player {
+  int x = 0;
+  int y = 0;
+};
 
 void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
   DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
@@ -9,8 +15,10 @@ void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
            DARKGREEN);
 }
 
-void inline drawGameplayScreen(const int screenWidth, const int screenHeight) {
+void inline drawGameplayScreen(const int screenWidth, const int screenHeight,
+                               const Player player) {
   DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
+  DrawRectangle(player.x, player.y, 50, 50, RED);
   DrawText("GAMEPLAY SCREEN", 20, 20, 40, MAROON);
   DrawText("PRESS Q to go to ENDING SCREEN", 130, 220, 20, MAROON);
 }
@@ -19,6 +27,18 @@ void inline drawEndingScreen(const int screenWidth, const int screenHeight) {
   DrawRectangle(0, 0, screenWidth, screenHeight, BLUE);
   DrawText("ENDING SCREEN", 20, 20, 40, DARKBLUE);
   DrawText("PRESS ENTER to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE);
+}
+
+GameLogic::KeyPress keyPressToGameKeyPress(int keyPress) {
+  // TODO
+  switch (keyPress) {
+  case KEY_UP:
+    return GameLogic::KeyPress::UP;
+    break;
+  default:
+    return GameLogic::KeyPress::UP;
+    break;
+  }
 }
 
 int main(void) {
@@ -34,6 +54,7 @@ int main(void) {
   int framesCounter = 0; // Useful to count frames
 
   SetTargetFPS(60); // Set desired framerate (frames-per-second)
+  Player player = {100, 100};
 
   // Main game loop
   while (!WindowShouldClose()) // Detect window close button or ESC key
@@ -43,6 +64,8 @@ int main(void) {
       // TODO: Update TITLE screen variables here!
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
+        player.x = 100;
+        player.y = 100;
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;
@@ -73,7 +96,7 @@ int main(void) {
 
     } break;
     case GameScreen::GAMEPLAY: {
-      drawGameplayScreen(screenWidth, screenHeight);
+      drawGameplayScreen(screenWidth, screenHeight, player);
 
     } break;
     case GameScreen::ENDING: {
