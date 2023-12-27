@@ -87,8 +87,6 @@ int main(void) {
     }
     BeginDrawing();
 
-    ClearBackground(RAYWHITE);
-
     switch (currentScreen) {
     case GameScreen::TITLE: {
       drawTitleScreen(displayConstants);
