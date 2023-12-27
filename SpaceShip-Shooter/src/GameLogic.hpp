@@ -1,13 +1,14 @@
 #ifndef GAME_LOGIC_HPP
 #define GAME_LOGIC_HPP
+#include <vector>
 namespace GameLogic {
 
 #include "Ship.hpp"
-
 enum class KeyPress { LEFT, UP, RIGHT, DOWN, ENTER, Q };
 
 class GameState {
   Ship player;
+  std::vector<Ship> enemyShips;
   int screenWidth;
   int screenHeight;
 
@@ -17,6 +18,9 @@ public:
   void handleKeyPress(KeyPress keyPress);
   void movePlayer(KeyPress keyPress);
   void setDimensions(int screenWidth, int screenHeight);
+  std::vector<Ship> getEnemyShips() const { return enemyShips; }
+  void addEnemyShip(Ship enemy);
+  void addEnemyShip(Ship &&enemy);
 
   // TODO: Make sanity checks on how people construct GameState
   GameState() = delete;
