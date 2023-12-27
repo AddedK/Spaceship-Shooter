@@ -82,7 +82,6 @@ int main(void) {
   {
     switch (currentScreen) {
     case GameScreen::TITLE: {
-      // TODO: Update TITLE screen variables here!
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
         game.setPlayer({gameConstants.playerStartingX,
@@ -93,7 +92,6 @@ int main(void) {
       }
     } break;
     case GameScreen::GAMEPLAY: {
-      // TODO: Update GAMEPLAY screen variables here!
 
       auto keyPresses = keyPressToGameKeyPress();
       for (auto &keyPress : keyPresses) {
@@ -105,7 +103,6 @@ int main(void) {
       }
     } break;
     case GameScreen::ENDING: {
-      // TODO: Update ENDING screen variables here!
 
       if (IsKeyPressed(KEY_ENTER)) {
         currentScreen = GameScreen::TITLE;
