@@ -7,6 +7,11 @@ using namespace std;
 
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
+struct GameConstants {
+  const int playerWidth = 50;
+  const int playerHeight = 50;
+};
+
 void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
   DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
   DrawText("TITLE SCREEN", 20, 20, 40, DARKGREEN);
@@ -53,6 +58,7 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
 }
 
 int main(void) {
+  constexpr GameConstants gameConstants;
   const int screenWidth = 800;
   const int screenHeight = 450;
 
@@ -77,7 +83,8 @@ int main(void) {
       // TODO: Update TITLE screen variables here!
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        game.setPlayer({100, 100, 50, 50});
+        game.setPlayer(
+            {100, 100, gameConstants.playerWidth, gameConstants.playerHeight});
         game.setDimensions(screenWidth, screenHeight);
         currentScreen = GameScreen::GAMEPLAY;
       }
