@@ -18,7 +18,7 @@ void drawTitleScreen(const DisplayConstants &displayConstants) {
 }
 
 void drawGameplayScreen(const DisplayConstants &displayConstants,
-                        const GameLogic::PlayerState player) {
+                        const GameLogic::Ship player) {
   DrawRectangle(0, 0, displayConstants.screenWidth,
                 displayConstants.screenHeight, PURPLE);
   DrawRectangle(player.x_position, player.y_position, player.width,

@@ -13,6 +13,6 @@ struct DisplayConstants {
 
 void drawTitleScreen(const DisplayConstants &displayConstants);
 void drawGameplayScreen(const DisplayConstants &displayConstants,
-                        const GameLogic::PlayerState player);
+                        const GameLogic::Ship player);
 void drawEndingScreen(const DisplayConstants &displayConstants);
 #endif

@@ -50,7 +50,7 @@ void GameState::movePlayer(KeyPress keyPress) {
   }
 }
 
-void GameState::setPlayer(PlayerState player) { this->player = player; }
+void GameState::setPlayer(Ship player) { this->player = player; }
 void GameState::setDimensions(int screenWidth, int screenHeight) {
   this->screenWidth = screenWidth;
   this->screenHeight = screenHeight;
