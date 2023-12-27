@@ -8,6 +8,8 @@ using namespace std;
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
 struct GameConstants {
+  const int playerStartingX = 100;
+  const int playerStartingY = 100;
   const int playerWidth = 50;
   const int playerHeight = 50;
 };
@@ -83,8 +85,9 @@ int main(void) {
       // TODO: Update TITLE screen variables here!
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        game.setPlayer(
-            {100, 100, gameConstants.playerWidth, gameConstants.playerHeight});
+        game.setPlayer({gameConstants.playerStartingX,
+                        gameConstants.playerStartingY,
+                        gameConstants.playerWidth, gameConstants.playerHeight});
         game.setDimensions(screenWidth, screenHeight);
         currentScreen = GameScreen::GAMEPLAY;
       }
