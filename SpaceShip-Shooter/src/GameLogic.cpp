@@ -27,7 +27,7 @@ void GameState::movePlayer(KeyPress keyPress) {
     }
     break;
   case KeyPress::DOWN:
-    if (player.y_position < screenHeight) {
+    if (player.y_position + player.height < screenHeight) {
       ++player.y_position;
       std::cout << "Moved player down to: " << player.y_position << std::endl;
     }
@@ -39,7 +39,7 @@ void GameState::movePlayer(KeyPress keyPress) {
     }
     break;
   case KeyPress::RIGHT:
-    if (player.x_position < screenWidth) {
+    if (player.x_position + player.width < screenWidth) {
       ++player.x_position;
       std::cout << "Moved player right to: " << player.x_position << std::endl;
     }

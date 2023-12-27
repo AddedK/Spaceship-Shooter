@@ -17,7 +17,8 @@ void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
 void inline drawGameplayScreen(const int screenWidth, const int screenHeight,
                                const GameLogic::PlayerState player) {
   DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
-  DrawRectangle(player.x_position, player.y_position, 50, 50, RED);
+  DrawRectangle(player.x_position, player.y_position, player.width,
+                player.height, RED);
   DrawText("GAMEPLAY SCREEN", 10, 10, 20, MAROON);
   DrawText("PRESS Q to go to ENDING SCREEN", 400, 10, 20, MAROON);
 }
@@ -76,7 +77,7 @@ int main(void) {
       // TODO: Update TITLE screen variables here!
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        game.setPlayer({100, 100});
+        game.setPlayer({100, 100, 50, 50});
         game.setDimensions(screenWidth, screenHeight);
         currentScreen = GameScreen::GAMEPLAY;
       }
