@@ -50,7 +50,8 @@ int main(void) {
   int framesCounter = 0; // Useful to count frames
   SetTargetFPS(60);      // Set desired framerate (frames-per-second)
 
-  GameLogic::GameState game;
+  GameLogic::GameState game(displayConstants.screenWidth,
+                            displayConstants.screenHeight);
   // Main game loop
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
@@ -61,8 +62,6 @@ int main(void) {
         game.setPlayer({gameConstants.playerStartingX,
                         gameConstants.playerStartingY,
                         gameConstants.playerWidth, gameConstants.playerHeight});
-        game.setDimensions(displayConstants.screenWidth,
-                           displayConstants.screenHeight);
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;

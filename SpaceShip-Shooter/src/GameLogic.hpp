@@ -37,9 +37,10 @@ public:
   void setDimensions(int screenWidth, int screenHeight);
 
   // TODO: Make sanity checks on how people construct GameState
-  GameState()
-      : screenWidth(200), screenHeight(200) {
-  } // PlayerState default constructed
+  GameState() = delete;
+  GameState(int screenWidth, int screenHeight)
+      : screenWidth(screenWidth), screenHeight(screenHeight) {}
+  // PlayerState default constructed
   GameState(PlayerState player, int screenWidth, int screenHeight)
       : player(player), screenWidth(screenWidth), screenHeight(screenHeight) {}
   GameState(const GameState &otherGame) = delete;
