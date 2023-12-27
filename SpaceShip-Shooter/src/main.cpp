@@ -43,20 +43,14 @@ int main(void) {
   constexpr GameConstants gameConstants;
   constexpr DisplayConstants displayConstants;
 
+  // Setup raylib window
   InitWindow(displayConstants.screenWidth, displayConstants.screenHeight,
              "Spaceship Shooter");
-
   GameScreen currentScreen = GameScreen::TITLE;
-
-  // TODO: Initialize all required variables and load all required data
-  // here!
-
   int framesCounter = 0; // Useful to count frames
-
-  SetTargetFPS(60); // Set desired framerate (frames-per-second)
+  SetTargetFPS(60);      // Set desired framerate (frames-per-second)
 
   GameLogic::GameState game;
-
   // Main game loop
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
