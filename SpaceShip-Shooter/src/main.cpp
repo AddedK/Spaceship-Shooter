@@ -10,8 +10,6 @@ enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
 struct GameConstants {
   // Constants related to game logic
-  const int playerStartingX = 100;
-  const int playerStartingY = 100;
   const int playerWidth = 50;
   const int playerHeight = 50;
 };
@@ -59,9 +57,10 @@ int main(void) {
     case GameScreen::TITLE: {
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        game.setPlayer({gameConstants.playerStartingX,
-                        gameConstants.playerStartingY,
-                        gameConstants.playerWidth, gameConstants.playerHeight});
+        game.setPlayer(
+            {displayConstants.screenWidth / 2 - gameConstants.playerWidth / 2,
+             displayConstants.screenHeight - gameConstants.playerHeight,
+             gameConstants.playerWidth, gameConstants.playerHeight});
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;
