@@ -16,7 +16,7 @@ public:
 
   PlayerState() : x_position(0), y_position(0), width(10), height(10) {}
   PlayerState(int x_position, int y_position, int width, int height)
-      : x_position(x_position), y_position(x_position), width(width),
+      : x_position(x_position), y_position(y_position), width(width),
         height(height) {}
   PlayerState(const PlayerState &otherPlayer) = default;
   PlayerState &operator=(const PlayerState &otherPlayer) = default;
