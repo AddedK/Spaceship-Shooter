@@ -8,32 +8,73 @@ using namespace std;
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
 struct GameConstants {
+  // Constants related to game logic
   const int playerStartingX = 100;
   const int playerStartingY = 100;
   const int playerWidth = 50;
   const int playerHeight = 50;
 };
 
-void inline drawTitleScreen(const int screenWidth, const int screenHeight) {
-  DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
-  DrawText("TITLE SCREEN", 20, 20, 40, DARKGREEN);
-  DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", 120, 220, 20,
+struct DisplayConstants {
+  // Constants related to rendering to the screen
+  const int screenWidth = 600;
+  const int screenHeight = 800;
+  const int titleFontSize = 30;
+  const int instructionFontSize = 18;
+};
+
+void inline drawTitleScreen(const DisplayConstants &displayConstants) {
+  DrawRectangle(0, 0, displayConstants.screenWidth,
+                displayConstants.screenHeight, GREEN);
+
+  const int titleXMiddle =
+      (displayConstants.screenWidth / 2) - (4 * displayConstants.titleFontSize);
+  const int titleYPosition = 20;
+  DrawText("TITLE SCREEN", titleXMiddle, titleYPosition,
+           displayConstants.titleFontSize, DARKGREEN);
+
+  const int instructionXPosition = (displayConstants.screenWidth / 6);
+  const int instructionYPosition = 220;
+  DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
+           instructionYPosition, displayConstants.instructionFontSize,
            DARKGREEN);
 }
 
-void inline drawGameplayScreen(const int screenWidth, const int screenHeight,
+void inline drawGameplayScreen(const DisplayConstants &displayConstants,
                                const GameLogic::PlayerState player) {
-  DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
+  DrawRectangle(0, 0, displayConstants.screenWidth,
+                displayConstants.screenHeight, PURPLE);
   DrawRectangle(player.x_position, player.y_position, player.width,
                 player.height, RED);
-  DrawText("GAMEPLAY SCREEN", 10, 10, 20, MAROON);
-  DrawText("PRESS Q to go to ENDING SCREEN", 400, 10, 20, MAROON);
+
+  const int titleXMiddle =
+      (displayConstants.screenWidth / 2) - (6 * displayConstants.titleFontSize);
+  const int titleYPosition = 10;
+  DrawText("GAMEPLAY SCREEN", titleXMiddle, titleYPosition,
+           displayConstants.titleFontSize, MAROON);
+
+  const int instructionXPosition = 10;
+  const int instructionYPosition =
+      displayConstants.screenHeight - 2 * displayConstants.instructionFontSize;
+  DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
+           instructionYPosition, displayConstants.instructionFontSize, MAROON);
 }
 
-void inline drawEndingScreen(const int screenWidth, const int screenHeight) {
-  DrawRectangle(0, 0, screenWidth, screenHeight, BLUE);
-  DrawText("ENDING SCREEN", 20, 20, 40, DARKBLUE);
-  DrawText("PRESS ENTER to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE);
+void inline drawEndingScreen(const DisplayConstants &displayConstants) {
+  DrawRectangle(0, 0, displayConstants.screenWidth,
+                displayConstants.screenHeight, BLUE);
+
+  const int titleXMiddle =
+      (displayConstants.screenWidth / 2) - (5 * displayConstants.titleFontSize);
+  const int titleYPosition = 10;
+  DrawText("ENDING SCREEN", titleXMiddle, titleYPosition,
+           displayConstants.titleFontSize, DARKBLUE);
+
+  const int instructionXPosition = (displayConstants.screenWidth / 6);
+  const int instructionYPosition = 220;
+  DrawText("PRESS ENTER to RETURN to TITLE SCREEN", instructionXPosition,
+           instructionYPosition, displayConstants.instructionFontSize,
+           DARKBLUE);
 }
 
 vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
@@ -61,10 +102,10 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
 
 int main(void) {
   constexpr GameConstants gameConstants;
-  const int screenWidth = 800;
-  const int screenHeight = 450;
+  constexpr DisplayConstants displayConstants;
 
-  InitWindow(screenWidth, screenHeight, "Spaceship Shooter");
+  InitWindow(displayConstants.screenWidth, displayConstants.screenHeight,
+             "Spaceship Shooter");
 
   GameScreen currentScreen = GameScreen::TITLE;
 
@@ -87,7 +128,8 @@ int main(void) {
         game.setPlayer({gameConstants.playerStartingX,
                         gameConstants.playerStartingY,
                         gameConstants.playerWidth, gameConstants.playerHeight});
-        game.setDimensions(screenWidth, screenHeight);
+        game.setDimensions(displayConstants.screenWidth,
+                           displayConstants.screenHeight);
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;
@@ -117,15 +159,15 @@ int main(void) {
 
     switch (currentScreen) {
     case GameScreen::TITLE: {
-      drawTitleScreen(screenWidth, screenHeight);
+      drawTitleScreen(displayConstants);
 
     } break;
     case GameScreen::GAMEPLAY: {
-      drawGameplayScreen(screenWidth, screenHeight, game.getPlayer());
+      drawGameplayScreen(displayConstants, game.getPlayer());
 
     } break;
     case GameScreen::ENDING: {
-      drawEndingScreen(screenWidth, screenHeight);
+      drawEndingScreen(displayConstants);
 
     } break;
     default:
