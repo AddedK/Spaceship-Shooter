@@ -1,6 +1,7 @@
 #ifndef DRAW_HPP
 #define DRAW_HPP
 #include "GameLogic.hpp"
+#include "Ship.hpp"
 #include "raylib.h"
 
 struct DisplayConstants {
@@ -13,6 +14,7 @@ struct DisplayConstants {
 
 void drawTitleScreen(const DisplayConstants &displayConstants);
 void drawGameplayScreen(const DisplayConstants &displayConstants,
-                        const GameLogic::Ship player);
+                        const GameLogic::Ship &player,
+                        const std::vector<GameLogic::Ship> &enemyShips);
 void drawEndingScreen(const DisplayConstants &displayConstants);
 #endif

@@ -1,4 +1,5 @@
 #include "GameLogic.hpp"
+#include "Ship.hpp"
 #include "draw.hpp"
 #include "raylib.h"
 #include <optional>
@@ -61,6 +62,12 @@ int main(void) {
             {displayConstants.screenWidth / 2 - gameConstants.playerWidth / 2,
              displayConstants.screenHeight - gameConstants.playerHeight,
              gameConstants.playerWidth, gameConstants.playerHeight});
+
+        GameLogic::Ship enemyShip(
+            displayConstants.screenWidth / 2 - gameConstants.playerWidth / 2, 0,
+            gameConstants.playerWidth, gameConstants.playerHeight);
+        game.addEnemyShip(std::move(enemyShip));
+
         currentScreen = GameScreen::GAMEPLAY;
       }
     } break;
@@ -92,7 +99,8 @@ int main(void) {
 
     } break;
     case GameScreen::GAMEPLAY: {
-      drawGameplayScreen(displayConstants, game.getPlayer());
+      drawGameplayScreen(displayConstants, game.getPlayer(),
+                         game.getEnemyShips());
 
     } break;
     case GameScreen::ENDING: {

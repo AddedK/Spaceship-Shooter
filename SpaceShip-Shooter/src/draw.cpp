@@ -1,4 +1,6 @@
 #include "draw.hpp"
+#include "Ship.hpp"
+#include <raylib.h>
 
 void drawTitleScreen(const DisplayConstants &displayConstants) {
   DrawRectangle(0, 0, displayConstants.screenWidth,
@@ -18,11 +20,17 @@ void drawTitleScreen(const DisplayConstants &displayConstants) {
 }
 
 void drawGameplayScreen(const DisplayConstants &displayConstants,
-                        const GameLogic::Ship player) {
+                        const GameLogic::Ship &player,
+                        const std::vector<GameLogic::Ship> &enemyShips) {
   DrawRectangle(0, 0, displayConstants.screenWidth,
                 displayConstants.screenHeight, PURPLE);
   DrawRectangle(player.x_position, player.y_position, player.width,
-                player.height, RED);
+                player.height, BLUE);
+
+  for (const auto &enemy : enemyShips) {
+    DrawRectangle(enemy.x_position, enemy.y_position, enemy.width, enemy.height,
+                  RED);
+  }
 
   const int titleXMiddle =
       (displayConstants.screenWidth / 2) - (6 * displayConstants.titleFontSize);

@@ -19,7 +19,6 @@ public:
   void movePlayer(KeyPress keyPress);
   void setDimensions(int screenWidth, int screenHeight);
   std::vector<Ship> getEnemyShips() const { return enemyShips; }
-  void addEnemyShip(Ship enemy);
   void addEnemyShip(Ship &&enemy);
 
   // TODO: Make sanity checks on how people construct GameState

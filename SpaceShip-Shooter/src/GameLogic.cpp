@@ -55,7 +55,6 @@ void GameState::setDimensions(int screenWidth, int screenHeight) {
   this->screenWidth = screenWidth;
   this->screenHeight = screenHeight;
 }
-void GameState::addEnemyShip(Ship enemy) { this->enemyShips.push_back(enemy); }
 void GameState::addEnemyShip(Ship &&enemy) {
   this->enemyShips.push_back(enemy);
 }
