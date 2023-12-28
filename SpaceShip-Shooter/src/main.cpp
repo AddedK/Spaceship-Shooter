@@ -33,17 +33,16 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
 }
 
 int main(void) {
-  constexpr DisplayConstants displayConstants;
 
   // Setup raylib window
-  InitWindow(displayConstants.screenWidth, displayConstants.screenHeight,
+  InitWindow(DisplayConstants::screenWidth, DisplayConstants::screenHeight,
              "Spaceship Shooter");
   GameScreen currentScreen = GameScreen::TITLE;
   int framesCounter = 0; // Useful to count frames
   SetTargetFPS(60);      // Set desired framerate (frames-per-second)
 
-  GameLogic::GameState game(displayConstants.screenWidth,
-                            displayConstants.screenHeight);
+  GameLogic::GameState game(DisplayConstants::screenWidth,
+                            DisplayConstants::screenHeight);
   // Main game loop
   while (!WindowShouldClose()) // Detect window close button or ESC key
   {
@@ -82,16 +81,15 @@ int main(void) {
 
     switch (currentScreen) {
     case GameScreen::TITLE: {
-      drawTitleScreen(displayConstants);
+      drawTitleScreen();
 
     } break;
     case GameScreen::GAMEPLAY: {
-      drawGameplayScreen(displayConstants, game.getPlayer(),
-                         game.getEnemyShips());
+      drawGameplayScreen(game.getPlayer(), game.getEnemyShips());
 
     } break;
     case GameScreen::ENDING: {
-      drawEndingScreen(displayConstants);
+      drawEndingScreen();
 
     } break;
     default:

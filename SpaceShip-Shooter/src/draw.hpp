@@ -4,17 +4,16 @@
 #include "Ship.hpp"
 #include "raylib.h"
 
-struct DisplayConstants {
-  // Constants related to rendering to the screen
-  const int screenWidth = 600;
-  const int screenHeight = 800;
-  const int titleFontSize = 30;
-  const int instructionFontSize = 18;
-};
+namespace DisplayConstants {
+// Constants related to rendering to the screen
+constexpr int screenWidth = 600;
+constexpr int screenHeight = 800;
+constexpr int titleFontSize = 30;
+constexpr int instructionFontSize = 18;
+}; // namespace DisplayConstants
 
-void drawTitleScreen(const DisplayConstants &displayConstants);
-void drawGameplayScreen(const DisplayConstants &displayConstants,
-                        const GameLogic::Ship &player,
+void drawTitleScreen();
+void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips);
-void drawEndingScreen(const DisplayConstants &displayConstants);
+void drawEndingScreen();
 #endif

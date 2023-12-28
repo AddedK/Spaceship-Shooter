@@ -2,28 +2,27 @@
 #include "Ship.hpp"
 #include <raylib.h>
 
-void drawTitleScreen(const DisplayConstants &displayConstants) {
-  DrawRectangle(0, 0, displayConstants.screenWidth,
-                displayConstants.screenHeight, GREEN);
+void drawTitleScreen() {
+  DrawRectangle(0, 0, DisplayConstants::screenWidth,
+                DisplayConstants::screenHeight, GREEN);
 
-  const int titleXMiddle =
-      (displayConstants.screenWidth / 2) - (4 * displayConstants.titleFontSize);
+  const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
+                           (4 * DisplayConstants::titleFontSize);
   const int titleYPosition = 20;
   DrawText("TITLE SCREEN", titleXMiddle, titleYPosition,
-           displayConstants.titleFontSize, DARKGREEN);
+           DisplayConstants::titleFontSize, DARKGREEN);
 
-  const int instructionXPosition = (displayConstants.screenWidth / 6);
+  const int instructionXPosition = (DisplayConstants::screenWidth / 6);
   const int instructionYPosition = 220;
   DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
-           instructionYPosition, displayConstants.instructionFontSize,
+           instructionYPosition, DisplayConstants::instructionFontSize,
            DARKGREEN);
 }
 
-void drawGameplayScreen(const DisplayConstants &displayConstants,
-                        const GameLogic::Ship &player,
+void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips) {
-  DrawRectangle(0, 0, displayConstants.screenWidth,
-                displayConstants.screenHeight, PURPLE);
+  DrawRectangle(0, 0, DisplayConstants::screenWidth,
+                DisplayConstants::screenHeight, PURPLE);
   DrawRectangle(player.x_position, player.y_position, player.width,
                 player.height, BLUE);
 
@@ -32,32 +31,32 @@ void drawGameplayScreen(const DisplayConstants &displayConstants,
                   RED);
   }
 
-  const int titleXMiddle =
-      (displayConstants.screenWidth / 2) - (6 * displayConstants.titleFontSize);
+  const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
+                           (6 * DisplayConstants::titleFontSize);
   const int titleYPosition = 10;
   DrawText("GAMEPLAY SCREEN", titleXMiddle, titleYPosition,
-           displayConstants.titleFontSize, MAROON);
+           DisplayConstants::titleFontSize, MAROON);
 
   const int instructionXPosition = 10;
-  const int instructionYPosition =
-      displayConstants.screenHeight - 2 * displayConstants.instructionFontSize;
+  const int instructionYPosition = DisplayConstants::screenHeight -
+                                   2 * DisplayConstants::instructionFontSize;
   DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
-           instructionYPosition, displayConstants.instructionFontSize, MAROON);
+           instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
 }
 
-void drawEndingScreen(const DisplayConstants &displayConstants) {
-  DrawRectangle(0, 0, displayConstants.screenWidth,
-                displayConstants.screenHeight, BLUE);
+void drawEndingScreen() {
+  DrawRectangle(0, 0, DisplayConstants::screenWidth,
+                DisplayConstants::screenHeight, BLUE);
 
-  const int titleXMiddle =
-      (displayConstants.screenWidth / 2) - (5 * displayConstants.titleFontSize);
+  const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
+                           (5 * DisplayConstants::titleFontSize);
   const int titleYPosition = 10;
   DrawText("ENDING SCREEN", titleXMiddle, titleYPosition,
-           displayConstants.titleFontSize, DARKBLUE);
+           DisplayConstants::titleFontSize, DARKBLUE);
 
-  const int instructionXPosition = (displayConstants.screenWidth / 6);
+  const int instructionXPosition = (DisplayConstants::screenWidth / 6);
   const int instructionYPosition = 220;
   DrawText("PRESS ENTER to RETURN to TITLE SCREEN", instructionXPosition,
-           instructionYPosition, displayConstants.instructionFontSize,
+           instructionYPosition, DisplayConstants::instructionFontSize,
            DARKBLUE);
 }
