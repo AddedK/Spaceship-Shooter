@@ -33,10 +33,6 @@ void GameState::setPlayer(Ship player) { this->player = player; }
 void GameState::setPlayerSpeed(int newSpeed) {
   player.setMovementSpeed(newSpeed);
 }
-void GameState::setDimensions(int screenWidth, int screenHeight) {
-  this->screenWidth = screenWidth;
-  this->screenHeight = screenHeight;
-}
 void GameState::addEnemyShip(Ship &&enemy) {
   this->enemyShips.push_back(enemy);
 }

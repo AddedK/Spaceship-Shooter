@@ -25,7 +25,6 @@ public:
   void setPlayerSpeed(int newSpeed);
   void handleKeyPress(KeyPress keyPress);
   void movePlayer(MoveDirection direction);
-  void setDimensions(int screenWidth, int screenHeight);
   std::vector<Ship> getEnemyShips() const { return enemyShips; }
   void addEnemyShip(Ship &&enemy);
   void clearEnemyShips();
