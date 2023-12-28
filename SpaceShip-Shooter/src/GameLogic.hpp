@@ -25,7 +25,9 @@ public:
   void setPlayerSpeed(int newSpeed);
   void handleKeyPress(KeyPress keyPress);
   void movePlayer(MoveDirection direction);
-  std::vector<Ship> getEnemyShips() const { return enemyShips; }
+  std::vector<Ship> getEnemyShips() const {
+    return enemyShips;
+  } // Performance: Return by reference
   void addEnemyShip(Ship &&enemy);
   void clearEnemyShips();
 
@@ -38,7 +40,7 @@ public:
   GameState() = delete;
   GameState(int screenWidth, int screenHeight)
       : screenWidth(screenWidth), screenHeight(screenHeight) {}
-  // Ship default constructed
+  // Player default constructed
   GameState(Ship player, int screenWidth, int screenHeight)
       : player(player), screenWidth(screenWidth), screenHeight(screenHeight) {}
   GameState(const GameState &otherGame) = delete;
