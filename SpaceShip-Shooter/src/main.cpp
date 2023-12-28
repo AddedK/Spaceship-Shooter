@@ -63,6 +63,7 @@ int main(void) {
              displayConstants.screenHeight - gameConstants.playerHeight,
              gameConstants.playerWidth, gameConstants.playerHeight});
 
+        game.clearEnemyShips();
         GameLogic::Ship enemyShip(
             displayConstants.screenWidth / 2 - gameConstants.playerWidth / 2, 0,
             gameConstants.playerWidth, gameConstants.playerHeight);
@@ -80,6 +81,8 @@ int main(void) {
 
       if (IsKeyPressed(KEY_Q)) {
         currentScreen = GameScreen::ENDING;
+      } else {
+        game.update();
       }
     } break;
     case GameScreen::ENDING: {
