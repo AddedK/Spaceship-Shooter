@@ -22,6 +22,7 @@ class GameState {
 public:
   Ship getPlayer() const { return player; }
   void setPlayer(Ship player);
+  void setPlayerSpeed(int newSpeed);
   void handleKeyPress(KeyPress keyPress);
   void movePlayer(MoveDirection direction);
   void setDimensions(int screenWidth, int screenHeight);

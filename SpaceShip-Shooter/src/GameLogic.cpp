@@ -30,6 +30,9 @@ void GameState::movePlayer(MoveDirection direction) {
 }
 
 void GameState::setPlayer(Ship player) { this->player = player; }
+void GameState::setPlayerSpeed(int newSpeed) {
+  player.setMovementSpeed(newSpeed);
+}
 void GameState::setDimensions(int screenWidth, int screenHeight) {
   this->screenWidth = screenWidth;
   this->screenHeight = screenHeight;
@@ -41,23 +44,27 @@ void GameState::clearEnemyShips() { this->enemyShips.clear(); }
 void GameState::moveShip(Ship &ship, MoveDirection direction) {
   switch (direction) {
   case MoveDirection::UP:
-    if (ship.y_position > 0) {
-      --ship.y_position;
+    ship.y_position -= ship.movementSpeed;
+    if (ship.y_position < 0) {
+      ship.y_position = 0;
     }
     break;
   case MoveDirection::DOWN:
-    if (ship.y_position + ship.height < screenHeight) {
-      ++ship.y_position;
+    ship.y_position += ship.movementSpeed;
+    if (ship.y_position + ship.height > screenHeight) {
+      ship.y_position = screenHeight - ship.height;
     }
     break;
   case MoveDirection::LEFT:
-    if (ship.x_position > 0) {
-      --ship.x_position;
+    ship.x_position -= ship.movementSpeed;
+    if (ship.x_position < 0) {
+      ship.x_position = 0;
     }
     break;
   case MoveDirection::RIGHT:
-    if (ship.x_position + ship.width < screenWidth) {
-      ++ship.x_position;
+    ship.x_position += ship.movementSpeed;
+    if (ship.x_position + ship.width > screenWidth) {
+      ship.x_position = screenWidth - ship.width;
     }
     break;
   default:
@@ -77,7 +84,7 @@ void GameState::startGame() {
   setPlayer({screenWidth / 2 - GameConstants::playerWidth / 2,
              screenHeight - GameConstants::playerHeight,
              GameConstants::playerWidth, GameConstants::playerHeight});
-
+  setPlayerSpeed(5);
   clearEnemyShips();
   Ship enemyShip(screenWidth / 2 - GameConstants::playerWidth / 2, 0,
                  GameConstants::playerWidth, GameConstants::playerHeight);
