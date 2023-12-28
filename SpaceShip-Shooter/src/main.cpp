@@ -9,12 +9,6 @@ using namespace std;
 
 enum class GameScreen { TITLE, GAMEPLAY, ENDING };
 
-struct GameConstants {
-  // Constants related to game logic
-  const int playerWidth = 50;
-  const int playerHeight = 50;
-};
-
 vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
   vector<GameLogic::KeyPress> keyPresses;
   if (IsKeyDown(KEY_UP)) {
@@ -39,7 +33,6 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
 }
 
 int main(void) {
-  constexpr GameConstants gameConstants;
   constexpr DisplayConstants displayConstants;
 
   // Setup raylib window
@@ -58,16 +51,7 @@ int main(void) {
     case GameScreen::TITLE: {
 
       if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        game.setPlayer(
-            {displayConstants.screenWidth / 2 - gameConstants.playerWidth / 2,
-             displayConstants.screenHeight - gameConstants.playerHeight,
-             gameConstants.playerWidth, gameConstants.playerHeight});
-
-        game.clearEnemyShips();
-        GameLogic::Ship enemyShip(
-            displayConstants.screenWidth / 2 - gameConstants.playerWidth / 2, 0,
-            gameConstants.playerWidth, gameConstants.playerHeight);
-        game.addEnemyShip(std::move(enemyShip));
+        game.startGame();
 
         currentScreen = GameScreen::GAMEPLAY;
       }

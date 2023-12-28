@@ -7,6 +7,12 @@ namespace GameLogic {
 enum class KeyPress { LEFT, UP, RIGHT, DOWN, ENTER, Q };
 enum class MoveDirection { LEFT, UP, RIGHT, DOWN };
 
+namespace GameConstants {
+// Constants related to game logic
+constexpr int playerWidth = 50;
+constexpr int playerHeight = 50;
+}; // namespace GameConstants
+
 class GameState {
   Ship player;
   std::vector<Ship> enemyShips;
@@ -27,6 +33,7 @@ public:
   void update();
   void moveAllEnemies();
 
+  void startGame();
   // TODO: Make sanity checks on how people construct GameState
   GameState() = delete;
   GameState(int screenWidth, int screenHeight)

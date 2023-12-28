@@ -72,4 +72,15 @@ void GameState::moveAllEnemies() {
     moveShip(enemyShip, MoveDirection::DOWN);
   }
 }
+
+void GameState::startGame() {
+  setPlayer({screenWidth / 2 - GameConstants::playerWidth / 2,
+             screenHeight - GameConstants::playerHeight,
+             GameConstants::playerWidth, GameConstants::playerHeight});
+
+  clearEnemyShips();
+  Ship enemyShip(screenWidth / 2 - GameConstants::playerWidth / 2, 0,
+                 GameConstants::playerWidth, GameConstants::playerHeight);
+  addEnemyShip(std::move(enemyShip));
+}
 } // namespace GameLogic
