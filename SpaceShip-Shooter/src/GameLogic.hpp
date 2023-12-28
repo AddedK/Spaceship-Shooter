@@ -18,22 +18,24 @@ class GameState {
   std::vector<Ship> enemyShips;
   int screenWidth;
   int screenHeight;
+  void moveShip(Ship &ship, MoveDirection direction);
+  void moveAllEnemies();
+  void clearEnemyShips();
+  void movePlayer(MoveDirection direction);
+  void addEnemyShip(
+      Ship &&enemy); // TODO: sanity check on bounds on ship coordinations
 
 public:
   Ship getPlayer() const { return player; }
-  void setPlayer(Ship player);
+  void
+  setPlayer(Ship player); // TODO: Sanity check on bounds on player coordinates
   void setPlayerSpeed(int newSpeed);
   void handleKeyPress(KeyPress keyPress);
-  void movePlayer(MoveDirection direction);
   std::vector<Ship> getEnemyShips() const {
     return enemyShips;
   } // Performance: Return by reference
-  void addEnemyShip(Ship &&enemy);
-  void clearEnemyShips();
 
-  void moveShip(Ship &ship, MoveDirection direction);
   void update();
-  void moveAllEnemies();
 
   void startGame();
   // TODO: Make sanity checks on how people construct GameState
