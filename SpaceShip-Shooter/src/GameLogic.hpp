@@ -18,7 +18,6 @@ class GameState {
   std::vector<Ship> enemyShips;
   int screenWidth;
   int screenHeight;
-  void moveShip(Ship &ship, MoveDirection direction);
   void moveAllEnemies();
   void clearEnemyShips();
   void movePlayer(MoveDirection direction);
@@ -31,6 +30,8 @@ public:
   setPlayer(Ship player); // TODO: Sanity check on bounds on player coordinates
   void setPlayerSpeed(int newSpeed);
   void handleKeyPress(KeyPress keyPress);
+  int getScreenWidth() const { return screenWidth; }
+  int getScreenHeight() const { return screenHeight; }
   std::vector<Ship> getEnemyShips() const {
     return enemyShips;
   } // Performance: Return by reference
@@ -50,6 +51,8 @@ public:
   ~GameState() = default;
 };
 
+void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
+              int screenHeight);
 } // namespace GameLogic
 
 #endif // GAME_LOGIC_HPP

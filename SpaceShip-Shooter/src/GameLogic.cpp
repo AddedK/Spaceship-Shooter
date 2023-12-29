@@ -26,7 +26,7 @@ void GameState::handleKeyPress(KeyPress keyPress) {
 
 void GameState::movePlayer(MoveDirection direction) {
   // TODO: Allow special behavior for moving player
-  moveShip(player, direction);
+  moveShip(player, direction, screenWidth, screenHeight);
 }
 
 void GameState::setPlayer(Ship player) { this->player = player; }
@@ -37,7 +37,8 @@ void GameState::addEnemyShip(Ship &&enemy) {
   this->enemyShips.push_back(enemy);
 }
 void GameState::clearEnemyShips() { this->enemyShips.clear(); }
-void GameState::moveShip(Ship &ship, MoveDirection direction) {
+void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
+              int screenHeight) {
   switch (direction) {
   case MoveDirection::UP:
     ship.y_position -= ship.movementSpeed;
@@ -72,7 +73,7 @@ void GameState::update() { moveAllEnemies(); }
 void GameState::moveAllEnemies() {
   // TODO: Now it just moves all enemies down
   for (auto &enemyShip : enemyShips) {
-    moveShip(enemyShip, MoveDirection::DOWN);
+    moveShip(enemyShip, MoveDirection::DOWN, screenWidth, screenHeight);
   }
 }
 
