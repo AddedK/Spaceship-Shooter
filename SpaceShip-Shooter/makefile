@@ -26,6 +26,8 @@ src/%.o: src/%.cpp
 test: CXXFLAGS += -Itest  # Add test directory to include path
 test: $(OBJS) $(TEST_OBJS)
 	$(CXX) $(OBJS) $(TEST_OBJS) -o test.out $(LIBS)
+
+verify:
 	./test.out
 
 # Rule to compile test source files
