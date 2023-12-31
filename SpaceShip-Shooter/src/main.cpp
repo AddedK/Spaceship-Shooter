@@ -26,6 +26,9 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
   if (IsKeyDown(KEY_ENTER)) {
     keyPresses.push_back(GameLogic::KeyPress::ENTER);
   }
+  if (IsKeyDown(KEY_SPACE)) {
+    keyPresses.push_back(GameLogic::KeyPress::SPACE);
+  }
   if (IsKeyDown(KEY_Q)) {
     keyPresses.push_back(GameLogic::KeyPress::Q);
   }
