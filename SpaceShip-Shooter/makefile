@@ -40,5 +40,5 @@ test/%.o: test/%.cpp
 clean:
 	rm -f src/*.o 
 	rm -f test/*.o
-	rm -f *.o 
+	rm -f *.o
 	rm -f *.out
