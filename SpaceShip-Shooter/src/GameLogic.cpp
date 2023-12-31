@@ -45,27 +45,27 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight) {
   switch (direction) {
   case MoveDirection::UP:
-    ship.y_position -= ship.movementSpeed;
-    if (ship.y_position < 0) {
-      ship.y_position = 0;
+    ship.yPosition -= ship.movementSpeed;
+    if (ship.yPosition < 0) {
+      ship.yPosition = 0;
     }
     break;
   case MoveDirection::DOWN:
-    ship.y_position += ship.movementSpeed;
-    if (ship.y_position + ship.height > screenHeight) {
-      ship.y_position = screenHeight - ship.height;
+    ship.yPosition += ship.movementSpeed;
+    if (ship.yPosition + ship.height > screenHeight) {
+      ship.yPosition = screenHeight - ship.height;
     }
     break;
   case MoveDirection::LEFT:
-    ship.x_position -= ship.movementSpeed;
-    if (ship.x_position < 0) {
-      ship.x_position = 0;
+    ship.xPosition -= ship.movementSpeed;
+    if (ship.xPosition < 0) {
+      ship.xPosition = 0;
     }
     break;
   case MoveDirection::RIGHT:
-    ship.x_position += ship.movementSpeed;
-    if (ship.x_position + ship.width > screenWidth) {
-      ship.x_position = screenWidth - ship.width;
+    ship.xPosition += ship.movementSpeed;
+    if (ship.xPosition + ship.width > screenWidth) {
+      ship.xPosition = screenWidth - ship.width;
     }
     break;
   default:
@@ -102,9 +102,9 @@ void GameState::addProjectile(Projectile &&projectile) {
   this->projectiles.push_back(projectile);
 }
 void GameState::addPlayerProjectile() {
-  if (player.y_position > 0 && frameNumber % (fps / 2) == 0) {
-    int xPositionMiddle = (player.x_position + player.width / 2);
-    Projectile projectile(xPositionMiddle, player.y_position - 1, 3, 3, 5,
+  if (player.yPosition > 0 && frameNumber % (fps / 2) == 0) {
+    int xPositionMiddle = (player.xPosition + player.width / 2);
+    Projectile projectile(xPositionMiddle, player.yPosition - 1, 3, 3, 5,
                           MoveDirection::UP);
 
     addProjectile(std::move(projectile));
@@ -114,7 +114,7 @@ void GameState::addPlayerProjectile() {
 void GameState::moveAllProjectiles() {
   // Remove all projectiles that are at the bottom or top
   for (auto begin = projectiles.begin(); begin != projectiles.end();) {
-    if (begin->y_position == 0 || begin->y_position == screenHeight) {
+    if (begin->yPosition == 0 || begin->yPosition == screenHeight) {
       begin = projectiles.erase(begin);
     } else {
       moveProjectile(*begin, screenWidth, screenHeight);
@@ -127,27 +127,27 @@ void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
   // Code duplication but it's okay
   switch (projectile.direction) {
   case MoveDirection::UP:
-    projectile.y_position -= projectile.movementSpeed;
-    if (projectile.y_position < 0) {
-      projectile.y_position = 0;
+    projectile.yPosition -= projectile.movementSpeed;
+    if (projectile.yPosition < 0) {
+      projectile.yPosition = 0;
     }
     break;
   case MoveDirection::DOWN:
-    projectile.y_position += projectile.movementSpeed;
-    if (projectile.y_position + projectile.height > screenHeight) {
-      projectile.y_position = screenHeight - projectile.height;
+    projectile.yPosition += projectile.movementSpeed;
+    if (projectile.yPosition + projectile.height > screenHeight) {
+      projectile.yPosition = screenHeight - projectile.height;
     }
     break;
   case MoveDirection::LEFT:
-    projectile.x_position -= projectile.movementSpeed;
-    if (projectile.x_position < 0) {
-      projectile.x_position = 0;
+    projectile.xPosition -= projectile.movementSpeed;
+    if (projectile.xPosition < 0) {
+      projectile.xPosition = 0;
     }
     break;
   case MoveDirection::RIGHT:
-    projectile.x_position += projectile.movementSpeed;
-    if (projectile.x_position + projectile.width > screenWidth) {
-      projectile.x_position = screenWidth - projectile.width;
+    projectile.xPosition += projectile.movementSpeed;
+    if (projectile.xPosition + projectile.width > screenWidth) {
+      projectile.xPosition = screenWidth - projectile.width;
     }
     break;
   default:

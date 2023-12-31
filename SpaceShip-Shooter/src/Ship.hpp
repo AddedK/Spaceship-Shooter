@@ -5,17 +5,17 @@ namespace GameLogic {
 class Ship {
 public:
   // Top left corner
-  int x_position;
-  int y_position;
+  int xPosition;
+  int yPosition;
   // Size of the player
   int width;
   int height;
   int movementSpeed;
 
   Ship()
-      : x_position(0), y_position(0), width(10), height(10), movementSpeed(1) {}
-  Ship(int x_position, int y_position, int width, int height)
-      : x_position(x_position), y_position(y_position), width(width),
+      : xPosition(0), yPosition(0), width(10), height(10), movementSpeed(1) {}
+  Ship(int xPosition, int yPosition, int width, int height)
+      : xPosition(xPosition), yPosition(yPosition), width(width),
         height(height), movementSpeed(1) {}
   Ship(const Ship &otherPlayer) = default;
   Ship &operator=(const Ship &otherPlayer) = default;

@@ -24,15 +24,15 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Projectile> &projectiles) {
   DrawRectangle(0, 0, DisplayConstants::screenWidth,
                 DisplayConstants::screenHeight, PURPLE);
-  DrawRectangle(player.x_position, player.y_position, player.width,
-                player.height, BLUE);
+  DrawRectangle(player.xPosition, player.yPosition, player.width, player.height,
+                BLUE);
 
   for (const auto &enemy : enemyShips) {
-    DrawRectangle(enemy.x_position, enemy.y_position, enemy.width, enemy.height,
+    DrawRectangle(enemy.xPosition, enemy.yPosition, enemy.width, enemy.height,
                   RED);
 
     for (const auto &projectile : projectiles) {
-      DrawRectangle(projectile.x_position, projectile.y_position,
+      DrawRectangle(projectile.xPosition, projectile.yPosition,
                     projectile.width, projectile.height, GREEN);
     }
   }
