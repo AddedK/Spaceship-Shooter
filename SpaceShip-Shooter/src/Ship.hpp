@@ -1,5 +1,7 @@
 #ifndef SHIP_HPP
 #define SHIP_HPP
+namespace GameLogic {
+
 class Ship {
 public:
   // Top left corner
@@ -24,4 +26,5 @@ public:
   }
   ~Ship() = default;
 };
+} // namespace GameLogic
 #endif

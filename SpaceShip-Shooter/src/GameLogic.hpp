@@ -1,9 +1,9 @@
 #ifndef GAME_LOGIC_HPP
 #define GAME_LOGIC_HPP
+#include "Ship.hpp"
 #include <vector>
 namespace GameLogic {
 
-#include "Ship.hpp"
 enum class KeyPress { LEFT, UP, RIGHT, DOWN, ENTER, Q };
 enum class MoveDirection { LEFT, UP, RIGHT, DOWN };
 
