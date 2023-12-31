@@ -18,6 +18,9 @@ run:
 game: $(OBJS) main.o
 	$(CXX) $(OBJS) main.o -o main.out $(LIBS)
 
+main.o: src/main.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 # Rule to compile source files
 src/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -35,4 +38,7 @@ test/%.o: test/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TEST_OBJS) main.out test.out
+	rm -f src/*.o 
+	rm -f test/*.o
+	rm -f *.o 
+	rm -f *.out
