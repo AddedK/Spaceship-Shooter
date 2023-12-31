@@ -15,6 +15,7 @@ constexpr int playerHeight = 50;
 class GameState {
   Ship player;
   std::vector<Ship> enemyShips;
+  std::vector<Projectile> projectiles;
   int screenWidth;
   int screenHeight;
   void moveAllEnemies();
@@ -22,6 +23,11 @@ class GameState {
   void movePlayer(MoveDirection direction);
   void addEnemyShip(
       Ship &&enemy); // TODO: sanity check on bounds on ship coordinations
+
+  void addProjectile(Projectile &&projectile);
+  void addPlayerProjectile();
+  void removeAllProjectiles();
+  void moveAllProjectiles();
 
 public:
   Ship getPlayer() const { return player; }
@@ -34,6 +40,7 @@ public:
   std::vector<Ship> getEnemyShips() const {
     return enemyShips;
   } // Performance: Return by reference
+  std::vector<Projectile> getProjectiles() const { return projectiles; }
 
   void update();
 
@@ -52,6 +59,7 @@ public:
 
 void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight);
+void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight);
 } // namespace GameLogic
 
 #endif // GAME_LOGIC_HPP

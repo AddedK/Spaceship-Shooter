@@ -1,6 +1,7 @@
 #ifndef DRAW_HPP
 #define DRAW_HPP
 #include "GameLogic.hpp"
+#include "Projectile.hpp"
 #include "Ship.hpp"
 #include "raylib.h"
 
@@ -14,6 +15,7 @@ constexpr int instructionFontSize = 18;
 
 void drawTitleScreen();
 void drawGameplayScreen(const GameLogic::Ship &player,
-                        const std::vector<GameLogic::Ship> &enemyShips);
+                        const std::vector<GameLogic::Ship> &enemyShips,
+                        const std::vector<GameLogic::Projectile> &projectiles);
 void drawEndingScreen();
 #endif

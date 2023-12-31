@@ -1,4 +1,5 @@
 #include "GameLogic.hpp"
+#include "gameEnums.hpp"
 #include <iostream>
 #include <map>
 
@@ -17,6 +18,9 @@ void GameState::handleKeyPress(KeyPress keyPress) {
   case KeyPress::LEFT:
   case KeyPress::RIGHT:
     movePlayer(keyToDirection[keyPress]);
+    break;
+  case KeyPress::SPACE:
+    addPlayerProjectile();
     break;
   default:
     // TODO
@@ -69,7 +73,10 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
 }
-void GameState::update() { moveAllEnemies(); }
+void GameState::update() {
+  moveAllEnemies();
+  moveAllProjectiles();
+}
 void GameState::moveAllEnemies() {
   // TODO: Now it just moves all enemies down
   for (auto &enemyShip : enemyShips) {
@@ -83,8 +90,69 @@ void GameState::startGame() {
              GameConstants::playerWidth, GameConstants::playerHeight});
   setPlayerSpeed(5);
   clearEnemyShips();
+  removeAllProjectiles();
   Ship enemyShip(screenWidth / 2 - GameConstants::playerWidth / 2, 0,
                  GameConstants::playerWidth, GameConstants::playerHeight);
   addEnemyShip(std::move(enemyShip));
 }
+
+void GameState::addProjectile(Projectile &&projectile) {
+  this->projectiles.push_back(projectile);
+}
+void GameState::addPlayerProjectile() {
+  if (player.y_position > 0) {
+    int xPositionMiddle = (player.x_position + player.width / 2);
+    Projectile projectile(xPositionMiddle, player.y_position - 1, 3, 3, 5,
+                          MoveDirection::UP);
+
+    addProjectile(std::move(projectile));
+  }
+}
+
+void GameState::moveAllProjectiles() {
+  // Remove all projectiles that are at the bottom or top
+  for (auto begin = projectiles.begin(); begin != projectiles.end();) {
+    if (begin->y_position == 0 || begin->y_position == screenHeight) {
+      begin = projectiles.erase(begin);
+    } else {
+      moveProjectile(*begin, screenWidth, screenHeight);
+      ++begin;
+    }
+  }
+}
+
+void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
+  // Code duplication but it's okay
+  switch (projectile.direction) {
+  case MoveDirection::UP:
+    projectile.y_position -= projectile.movementSpeed;
+    if (projectile.y_position < 0) {
+      projectile.y_position = 0;
+    }
+    break;
+  case MoveDirection::DOWN:
+    projectile.y_position += projectile.movementSpeed;
+    if (projectile.y_position + projectile.height > screenHeight) {
+      projectile.y_position = screenHeight - projectile.height;
+    }
+    break;
+  case MoveDirection::LEFT:
+    projectile.x_position -= projectile.movementSpeed;
+    if (projectile.x_position < 0) {
+      projectile.x_position = 0;
+    }
+    break;
+  case MoveDirection::RIGHT:
+    projectile.x_position += projectile.movementSpeed;
+    if (projectile.x_position + projectile.width > screenWidth) {
+      projectile.x_position = screenWidth - projectile.width;
+    }
+    break;
+  default:
+    // TODO
+    break;
+  }
+}
+void GameState::removeAllProjectiles() { this->projectiles.clear(); }
+
 } // namespace GameLogic

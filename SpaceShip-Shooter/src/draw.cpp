@@ -20,7 +20,8 @@ void drawTitleScreen() {
 }
 
 void drawGameplayScreen(const GameLogic::Ship &player,
-                        const std::vector<GameLogic::Ship> &enemyShips) {
+                        const std::vector<GameLogic::Ship> &enemyShips,
+                        const std::vector<GameLogic::Projectile> &projectiles) {
   DrawRectangle(0, 0, DisplayConstants::screenWidth,
                 DisplayConstants::screenHeight, PURPLE);
   DrawRectangle(player.x_position, player.y_position, player.width,
@@ -29,6 +30,11 @@ void drawGameplayScreen(const GameLogic::Ship &player,
   for (const auto &enemy : enemyShips) {
     DrawRectangle(enemy.x_position, enemy.y_position, enemy.width, enemy.height,
                   RED);
+
+    for (const auto &projectile : projectiles) {
+      DrawRectangle(projectile.x_position, projectile.y_position,
+                    projectile.width, projectile.height, GREEN);
+    }
   }
 
   const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
