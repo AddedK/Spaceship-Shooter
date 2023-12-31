@@ -1,11 +1,10 @@
 #ifndef GAME_LOGIC_HPP
 #define GAME_LOGIC_HPP
+#include "Projectile.hpp"
 #include "Ship.hpp"
+#include "gameEnums.hpp"
 #include <vector>
 namespace GameLogic {
-
-enum class KeyPress { LEFT, UP, RIGHT, DOWN, ENTER, Q };
-enum class MoveDirection { LEFT, UP, RIGHT, DOWN };
 
 namespace GameConstants {
 // Constants related to game logic
