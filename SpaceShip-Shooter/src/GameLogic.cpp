@@ -74,6 +74,8 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
   }
 }
 void GameState::update() {
+  ++frameNumber;
+  frameNumber %= fps;
   moveAllEnemies();
   moveAllProjectiles();
 }
@@ -100,7 +102,7 @@ void GameState::addProjectile(Projectile &&projectile) {
   this->projectiles.push_back(projectile);
 }
 void GameState::addPlayerProjectile() {
-  if (player.y_position > 0) {
+  if (player.y_position > 0 && frameNumber % (fps / 2) == 0) {
     int xPositionMiddle = (player.x_position + player.width / 2);
     Projectile projectile(xPositionMiddle, player.y_position - 1, 3, 3, 5,
                           MoveDirection::UP);

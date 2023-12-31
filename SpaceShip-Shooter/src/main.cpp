@@ -41,10 +41,10 @@ int main(void) {
   InitWindow(DisplayConstants::screenWidth, DisplayConstants::screenHeight,
              "Spaceship Shooter");
   GameScreen currentScreen = GameScreen::TITLE;
-  int framesCounter = 0; // Useful to count frames
-  SetTargetFPS(60);      // Set desired framerate (frames-per-second)
+  constexpr int FPS = 60;
+  SetTargetFPS(FPS); // Set desired framerate (frames-per-second)
 
-  GameLogic::GameState game(DisplayConstants::screenWidth,
+  GameLogic::GameState game(FPS, DisplayConstants::screenWidth,
                             DisplayConstants::screenHeight);
   // Main game loop
   while (!WindowShouldClose()) // Detect window close button or ESC key
@@ -59,7 +59,6 @@ int main(void) {
       }
     } break;
     case GameScreen::GAMEPLAY: {
-
       auto keyPresses = keyPressToGameKeyPress();
       for (auto &keyPress : keyPresses) {
         game.handleKeyPress(keyPress);

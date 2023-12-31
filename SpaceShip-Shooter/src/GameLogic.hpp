@@ -13,6 +13,8 @@ constexpr int playerHeight = 50;
 }; // namespace GameConstants
 
 class GameState {
+  int frameNumber;
+  int fps;
   Ship player;
   std::vector<Ship> enemyShips;
   std::vector<Projectile> projectiles;
@@ -47,11 +49,13 @@ public:
   void startGame();
   // TODO: Make sanity checks on how people construct GameState
   GameState() = delete;
-  GameState(int screenWidth, int screenHeight)
-      : screenWidth(screenWidth), screenHeight(screenHeight) {}
+  GameState(int fps, int screenWidth, int screenHeight)
+      : frameNumber(0), fps(fps), screenWidth(screenWidth),
+        screenHeight(screenHeight) {}
   // Player default constructed
-  GameState(Ship player, int screenWidth, int screenHeight)
-      : player(player), screenWidth(screenWidth), screenHeight(screenHeight) {}
+  GameState(int fps, Ship player, int screenWidth, int screenHeight)
+      : frameNumber(0), fps(fps), player(player), screenWidth(screenWidth),
+        screenHeight(screenHeight) {}
   GameState(const GameState &otherGame) = delete;
   GameState &operator=(const GameState &otherGame) = delete;
   ~GameState() = default;
