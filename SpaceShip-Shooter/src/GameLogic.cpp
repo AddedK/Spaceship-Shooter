@@ -73,7 +73,7 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
 }
-void GameState::update() {
+void GameState::updateGame() {
   ++frameNumber;
   frameNumber %= fps;
   moveAllEnemies();

@@ -67,7 +67,7 @@ int main(void) {
       if (IsKeyPressed(KEY_Q)) {
         currentScreen = GameScreen::ENDING;
       } else {
-        game.update();
+        game.updateGame();
       }
     } break;
     case GameScreen::ENDING: {

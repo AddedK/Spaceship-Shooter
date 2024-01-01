@@ -53,7 +53,7 @@ public:
   } // Performance: Return by reference
   std::vector<Projectile> getProjectiles() const { return projectiles; }
 
-  void update();
+  void updateGame();
 
   void startGame();
   // TODO: Make sanity checks on how people construct GameState
@@ -79,7 +79,7 @@ template <typename T, typename G> bool isColliding(const T &t, const G &g) {
   // Note that this fails if one object moves really fast, almost "teleporting"
   // through another object. This can sort of be mitigated by having high fps.
   // But I'll cross that bridge _IF_ I get to it
-  if ((t.xPosition == g.Xposition) && (t.yPosition == g.yPosition)) {
+  if ((t.xPosition == g.xPosition) && (t.yPosition == g.yPosition)) {
     return true;
   }
   return false;
