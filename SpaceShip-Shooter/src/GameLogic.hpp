@@ -10,6 +10,11 @@ namespace GameConstants {
 // Constants related to game logic
 constexpr int playerWidth = 50;
 constexpr int playerHeight = 50;
+constexpr int playerInitialSpeed = 5;
+constexpr int projectileDefaultWidth = 3;
+constexpr int projectileDefaultHeight = 3;
+constexpr int projectileDefaultSpeed = 6;
+constexpr int enemyInitialSpeed = 1;
 }; // namespace GameConstants
 
 class GameState {

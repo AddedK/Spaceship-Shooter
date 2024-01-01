@@ -14,9 +14,9 @@ public:
 
   Ship()
       : xPosition(0), yPosition(0), width(10), height(10), movementSpeed(1) {}
-  Ship(int xPosition, int yPosition, int width, int height)
+  Ship(int xPosition, int yPosition, int width, int height, int movementSpeed)
       : xPosition(xPosition), yPosition(yPosition), width(width),
-        height(height), movementSpeed(1) {}
+        height(height), movementSpeed(movementSpeed) {}
   Ship(const Ship &otherPlayer) = default;
   Ship &operator=(const Ship &otherPlayer) = default;
   void setMovementSpeed(int newSpeed) {

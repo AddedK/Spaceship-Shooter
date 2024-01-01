@@ -13,7 +13,7 @@ TEST_CASE("Testing GameState Functionality ") {
   REQUIRE(playerShip.movementSpeed == 1);
 
   SUBCASE("Test adding a player") {
-    GameLogic::Ship newPlayer(1, 1, 12, 12);
+    GameLogic::Ship newPlayer(1, 1, 12, 12, 1);
     gameState.setPlayer(newPlayer);
     auto playerShip2 = gameState.getPlayer();
     CHECK(playerShip2.xPosition == 1);
@@ -26,8 +26,7 @@ TEST_CASE("Testing GameState Functionality ") {
 TEST_CASE("Test moving ships") {
 
   SUBCASE("Test moving in the middle") {
-    GameLogic::Ship ship1(10, 10, 10, 10);
-    ship1.setMovementSpeed(1);
+    GameLogic::Ship ship1(10, 10, 10, 10, 1);
     int screenWidth = 100;
     int screenHeight = 100;
     GameLogic::moveShip(ship1, GameLogic::MoveDirection::UP, screenWidth,
@@ -48,8 +47,7 @@ TEST_CASE("Test moving ships") {
     CHECK(ship1.yPosition == 10);
   }
   SUBCASE("Test moving in the topleft corner") {
-    GameLogic::Ship ship1(0, 0, 10, 10);
-    ship1.setMovementSpeed(1);
+    GameLogic::Ship ship1(0, 0, 10, 10, 1);
     int screenWidth = 100;
     int screenHeight = 100;
 
@@ -83,8 +81,7 @@ TEST_CASE("Test moving ships") {
   }
 
   SUBCASE("Test moving in the bottomright corner") {
-    GameLogic::Ship ship1(90, 90, 10, 10);
-    ship1.setMovementSpeed(1);
+    GameLogic::Ship ship1(90, 90, 10, 10, 1);
     int screenWidth = 100;
     int screenHeight = 100;
 
