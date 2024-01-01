@@ -105,7 +105,10 @@ void GameState::addProjectile(Projectile &&projectile) {
 void GameState::addPlayerProjectile() {
   if (player.yPosition > 0 && frameNumber % (fps / 2) == 0) {
     int xPositionMiddle = (player.xPosition + player.width / 2);
-    Projectile projectile(xPositionMiddle, player.yPosition - 1, 3, 3, 5,
+    Projectile projectile(xPositionMiddle, player.yPosition - 1,
+                          GameConstants::projectileDefaultWidth,
+                          GameConstants::projectileDefaultHeight,
+                          GameConstants::projectileDefaultSpeed,
                           MoveDirection::UP);
 
     addProjectile(std::move(projectile));
