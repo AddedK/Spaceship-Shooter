@@ -76,8 +76,13 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
 void GameState::updateGame() {
   ++frameNumber;
   frameNumber %= fps;
-  moveAllEnemies();
-  moveAllProjectiles();
+  if (getPlayerAliveStatus()) {
+    moveAllEnemies();
+    moveAllProjectiles();
+    checkAndHandleCollisions();
+  } else {
+    std::cout << "Player is dead!" << std::endl;
+  }
 }
 void GameState::moveAllEnemies() {
   // TODO: Now it just moves all enemies down
@@ -105,6 +110,7 @@ void GameState::addProjectile(Projectile &&projectile) {
   this->projectiles.push_back(projectile);
 }
 void GameState::addPlayerProjectile() {
+  // TODO: Fix so that it is based on the last time player sent projectile
   if (player.yPosition > 0 && frameNumber % (fps / 2) == 0) {
     int xPositionMiddle = (player.xPosition + player.width / 2);
     Projectile projectile(xPositionMiddle, player.yPosition - 1,
@@ -162,5 +168,86 @@ void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
   }
 }
 void GameState::removeAllProjectiles() { this->projectiles.clear(); }
+
+void GameState::setPlayerAliveStatus(bool status) {
+  this->playerIsAlive = status;
+}
+
+void GameState::playerLosesLife() {
+  player.setNrOfLives(player.nrOfLives - 1);
+  if (player.nrOfLives <= 0) {
+    std::cout << "Player lost a life and died" << std::endl;
+    setPlayerAliveStatus(false);
+  }
+}
+
+void GameState::playerAndShipCollisions() {
+  if (!getPlayerAliveStatus()) {
+    return;
+  }
+  for (auto begin = enemyShips.begin(); begin != enemyShips.end();) {
+    if (isColliding(player, *begin)) {
+      playerLosesLife();
+      begin->nrOfLives--;
+      if (begin->nrOfLives == 0) {
+        begin = enemyShips.erase(begin);
+      } else {
+        ++begin;
+      }
+      if (!getPlayerAliveStatus()) {
+        return;
+      }
+    } else {
+      ++begin;
+    }
+  }
+}
+
+void GameState::shipAndProjectileCollisions() {
+  if (!getPlayerAliveStatus()) {
+    return;
+  }
+  for (auto projectileIterator = projectiles.begin();
+       projectileIterator != projectiles.end();) {
+
+    // Check player collision
+    if (getPlayerAliveStatus() && isColliding(player, *projectileIterator)) {
+      playerLosesLife();
+      projectileIterator = projectiles.erase(projectileIterator);
+    } else {
+      // Check if projectile hits another ship
+      bool shouldAdvanceIterator = true;
+      for (auto shipIterator = enemyShips.begin();
+           shipIterator != enemyShips.end();) {
+        if (isColliding(*shipIterator, *projectileIterator)) {
+          shipIterator->nrOfLives--;
+          if (shipIterator->nrOfLives == 0) {
+            shipIterator = enemyShips.erase(shipIterator);
+          } else {
+            ++shipIterator;
+          }
+          projectileIterator = projectiles.erase(projectileIterator);
+          shouldAdvanceIterator = false;
+          break;
+        } else {
+          ++shipIterator;
+        }
+      }
+      if (shouldAdvanceIterator) {
+        ++projectileIterator;
+      }
+    }
+  }
+  return;
+}
+
+void GameState::checkAndHandleCollisions() {
+  // Opinion: If two ships and a projectile are in the same spot and the ships
+  // can destory each other, then only projectile goes unscathed
+  playerAndShipCollisions();
+  if (getPlayerAliveStatus()) {
+    shipAndProjectileCollisions();
+  }
+}
 
 } // namespace GameLogic

@@ -30,11 +30,10 @@ void drawGameplayScreen(const GameLogic::Ship &player,
   for (const auto &enemy : enemyShips) {
     DrawRectangle(enemy.xPosition, enemy.yPosition, enemy.width, enemy.height,
                   RED);
-
-    for (const auto &projectile : projectiles) {
-      DrawRectangle(projectile.xPosition, projectile.yPosition,
-                    projectile.width, projectile.height, GREEN);
-    }
+  }
+  for (const auto &projectile : projectiles) {
+    DrawRectangle(projectile.xPosition, projectile.yPosition, projectile.width,
+                  projectile.height, GREEN);
   }
 
   const int titleXMiddle = (DisplayConstants::screenWidth / 2) -

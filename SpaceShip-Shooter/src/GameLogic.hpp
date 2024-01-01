@@ -29,6 +29,8 @@ class GameState {
   std::vector<Projectile> projectiles;
   int screenWidth;
   int screenHeight;
+  bool playerIsAlive;
+
   void moveAllEnemies();
   void clearEnemyShips();
   void movePlayer(MoveDirection direction);
@@ -52,19 +54,25 @@ public:
     return enemyShips;
   } // Performance: Return by reference
   std::vector<Projectile> getProjectiles() const { return projectiles; }
-
-  void updateGame();
+  void playerLosesLife();
+  void setPlayerAliveStatus(bool);
+  bool getPlayerAliveStatus() const { return playerIsAlive; }
 
   void startGame();
+  void updateGame();
+  void playerAndShipCollisions();
+  void shipAndProjectileCollisions();
+  void checkAndHandleCollisions();
+
   // TODO: Make sanity checks on how people construct GameState
   GameState() = delete;
   GameState(int fps, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps), screenWidth(screenWidth),
-        screenHeight(screenHeight) {}
+        screenHeight(screenHeight), playerIsAlive(true) {}
   // Player default constructed
   GameState(int fps, Ship player, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps), player(player), screenWidth(screenWidth),
-        screenHeight(screenHeight) {}
+        screenHeight(screenHeight), playerIsAlive(true) {}
   GameState(const GameState &otherGame) = delete;
   GameState &operator=(const GameState &otherGame) = delete;
   ~GameState() = default;
@@ -79,10 +87,23 @@ template <typename T, typename G> bool isColliding(const T &t, const G &g) {
   // Note that this fails if one object moves really fast, almost "teleporting"
   // through another object. This can sort of be mitigated by having high fps.
   // But I'll cross that bridge _IF_ I get to it
-  if ((t.xPosition == g.xPosition) && (t.yPosition == g.yPosition)) {
-    return true;
-  }
-  return false;
+
+  bool yPositionOfTInG =
+      (t.yPosition >= g.yPosition && (t.yPosition <= g.yPosition + g.height));
+
+  bool yPositionOfGInT =
+      !yPositionOfTInG &&
+      (g.yPosition >= t.yPosition && (g.yPosition <= t.yPosition + t.height));
+
+  bool xPositionOfTInG =
+      (t.xPosition >= g.xPosition && (t.xPosition <= g.xPosition + g.width));
+
+  bool xPositionOfGInT =
+      !xPositionOfTInG &&
+      (g.xPosition >= t.xPosition && (g.xPosition <= t.xPosition + t.width));
+
+  return ((yPositionOfGInT || yPositionOfTInG) &&
+          (xPositionOfTInG || xPositionOfGInT));
 }
 
 #endif // GAME_LOGIC_HPP

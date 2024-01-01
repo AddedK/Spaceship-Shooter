@@ -114,3 +114,68 @@ TEST_CASE("Test moving ships") {
     }
   }
 }
+TEST_CASE("Test ship + ship collision checking") {
+  SUBCASE("Self collision") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    CHECK(isColliding(ship1, ship1));
+  }
+  SUBCASE("X-Adjacent ships not colliding") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Ship ship2(16, 10, 5, 5, 1, 3);
+    CHECK_FALSE(isColliding(ship1, ship2));
+  }
+  SUBCASE("Y-Adjacent ships not colliding") {
+    GameLogic::Ship ship1(10, 16, 5, 5, 1, 3);
+    GameLogic::Ship ship2(10, 10, 5, 5, 1, 3);
+    CHECK_FALSE(isColliding(ship1, ship2));
+  }
+  SUBCASE("X-Edge collision") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Ship ship2(15, 10, 5, 5, 1, 3);
+    CHECK(isColliding(ship1, ship2));
+    CHECK(isColliding(ship2, ship1)); // Check symmetry
+  }
+  SUBCASE("Y-Edge collision") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Ship ship2(10, 15, 5, 5, 1, 3);
+    CHECK(isColliding(ship1, ship2));
+    CHECK(isColliding(ship2, ship1)); // Check symmetry
+  }
+  SUBCASE("Small intersection") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Ship ship2(14, 12, 2, 2, 1, 3);
+    CHECK(isColliding(ship1, ship2));
+  }
+}
+TEST_CASE("Test ship + projectile collision checking") {
+  SUBCASE("Close but no collision") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Projectile projectile1(16, 10, 3, 3, 1,
+                                      GameLogic::MoveDirection::UP);
+    CHECK_FALSE(isColliding(ship1, projectile1));
+  }
+  SUBCASE("Hit from above") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Projectile projectile1(10, 10, 3, 3, 1,
+                                      GameLogic::MoveDirection::DOWN);
+    CHECK(isColliding(ship1, projectile1));
+  }
+  SUBCASE("Hit from below") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Projectile projectile1(15, 15, 3, 3, 1,
+                                      GameLogic::MoveDirection::UP);
+    CHECK(isColliding(ship1, projectile1));
+  }
+  SUBCASE("Hit from left") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Projectile projectile1(8, 11, 3, 3, 1,
+                                      GameLogic::MoveDirection::RIGHT);
+    CHECK(isColliding(ship1, projectile1));
+  }
+  SUBCASE("Hit from right") {
+    GameLogic::Ship ship1(10, 10, 5, 5, 1, 3);
+    GameLogic::Projectile projectile1(14, 10, 3, 3, 1,
+                                      GameLogic::MoveDirection::LEFT);
+    CHECK(isColliding(ship1, projectile1));
+  }
+}
