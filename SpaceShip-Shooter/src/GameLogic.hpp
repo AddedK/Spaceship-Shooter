@@ -11,10 +11,14 @@ namespace GameConstants {
 constexpr int playerWidth = 50;
 constexpr int playerHeight = 50;
 constexpr int playerInitialSpeed = 5;
+constexpr int playerInitialNrOfLives = 3;
+
+constexpr int enemyInitialSpeed = 1;
+constexpr int enemyInitialNrOfLives = 1;
+
 constexpr int projectileDefaultWidth = 3;
 constexpr int projectileDefaultHeight = 3;
 constexpr int projectileDefaultSpeed = 6;
-constexpr int enemyInitialSpeed = 1;
 }; // namespace GameConstants
 
 class GameState {
@@ -70,5 +74,15 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight);
 void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight);
 } // namespace GameLogic
+
+template <typename T, typename G> bool isColliding(const T &t, const G &g) {
+  // Note that this fails if one object moves really fast, almost "teleporting"
+  // through another object. This can sort of be mitigated by having high fps.
+  // But I'll cross that bridge _IF_ I get to it
+  if ((t.xPosition == g.Xposition) && (t.yPosition == g.yPosition)) {
+    return true;
+  }
+  return false;
+}
 
 #endif // GAME_LOGIC_HPP
