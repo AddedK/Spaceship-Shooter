@@ -28,11 +28,6 @@ public:
       movementSpeed = newSpeed;
     }
   }
-  void setNrOfLives(int nrOfLives) {
-    if (nrOfLives >= 0) {
-      nrOfLives = nrOfLives;
-    }
-  }
   void decrementNrOfLives(int amount) { nrOfLives -= amount; }
   int getNrOfLives() const { return nrOfLives; }
   ~Ship() = default;
