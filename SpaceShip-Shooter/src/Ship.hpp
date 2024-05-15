@@ -11,7 +11,6 @@ public:
   int width;
   int height;
   int movementSpeed;
-  int nrOfLives;
   int frameWhenLastFiredProjectile;
 
   Ship()
@@ -34,7 +33,13 @@ public:
       nrOfLives = nrOfLives;
     }
   }
+  void decrementNrOfLives(int amount) { nrOfLives -= amount; }
+  int getNrOfLives() const { return nrOfLives; }
   ~Ship() = default;
+
+private:
+  int nrOfLives;
 };
+
 } // namespace GameLogic
 #endif

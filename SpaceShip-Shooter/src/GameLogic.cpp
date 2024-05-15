@@ -176,8 +176,8 @@ void GameState::setPlayerAliveStatus(bool status) {
 }
 
 void GameState::playerLosesLife() {
-  player.setNrOfLives(player.nrOfLives - 1);
-  if (player.nrOfLives <= 0) {
+  player.decrementNrOfLives(1);
+  if (player.getNrOfLives() <= 0) {
     std::cout << "Player lost a life and died" << std::endl;
     setPlayerAliveStatus(false);
   }
@@ -190,8 +190,8 @@ void GameState::playerAndShipCollisions() {
   for (auto begin = enemyShips.begin(); begin != enemyShips.end();) {
     if (isColliding(player, *begin)) {
       playerLosesLife();
-      begin->nrOfLives--;
-      if (begin->nrOfLives == 0) {
+      begin->decrementNrOfLives(1);
+      if (begin->getNrOfLives() == 0) {
         begin = enemyShips.erase(begin);
       } else {
         ++begin;
@@ -222,8 +222,8 @@ void GameState::shipAndProjectileCollisions() {
       for (auto shipIterator = enemyShips.begin();
            shipIterator != enemyShips.end();) {
         if (isColliding(*shipIterator, *projectileIterator)) {
-          shipIterator->nrOfLives--;
-          if (shipIterator->nrOfLives == 0) {
+          shipIterator->decrementNrOfLives(1);
+          if (shipIterator->getNrOfLives() == 0) {
             shipIterator = enemyShips.erase(shipIterator);
           } else {
             ++shipIterator;
