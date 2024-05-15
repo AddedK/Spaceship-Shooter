@@ -1,5 +1,5 @@
-#include "../src/GameLogic.hpp"
-#include "../src/Ship.hpp"
+#include "../src/game_logic/GameLogic.hpp"
+#include "../src/game_logic/Ship.hpp"
 #include "doctest.h"
 
 TEST_CASE("Testing GameState Functionality ") {

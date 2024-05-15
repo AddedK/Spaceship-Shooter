@@ -1,5 +1,4 @@
 #include "draw.hpp"
-#include "Ship.hpp"
 #include <raylib.h>
 
 void drawTitleScreen() {

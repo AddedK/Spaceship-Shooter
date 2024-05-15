@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++20 -Isrc
 LIBS = -lraylib
 
 # List of source files
-SRCS = src/GameLogic.cpp src/draw.cpp
+SRCS = src/game_logic/GameLogic.cpp src/rendering/draw.cpp
 # Generate object files from source files
 OBJS = $(SRCS:.cpp=.o)
 
@@ -38,7 +38,7 @@ test/%.o: test/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f src/*.o 
+	rm -f src/**/*.o 
 	rm -f test/*.o
 	rm -f *.o
 	rm -f *.out

@@ -1,7 +1,7 @@
-#include "GameLogic.hpp"
-#include "Ship.hpp"
-#include "draw.hpp"
+#include "game_logic/GameLogic.hpp"
+#include "game_logic/Ship.hpp"
 #include "raylib.h"
+#include "rendering/draw.hpp"
 #include <optional>
 #include <vector>
 

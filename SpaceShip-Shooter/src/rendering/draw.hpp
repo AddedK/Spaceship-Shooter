@@ -1,8 +1,8 @@
 #ifndef DRAW_HPP
 #define DRAW_HPP
-#include "GameLogic.hpp"
-#include "Projectile.hpp"
-#include "Ship.hpp"
+#include "../game_logic/GameLogic.hpp"
+#include "../game_logic/Projectile.hpp"
+#include "../game_logic/Ship.hpp"
 #include "raylib.h"
 
 namespace DisplayConstants {
