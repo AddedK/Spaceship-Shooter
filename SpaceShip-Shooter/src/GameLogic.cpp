@@ -75,7 +75,6 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
 }
 void GameState::updateGame() {
   ++frameNumber;
-  frameNumber %= fps;
   if (getPlayerAliveStatus()) {
     moveAllEnemies();
     moveAllProjectiles();
@@ -110,8 +109,10 @@ void GameState::addProjectile(Projectile &&projectile) {
   this->projectiles.push_back(projectile);
 }
 void GameState::addPlayerProjectile() {
-  // TODO: Fix so that it is based on the last time player sent projectile
-  if (player.yPosition > 0 && frameNumber % (fps / 2) == 0) {
+  if (player.yPosition > 0 &&
+          ((frameNumber - player.frameWhenLastFiredProjectile) >=
+           GameConstants::playerInitialFramesBetweenShots) ||
+      frameNumber == 0) {
     int xPositionMiddle = (player.xPosition + player.width / 2);
     Projectile projectile(xPositionMiddle, player.yPosition - 1,
                           GameConstants::projectileDefaultWidth,
@@ -120,6 +121,7 @@ void GameState::addPlayerProjectile() {
                           MoveDirection::UP);
 
     addProjectile(std::move(projectile));
+    player.frameWhenLastFiredProjectile = frameNumber;
   }
 }
 

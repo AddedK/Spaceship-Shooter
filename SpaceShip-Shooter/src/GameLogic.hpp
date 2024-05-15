@@ -12,6 +12,7 @@ constexpr int playerWidth = 50;
 constexpr int playerHeight = 50;
 constexpr int playerInitialSpeed = 5;
 constexpr int playerInitialNrOfLives = 3;
+constexpr int playerInitialFramesBetweenShots = 30;
 
 constexpr int enemyInitialSpeed = 1;
 constexpr int enemyInitialNrOfLives = 1;

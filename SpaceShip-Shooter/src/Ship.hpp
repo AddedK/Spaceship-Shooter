@@ -12,14 +12,16 @@ public:
   int height;
   int movementSpeed;
   int nrOfLives;
+  int frameWhenLastFiredProjectile;
 
   Ship()
       : xPosition(0), yPosition(0), width(10), height(10), movementSpeed(1),
-        nrOfLives(1) {}
+        nrOfLives(1), frameWhenLastFiredProjectile(0) {}
   Ship(int xPosition, int yPosition, int width, int height, int movementSpeed,
        int nrOfLives)
       : xPosition(xPosition), yPosition(yPosition), width(width),
-        height(height), movementSpeed(movementSpeed), nrOfLives(nrOfLives) {}
+        height(height), movementSpeed(movementSpeed), nrOfLives(nrOfLives),
+        frameWhenLastFiredProjectile(0) {}
   Ship(const Ship &otherPlayer) = default;
   Ship &operator=(const Ship &otherPlayer) = default;
   void setMovementSpeed(int newSpeed) {
