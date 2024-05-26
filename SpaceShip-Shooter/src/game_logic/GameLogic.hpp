@@ -16,6 +16,7 @@ constexpr int playerInitialFramesBetweenShots = 30;
 
 constexpr int enemyInitialSpeed = 1;
 constexpr int enemyInitialNrOfLives = 1;
+constexpr int enemyInitialFramesBetweenShots = 60;
 
 constexpr int projectileDefaultWidth = 3;
 constexpr int projectileDefaultHeight = 3;
@@ -33,6 +34,7 @@ class GameState {
   bool playerIsAlive;
 
   void moveAllEnemies();
+  void allEnemiesShoot();
   void clearEnemyShips();
   void movePlayer(MoveDirection direction);
   void addEnemyShip(

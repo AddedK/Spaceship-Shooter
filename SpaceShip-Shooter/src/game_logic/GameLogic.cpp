@@ -73,11 +73,32 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
 }
+
+void GameState::allEnemiesShoot() {
+  // TODO Diffierent ships with different firing mechanics
+  for (auto &enemyShip : enemyShips) {
+    if (enemyShip.yPosition < screenHeight &&
+        ((frameNumber - enemyShip.frameWhenLastFiredProjectile) >=
+         GameConstants::enemyInitialFramesBetweenShots)) {
+      int xPositionMiddle = (enemyShip.xPosition + enemyShip.width / 2);
+      Projectile projectile(xPositionMiddle, enemyShip.yPosition + 1,
+                            GameConstants::projectileDefaultWidth,
+                            GameConstants::projectileDefaultHeight,
+                            GameConstants::projectileDefaultSpeed,
+                            MoveDirection::DOWN);
+
+      addProjectile(std::move(projectile));
+      enemyShip.frameWhenLastFiredProjectile = frameNumber;
+    }
+  }
+  return;
+}
 void GameState::updateGame() {
   ++frameNumber;
   if (getPlayerAliveStatus()) {
     moveAllEnemies();
     moveAllProjectiles();
+    allEnemiesShoot();
     checkAndHandleCollisions();
   } else {
     std::cout << "Player is dead!" << std::endl;
@@ -91,6 +112,7 @@ void GameState::moveAllEnemies() {
 }
 
 void GameState::startGame() {
+  setPlayerAliveStatus(true);
   setPlayer({screenWidth / 2 - GameConstants::playerWidth / 2,
              screenHeight - GameConstants::playerHeight,
              GameConstants::playerWidth, GameConstants::playerHeight,
@@ -218,6 +240,10 @@ void GameState::shipAndProjectileCollisions() {
       projectileIterator = projectiles.erase(projectileIterator);
     } else {
       // Check if projectile hits another ship
+      if (projectileIterator->direction == MoveDirection::DOWN) {
+        ++projectileIterator;
+        continue;
+      }
       bool shouldAdvanceIterator = true;
       for (auto shipIterator = enemyShips.begin();
            shipIterator != enemyShips.end();) {

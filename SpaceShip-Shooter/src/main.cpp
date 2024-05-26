@@ -69,7 +69,12 @@ int main(void) {
       } else {
         game.updateGame();
       }
-    } break;
+      if (!game.getPlayerAliveStatus()) {
+        currentScreen = GameScreen::ENDING;
+      } else {
+        break;
+      }
+    }
     case GameScreen::ENDING: {
 
       if (IsKeyPressed(KEY_ENTER)) {
