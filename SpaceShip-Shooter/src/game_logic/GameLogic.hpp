@@ -52,7 +52,7 @@ public:
   Ship getPlayer() const { return player; }
   void
   setPlayer(Ship player); // TODO: Sanity check on bounds on player coordinates
-  void setPlayerSpeed(int newSpeed);
+  void setPlayerSpeed(int newSpeed); // Public for testing
   void handleKeyPress(KeyPress keyPress);
   int getScreenWidth() const { return screenWidth; }
   int getScreenHeight() const { return screenHeight; }
@@ -64,7 +64,7 @@ public:
 
   void startGame();
   void updateGame();
-  void playerAndShipCollisions();
+  void playerAndShipCollisions(); // Public for testing
   void shipAndProjectileCollisions();
   void checkAndHandleCollisions();
 
