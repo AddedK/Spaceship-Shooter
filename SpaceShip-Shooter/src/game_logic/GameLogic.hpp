@@ -45,6 +45,7 @@ class GameState {
   void removeAllProjectiles();
   void moveAllProjectiles();
 
+  void playerLosesLife();
   void setPlayerAliveStatus(bool);
 
 public:
@@ -59,7 +60,6 @@ public:
     return enemyShips;
   } // Performance: Return by reference
   std::vector<Projectile> getProjectiles() const { return projectiles; }
-  void playerLosesLife();
   bool getPlayerAliveStatus() const { return playerIsAlive; }
 
   void startGame();
