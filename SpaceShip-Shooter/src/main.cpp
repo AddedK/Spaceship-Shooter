@@ -38,6 +38,9 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
 int main(void) {
 
   // Setup raylib window
+  // Note: there is no straight forward way of disabling resizing and
+  // fullscreen. Despite resizing being seemingly off by default, it is still
+  // possible.
   InitWindow(DisplayConstants::screenWidth, DisplayConstants::screenHeight,
              "Spaceship Shooter");
   GameScreen currentScreen = GameScreen::TITLE;
