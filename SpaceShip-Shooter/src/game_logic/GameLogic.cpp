@@ -43,31 +43,68 @@ void GameState::addEnemyShip(Ship &&enemy) {
 void GameState::clearEnemyShips() { this->enemyShips.clear(); }
 void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight) {
+
+  std::vector<Point> &vertices = ship.vertices;
   switch (direction) {
-  case MoveDirection::UP:
-    ship.yPosition -= ship.movementSpeed;
-    if (ship.yPosition < 0) {
-      ship.yPosition = 0;
+  case MoveDirection::UP: {
+    int lowestY = screenHeight + 1;
+    for (int i = 0; i < vertices.size(); ++i) {
+      if (vertices[i].y < lowestY) {
+        lowestY = vertices[i].y;
+      }
+    }
+    int clippedMovement =
+        (lowestY - ship.movementSpeed) < 0 ? lowestY : ship.movementSpeed;
+    for (auto &point : vertices) {
+      point.y -= clippedMovement;
     }
     break;
-  case MoveDirection::DOWN:
-    ship.yPosition += ship.movementSpeed;
-    if (ship.yPosition + ship.height > screenHeight) {
-      ship.yPosition = screenHeight - ship.height;
+  }
+  case MoveDirection::DOWN: {
+    int highestY = 0;
+    for (int i = 0; i < vertices.size(); ++i) {
+      if (vertices[i].y > highestY) {
+        highestY = vertices[i].y;
+      }
+    }
+    int clippedMovement = (highestY + ship.movementSpeed) > screenHeight
+                              ? screenHeight - highestY
+                              : ship.movementSpeed;
+    for (auto &point : vertices) {
+      point.y += clippedMovement;
     }
     break;
-  case MoveDirection::LEFT:
-    ship.xPosition -= ship.movementSpeed;
-    if (ship.xPosition < 0) {
-      ship.xPosition = 0;
+  }
+  case MoveDirection::LEFT: {
+    int lowestX = 0;
+    for (int i = 0; i < vertices.size(); ++i) {
+      if (vertices[i].x < lowestX) {
+        lowestX = vertices[i].x;
+      }
+    }
+    int clippedMovement =
+        (lowestX - ship.movementSpeed) < 0 ? lowestX : ship.movementSpeed;
+
+    for (auto &point : vertices) {
+      point.x -= clippedMovement;
     }
     break;
-  case MoveDirection::RIGHT:
-    ship.xPosition += ship.movementSpeed;
-    if (ship.xPosition + ship.width > screenWidth) {
-      ship.xPosition = screenWidth - ship.width;
+  }
+  case MoveDirection::RIGHT: {
+    int highestX = screenWidth + 1;
+    for (int i = 0; i < vertices.size(); ++i) {
+      if (vertices[i].x > highestX) {
+        highestX = vertices[i].x;
+      }
+    }
+    int clippedMovement = (highestX + ship.movementSpeed) > screenWidth
+                              ? screenWidth - highestX
+                              : ship.movementSpeed;
+    for (auto &point : vertices) {
+      point.x -= clippedMovement;
     }
     break;
+  }
   default:
     // TODO
     break;

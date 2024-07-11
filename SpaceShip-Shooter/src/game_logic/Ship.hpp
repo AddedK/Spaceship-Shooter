@@ -11,23 +11,18 @@ struct Point {
 
 class Ship {
 public:
+  // Edge vertices for this ship. The edges form a closed shape. Two adjacent
+  // elements form an edge, including the first and last element.
   std::vector<Point> vertices;
-  // Top left corner
-  int xPosition;
-  int yPosition;
-  // Size of the player
-  int width;
-  int height;
   int movementSpeed;
   int frameWhenLastFiredProjectile;
 
   Ship()
-      : xPosition(0), yPosition(0), width(10), height(10), movementSpeed(1),
-        nrOfLives(1), frameWhenLastFiredProjectile(0) {}
-  Ship(int xPosition, int yPosition, int width, int height, int movementSpeed,
+      : vertices(), movementSpeed(1), nrOfLives(1),
+        frameWhenLastFiredProjectile(0) {}
+  Ship(std::vector<Point> vertices, int width, int height, int movementSpeed,
        int nrOfLives)
-      : xPosition(xPosition), yPosition(yPosition), width(width),
-        height(height), movementSpeed(movementSpeed), nrOfLives(nrOfLives),
+      : vertices(vertices), movementSpeed(movementSpeed), nrOfLives(nrOfLives),
         frameWhenLastFiredProjectile(0) {}
   Ship(const Ship &otherPlayer) = default;
   Ship &operator=(const Ship &otherPlayer) = default;
