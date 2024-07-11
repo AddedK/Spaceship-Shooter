@@ -47,62 +47,48 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
   std::vector<Point> &vertices = ship.vertices;
   switch (direction) {
   case MoveDirection::UP: {
-    int lowestY = screenHeight + 1;
-    for (int i = 0; i < vertices.size(); ++i) {
-      if (vertices[i].y < lowestY) {
-        lowestY = vertices[i].y;
-      }
-    }
-    int clippedMovement =
-        (lowestY - ship.movementSpeed) < 0 ? lowestY : ship.movementSpeed;
+    int clippedMovement = (ship.lowestY - ship.movementSpeed) < 0
+                              ? ship.lowestY
+                              : ship.movementSpeed;
     for (auto &point : vertices) {
       point.y -= clippedMovement;
     }
+    ship.lowestY -= clippedMovement;
+    ship.highestY -= clippedMovement;
     break;
   }
   case MoveDirection::DOWN: {
-    int highestY = 0;
-    for (int i = 0; i < vertices.size(); ++i) {
-      if (vertices[i].y > highestY) {
-        highestY = vertices[i].y;
-      }
-    }
-    int clippedMovement = (highestY + ship.movementSpeed) > screenHeight
-                              ? screenHeight - highestY
+    int clippedMovement = (ship.highestY + ship.movementSpeed) > screenHeight
+                              ? screenHeight - ship.highestY
                               : ship.movementSpeed;
     for (auto &point : vertices) {
       point.y += clippedMovement;
     }
+    ship.lowestY += clippedMovement;
+    ship.highestY += clippedMovement;
     break;
   }
   case MoveDirection::LEFT: {
-    int lowestX = 0;
-    for (int i = 0; i < vertices.size(); ++i) {
-      if (vertices[i].x < lowestX) {
-        lowestX = vertices[i].x;
-      }
-    }
-    int clippedMovement =
-        (lowestX - ship.movementSpeed) < 0 ? lowestX : ship.movementSpeed;
+    int clippedMovement = (ship.lowestX - ship.movementSpeed) < 0
+                              ? ship.lowestX
+                              : ship.movementSpeed;
 
     for (auto &point : vertices) {
       point.x -= clippedMovement;
     }
+    ship.lowestX -= clippedMovement;
+    ship.highestX -= clippedMovement;
     break;
   }
   case MoveDirection::RIGHT: {
-    int highestX = screenWidth + 1;
-    for (int i = 0; i < vertices.size(); ++i) {
-      if (vertices[i].x > highestX) {
-        highestX = vertices[i].x;
-      }
-    }
-    int clippedMovement = (highestX + ship.movementSpeed) > screenWidth
-                              ? screenWidth - highestX
+    int clippedMovement = (ship.highestX + ship.movementSpeed) > screenWidth
+                              ? screenWidth - ship.highestX
                               : ship.movementSpeed;
     for (auto &point : vertices) {
-      point.x -= clippedMovement;
+      point.x += clippedMovement;
     }
+    ship.lowestX += clippedMovement;
+    ship.highestX += clippedMovement;
     break;
   }
   default:
@@ -150,16 +136,26 @@ void GameState::moveAllEnemies() {
 
 void GameState::startGame() {
   setPlayerAliveStatus(true);
-  setPlayer({screenWidth / 2 - GameConstants::playerWidth / 2,
-             screenHeight - GameConstants::playerHeight,
-             GameConstants::playerWidth, GameConstants::playerHeight,
-             GameConstants::playerInitialSpeed,
+  std::vector<Point> playerVertices;
+  playerVertices.push_back(
+      Point{screenWidth / 2, screenHeight - GameConstants::playerHeight});
+  playerVertices.push_back(
+      Point{screenWidth / 2 - GameConstants::playerWidth / 2, screenHeight});
+  playerVertices.push_back(
+      Point{screenWidth / 2 + GameConstants::playerWidth / 2, screenHeight});
+  setPlayer({playerVertices, GameConstants::playerWidth,
+             GameConstants::playerHeight, GameConstants::playerInitialSpeed,
              GameConstants::playerInitialNrOfLives});
   clearEnemyShips();
   removeAllProjectiles();
-  Ship enemyShip(screenWidth / 2 - GameConstants::playerWidth / 2, 0,
-                 GameConstants::playerWidth, GameConstants::playerHeight,
-                 GameConstants::enemyInitialSpeed,
+  std::vector<Point> enemyVertices;
+  enemyVertices.push_back(
+      Point{screenWidth / 2 - GameConstants::playerWidth / 2, 0});
+  enemyVertices.push_back(Point{screenWidth / 2, GameConstants::playerWidth});
+  enemyVertices.push_back(
+      Point{screenWidth / 2 + GameConstants::playerWidth / 2, 0});
+  Ship enemyShip(enemyVertices, GameConstants::playerWidth,
+                 GameConstants::playerHeight, GameConstants::enemyInitialSpeed,
                  GameConstants::enemyInitialNrOfLives);
   addEnemyShip(std::move(enemyShip));
 }
