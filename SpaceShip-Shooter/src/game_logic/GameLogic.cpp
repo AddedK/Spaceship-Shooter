@@ -100,11 +100,10 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
 void GameState::allEnemiesShoot() {
   // TODO Diffierent ships with different firing mechanics
   for (auto &enemyShip : enemyShips) {
-    if (enemyShip.yPosition < screenHeight &&
+    if (enemyShip.lowestY < screenHeight &&
         ((frameNumber - enemyShip.frameWhenLastFiredProjectile) >=
          GameConstants::enemyInitialFramesBetweenShots)) {
-      int xPositionMiddle = (enemyShip.xPosition + enemyShip.width / 2);
-      Projectile projectile(xPositionMiddle, enemyShip.yPosition + 1,
+      Projectile projectile(enemyShip.middlePositionX, enemyShip.highestY + 1,
                             GameConstants::projectileDefaultWidth,
                             GameConstants::projectileDefaultHeight,
                             GameConstants::projectileDefaultSpeed,
