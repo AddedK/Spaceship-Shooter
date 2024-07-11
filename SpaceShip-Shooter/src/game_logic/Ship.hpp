@@ -1,9 +1,17 @@
 #ifndef SHIP_HPP
 #define SHIP_HPP
+#include <vector>
+
 namespace GameLogic {
+
+struct Point {
+  int x;
+  int y;
+};
 
 class Ship {
 public:
+  std::vector<Point> vertices;
   // Top left corner
   int xPosition;
   int yPosition;
