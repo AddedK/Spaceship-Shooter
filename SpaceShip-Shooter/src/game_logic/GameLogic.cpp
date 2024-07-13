@@ -163,14 +163,25 @@ void GameState::addProjectile(Projectile &&projectile) {
   this->projectiles.push_back(projectile);
 }
 void GameState::addPlayerProjectile() {
-  if (player.yPosition > 0 &&
+  if (player.lowestY > 0 &&
           ((frameNumber - player.frameWhenLastFiredProjectile) >=
            GameConstants::playerInitialFramesBetweenShots) ||
       frameNumber == 0) {
-    int xPositionMiddle = (player.xPosition + player.width / 2);
-    Projectile projectile(xPositionMiddle, player.yPosition - 1,
-                          GameConstants::projectileDefaultWidth,
-                          GameConstants::projectileDefaultHeight,
+    int xPositionMiddle = player.middlePositionX;
+    std::vector<Point> projectilePoints;
+    projectilePoints.push_back(
+        {xPositionMiddle - GameConstants::projectileDefaultWidth / 2,
+         player.lowestY - 1});
+    projectilePoints.push_back(
+        {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
+         player.lowestY + 1});
+    projectilePoints.push_back(
+        {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
+         player.lowestY - 1 + GameConstants::projectileDefaultHeight});
+    projectilePoints.push_back(
+        {xPositionMiddle - GameConstants::projectileDefaultWidth / 2,
+         player.lowestY - 1 + GameConstants::projectileDefaultHeight});
+    Projectile projectile(projectilePoints,
                           GameConstants::projectileDefaultSpeed,
                           MoveDirection::UP);
 
@@ -182,7 +193,7 @@ void GameState::addPlayerProjectile() {
 void GameState::moveAllProjectiles() {
   // Remove all projectiles that are at the bottom or top
   for (auto begin = projectiles.begin(); begin != projectiles.end();) {
-    if (begin->yPosition == 0 || begin->yPosition == screenHeight) {
+    if (begin->lowestY == 0 || begin->highestY == screenHeight) {
       begin = projectiles.erase(begin);
     } else {
       moveProjectile(*begin, screenWidth, screenHeight);
@@ -193,31 +204,57 @@ void GameState::moveAllProjectiles() {
 
 void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
   // Code duplication but it's okay
+  std::vector<Point> &projectileVertices = projectile.vertices;
   switch (projectile.direction) {
-  case MoveDirection::UP:
-    projectile.yPosition -= projectile.movementSpeed;
-    if (projectile.yPosition < 0) {
-      projectile.yPosition = 0;
+  case MoveDirection::UP: {
+    int clippedMovement = (projectile.lowestY - projectile.movementSpeed < 0)
+                              ? projectile.lowestY
+                              : projectile.movementSpeed;
+    for (auto &point : projectileVertices) {
+      point.y -= clippedMovement;
     }
+    projectile.lowestY -= clippedMovement;
+    projectile.highestY -= clippedMovement;
     break;
-  case MoveDirection::DOWN:
-    projectile.yPosition += projectile.movementSpeed;
-    if (projectile.yPosition + projectile.height > screenHeight) {
-      projectile.yPosition = screenHeight - projectile.height;
+  }
+  case MoveDirection::DOWN: {
+    int clippedMovement =
+        (projectile.highestY + projectile.movementSpeed > screenHeight)
+            ? screenHeight - projectile.highestY
+            : projectile.movementSpeed;
+    for (auto &point : projectileVertices) {
+      point.y += clippedMovement;
     }
+    projectile.lowestY += clippedMovement;
+    projectile.highestY += clippedMovement;
+
     break;
-  case MoveDirection::LEFT:
-    projectile.xPosition -= projectile.movementSpeed;
-    if (projectile.xPosition < 0) {
-      projectile.xPosition = 0;
+  }
+  case MoveDirection::LEFT: {
+    int clippedMovement = (projectile.lowestX - projectile.movementSpeed < 0)
+                              ? projectile.lowestX
+                              : projectile.movementSpeed;
+    for (auto &point : projectileVertices) {
+      point.y -= clippedMovement;
     }
+    projectile.lowestY -= clippedMovement;
+    projectile.highestY -= clippedMovement;
+
     break;
-  case MoveDirection::RIGHT:
-    projectile.xPosition += projectile.movementSpeed;
-    if (projectile.xPosition + projectile.width > screenWidth) {
-      projectile.xPosition = screenWidth - projectile.width;
+  }
+  case MoveDirection::RIGHT: {
+    int clippedMovement =
+        (projectile.highestX + projectile.movementSpeed > screenWidth)
+            ? screenHeight - projectile.highestX
+            : projectile.movementSpeed;
+    for (auto &point : projectileVertices) {
+      point.x += clippedMovement;
     }
+    projectile.lowestX += clippedMovement;
+    projectile.highestX += clippedMovement;
+
     break;
+  }
   default:
     // TODO
     break;
