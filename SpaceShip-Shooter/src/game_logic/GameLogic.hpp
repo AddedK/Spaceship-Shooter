@@ -115,27 +115,4 @@ bool isCollidingBetter(const T &t, const G &g) {
 }
 } // namespace GameLogic
 
-template <typename T, typename G> bool isColliding(const T &t, const G &g) {
-  // Note that this fails if one object moves really fast, almost "teleporting"
-  // through another object. This can sort of be mitigated by having high fps.
-  // But I'll cross that bridge _IF_ I get to it
-
-  bool yPositionOfTInG =
-      (t.yPosition >= g.yPosition && (t.yPosition <= g.yPosition + g.height));
-
-  bool yPositionOfGInT =
-      !yPositionOfTInG &&
-      (g.yPosition >= t.yPosition && (g.yPosition <= t.yPosition + t.height));
-
-  bool xPositionOfTInG =
-      (t.xPosition >= g.xPosition && (t.xPosition <= g.xPosition + g.width));
-
-  bool xPositionOfGInT =
-      !xPositionOfTInG &&
-      (g.xPosition >= t.xPosition && (g.xPosition <= t.xPosition + t.width));
-
-  return ((yPositionOfGInT || yPositionOfTInG) &&
-          (xPositionOfTInG || xPositionOfGInT));
-}
-
 #endif // GAME_LOGIC_HPP
