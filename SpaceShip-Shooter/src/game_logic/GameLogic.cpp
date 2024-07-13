@@ -154,8 +154,7 @@ void GameState::startGame() {
       Point{screenWidth / 2 - GameConstants::playerWidth / 2, screenHeight});
   playerVertices.push_back(
       Point{screenWidth / 2 + GameConstants::playerWidth / 2, screenHeight});
-  setPlayer({playerVertices, GameConstants::playerWidth,
-             GameConstants::playerHeight, GameConstants::playerInitialSpeed,
+  setPlayer({playerVertices, GameConstants::playerInitialSpeed,
              GameConstants::playerInitialNrOfLives});
   clearEnemyShips();
   removeAllProjectiles();
@@ -165,8 +164,7 @@ void GameState::startGame() {
   enemyVertices.push_back(Point{screenWidth / 2, GameConstants::playerWidth});
   enemyVertices.push_back(
       Point{screenWidth / 2 + GameConstants::playerWidth / 2, 0});
-  Ship enemyShip(enemyVertices, GameConstants::playerWidth,
-                 GameConstants::playerHeight, GameConstants::enemyInitialSpeed,
+  Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
                  GameConstants::enemyInitialNrOfLives);
   addEnemyShip(std::move(enemyShip));
 }

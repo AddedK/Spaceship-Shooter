@@ -23,8 +23,7 @@ public:
       : vertices(), middlePositionX(0), lowestX(0), highestX(0), lowestY(0),
         highestY(0), movementSpeed(1), nrOfLives(1),
         frameWhenLastFiredProjectile(0) {}
-  Ship(std::vector<Point> vertices, int width, int height, int movementSpeed,
-       int nrOfLives)
+  Ship(std::vector<Point> vertices, int movementSpeed, int nrOfLives)
       : vertices(vertices), movementSpeed(movementSpeed), nrOfLives(nrOfLives),
         frameWhenLastFiredProjectile(0) {
     int sumX = 0;
