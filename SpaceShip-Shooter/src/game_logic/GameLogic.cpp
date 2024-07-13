@@ -100,12 +100,24 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
 void GameState::allEnemiesShoot() {
   // TODO Diffierent ships with different firing mechanics
   for (auto &enemyShip : enemyShips) {
-    if (enemyShip.lowestY < screenHeight &&
+    if (enemyShip.highestY < screenHeight &&
         ((frameNumber - enemyShip.frameWhenLastFiredProjectile) >=
          GameConstants::enemyInitialFramesBetweenShots)) {
-      Projectile projectile(enemyShip.middlePositionX, enemyShip.highestY + 1,
-                            GameConstants::projectileDefaultWidth,
-                            GameConstants::projectileDefaultHeight,
+      int xPositionMiddle = enemyShip.middlePositionX;
+      std::vector<Point> projectilePoints;
+      projectilePoints.push_back(
+          {xPositionMiddle - GameConstants::projectileDefaultWidth / 2,
+           enemyShip.highestY + 1});
+      projectilePoints.push_back(
+          {xPositionMiddle - GameConstants::projectileDefaultWidth / 2,
+           enemyShip.highestY + 1 + GameConstants::projectileDefaultHeight});
+      projectilePoints.push_back(
+          {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
+           enemyShip.highestY + 1 + GameConstants::projectileDefaultHeight});
+      projectilePoints.push_back(
+          {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
+           enemyShip.highestY + 1});
+      Projectile projectile(projectilePoints,
                             GameConstants::projectileDefaultSpeed,
                             MoveDirection::DOWN);
 
@@ -174,13 +186,13 @@ void GameState::addPlayerProjectile() {
          player.lowestY - 1});
     projectilePoints.push_back(
         {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
-         player.lowestY + 1});
+         player.lowestY - 1});
     projectilePoints.push_back(
         {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
-         player.lowestY - 1 + GameConstants::projectileDefaultHeight});
+         player.lowestY - 1 - GameConstants::projectileDefaultHeight});
     projectilePoints.push_back(
         {xPositionMiddle - GameConstants::projectileDefaultWidth / 2,
-         player.lowestY - 1 + GameConstants::projectileDefaultHeight});
+         player.lowestY - 1 - GameConstants::projectileDefaultHeight});
     Projectile projectile(projectilePoints,
                           GameConstants::projectileDefaultSpeed,
                           MoveDirection::UP);
@@ -279,7 +291,7 @@ void GameState::playerAndShipCollisions() {
     return;
   }
   for (auto begin = enemyShips.begin(); begin != enemyShips.end();) {
-    if (isColliding(player, *begin)) {
+    if (isCollidingBetter(player, *begin)) {
       playerLosesLife();
       begin->decrementNrOfLives(1);
       if (begin->getNrOfLives() == 0) {
@@ -304,7 +316,8 @@ void GameState::shipAndProjectileCollisions() {
        projectileIterator != projectiles.end();) {
 
     // Check player collision
-    if (getPlayerAliveStatus() && isColliding(player, *projectileIterator)) {
+    if (getPlayerAliveStatus() &&
+        isCollidingBetter(player, *projectileIterator)) {
       playerLosesLife();
       projectileIterator = projectiles.erase(projectileIterator);
     } else {
@@ -316,7 +329,7 @@ void GameState::shipAndProjectileCollisions() {
       bool shouldAdvanceIterator = true;
       for (auto shipIterator = enemyShips.begin();
            shipIterator != enemyShips.end();) {
-        if (isColliding(*shipIterator, *projectileIterator)) {
+        if (isCollidingBetter(*shipIterator, *projectileIterator)) {
           shipIterator->decrementNrOfLives(1);
           if (shipIterator->getNrOfLives() == 0) {
             shipIterator = enemyShips.erase(shipIterator);
