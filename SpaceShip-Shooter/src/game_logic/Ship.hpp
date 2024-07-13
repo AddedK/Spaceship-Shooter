@@ -1,13 +1,9 @@
 #ifndef SHIP_HPP
 #define SHIP_HPP
+#include "Point.hpp"
 #include <vector>
 
 namespace GameLogic {
-
-struct Point {
-  int x;
-  int y;
-};
 
 class Ship {
 public:
