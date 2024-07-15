@@ -381,6 +381,8 @@ bool onSegment(const Point &p, const Point &q, const Point &r) {
   return false;
 }
 
+// The main function that returns true if the line segment 'p1q1' and 'p2q2'
+// intersect.
 bool lineIsIntersecting(const Point &p1, const Point &q1, const Point &p2,
                         const Point &q2) {
   // Find the four orientations needed for general and special cases

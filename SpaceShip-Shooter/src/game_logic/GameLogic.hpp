@@ -86,8 +86,8 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight);
 void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight);
 
-bool lineIsIntersecting(const Point &t1, const Point &t2, const Point &g1,
-                        const Point &g2);
+bool lineIsIntersecting(const Point &p1, const Point &q1, const Point &p2,
+                        const Point &q2);
 
 int orientation(const Point &p, const Point &q, const Point &r);
 
