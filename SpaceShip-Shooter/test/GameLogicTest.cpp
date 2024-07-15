@@ -176,4 +176,20 @@ TEST_CASE("Test ship + ship collision checking") {
     GameLogic::Ship ship1(playerVertices, 1, 1);
     CHECK(GameLogic::isCollidingBetter(ship1, ship1));
   }
+  SUBCASE("X-adjacent ships not colliding") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1);
+
+    std::vector<GameLogic::Point> playerVertices2;
+    playerVertices2.push_back(GameLogic::Point{21, 10});
+    playerVertices2.push_back(GameLogic::Point{16, 15});
+    playerVertices2.push_back(GameLogic::Point{26, 15});
+    GameLogic::Ship ship2(playerVertices2, 1, 1);
+
+    CHECK_FALSE(GameLogic::isCollidingBetter(ship1, ship2));
+  }
 }
