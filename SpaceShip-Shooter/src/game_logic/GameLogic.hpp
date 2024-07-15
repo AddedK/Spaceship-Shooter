@@ -96,13 +96,13 @@ bool onSegment(const Point &p, const Point &q, const Point &r);
 template <typename T, typename G>
 bool isCollidingBetter(const T &t, const G &g) {
   for (int i = 0; i < t.vertices.size(); i++) {
-    int j = i + 1 % t.vertices.size();
+    int j = (i + 1) % t.vertices.size();
     Point t1 = t.vertices[i];
     Point t2 = t.vertices[j];
 
     // Now we have pair of vertices from t
     for (int k = 0; k < g.vertices.size(); k++) {
-      int l = k + 1 % g.vertices.size();
+      int l = (k + 1) % g.vertices.size();
       // now we have pair of vertices from g
       Point g1 = g.vertices[k];
       Point g2 = g.vertices[l];
