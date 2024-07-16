@@ -247,10 +247,11 @@ void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
                               ? projectile.lowestX
                               : projectile.movementSpeed;
     for (auto &point : projectileVertices) {
-      point.y -= clippedMovement;
+      point.x -= clippedMovement;
     }
-    projectile.lowestY -= clippedMovement;
-    projectile.highestY -= clippedMovement;
+    projectile.lowestX -= clippedMovement;
+    projectile.highestX -= clippedMovement;
+    projectile.middlePositionX -= clippedMovement;
 
     break;
   }
@@ -264,6 +265,7 @@ void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
     }
     projectile.lowestX += clippedMovement;
     projectile.highestX += clippedMovement;
+    projectile.middlePositionX += clippedMovement;
 
     break;
   }
