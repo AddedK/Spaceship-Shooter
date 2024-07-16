@@ -242,3 +242,43 @@ TEST_CASE("Test ship + ship collision checking") {
     CHECK(GameLogic::isCollidingBetter(ship1, ship2));
   }
 }
+
+TEST_CASE("Ship + projectile collision") {
+  SUBCASE("Close but no collision") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1);
+
+    std::vector<GameLogic::Point> projectileVertices;
+    projectileVertices.push_back(GameLogic::Point{15, 16});
+    projectileVertices.push_back(GameLogic::Point{10, 16});
+    projectileVertices.push_back(GameLogic::Point{10, 21});
+    projectileVertices.push_back(GameLogic::Point{15, 21});
+    GameLogic::Projectile projectile1(projectileVertices, 1,
+                                      GameLogic::MoveDirection::UP);
+
+    CHECK_FALSE(GameLogic::isCollidingBetter(ship1, projectile1));
+  }
+
+  SUBCASE("Hit from below") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1);
+
+    std::vector<GameLogic::Point> projectileVertices;
+    projectileVertices.push_back(GameLogic::Point{15, 15});
+    projectileVertices.push_back(GameLogic::Point{10, 15});
+    projectileVertices.push_back(GameLogic::Point{10, 20});
+    projectileVertices.push_back(GameLogic::Point{15, 20});
+    GameLogic::Projectile projectile1(projectileVertices, 1,
+                                      GameLogic::MoveDirection::UP);
+
+    CHECK(GameLogic::isCollidingBetter(ship1, projectile1));
+  }
+}
