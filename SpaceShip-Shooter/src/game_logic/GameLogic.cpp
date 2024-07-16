@@ -2,6 +2,7 @@
 #include "gameEnums.hpp"
 #include <iostream>
 #include <map>
+#include <random>
 
 namespace GameLogic {
 
@@ -132,12 +133,17 @@ void GameState::allEnemiesShoot() {
 
 void GameState::spawnEnemies() {
   if ((frameNumber % spawnEnemiesPerFrame) == 0 && frameNumber != 0) {
+    std::random_device rd;  // obtain a random number from hardware
+    std::mt19937 gen(rd()); // seed the generator
+    int lowXBound = 0 + GameConstants::playerWidth;
+    int highXBound = screenWidth - GameConstants::playerWidth;
+    std::uniform_int_distribution<> distr(lowXBound,
+                                          highXBound); // define the range
+    int centerX = distr(gen);
     std::vector<Point> enemyVertices;
-    enemyVertices.push_back(
-        Point{screenWidth / 2 - GameConstants::playerWidth / 2, 0});
-    enemyVertices.push_back(Point{screenWidth / 2, GameConstants::playerWidth});
-    enemyVertices.push_back(
-        Point{screenWidth / 2 + GameConstants::playerWidth / 2, 0});
+    enemyVertices.push_back(Point{centerX - GameConstants::playerWidth / 2, 0});
+    enemyVertices.push_back(Point{centerX, GameConstants::playerWidth});
+    enemyVertices.push_back(Point{centerX + GameConstants::playerWidth / 2, 0});
     Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
                    GameConstants::enemyInitialNrOfLives);
     addEnemyShip(std::move(enemyShip));
