@@ -166,7 +166,6 @@ TEST_CASE("Line intersecting function") {
   }
 }
 TEST_CASE("Test ship + ship collision checking") {
-  // TODO
   SUBCASE("Self collision") {
 
     std::vector<GameLogic::Point> playerVertices;
@@ -191,5 +190,55 @@ TEST_CASE("Test ship + ship collision checking") {
     GameLogic::Ship ship2(playerVertices2, 1, 1);
 
     CHECK_FALSE(GameLogic::isCollidingBetter(ship1, ship2));
+  }
+
+  SUBCASE("Y-adjacent ships not colliding") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1);
+
+    std::vector<GameLogic::Point> playerVertices2;
+    playerVertices2.push_back(GameLogic::Point{10, 16});
+    playerVertices2.push_back(GameLogic::Point{5, 21});
+    playerVertices2.push_back(GameLogic::Point{15, 21});
+    GameLogic::Ship ship2(playerVertices2, 1, 1);
+
+    CHECK_FALSE(GameLogic::isCollidingBetter(ship1, ship2));
+  }
+  SUBCASE("X-edge collision") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{10, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1);
+
+    std::vector<GameLogic::Point> playerVertices2;
+    playerVertices2.push_back(GameLogic::Point{15, 10});
+    playerVertices2.push_back(GameLogic::Point{10, 10});
+    playerVertices2.push_back(GameLogic::Point{10, 15});
+    playerVertices2.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship2(playerVertices2, 1, 1);
+
+    CHECK(GameLogic::isCollidingBetter(ship1, ship2));
+  }
+  SUBCASE("Y-edge collision") {
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1);
+
+    std::vector<GameLogic::Point> playerVertices2;
+    playerVertices2.push_back(GameLogic::Point{10, 15});
+    playerVertices2.push_back(GameLogic::Point{5, 20});
+    playerVertices2.push_back(GameLogic::Point{15, 20});
+    GameLogic::Ship ship2(playerVertices2, 1, 1);
+
+    CHECK(GameLogic::isCollidingBetter(ship1, ship2));
   }
 }
