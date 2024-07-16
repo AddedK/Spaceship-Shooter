@@ -78,6 +78,7 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     }
     ship.lowestX -= clippedMovement;
     ship.highestX -= clippedMovement;
+    ship.middlePositionX -= clippedMovement;
     break;
   }
   case MoveDirection::RIGHT: {
@@ -89,6 +90,7 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     }
     ship.lowestX += clippedMovement;
     ship.highestX += clippedMovement;
+    ship.middlePositionX += clippedMovement;
     break;
   }
   default:

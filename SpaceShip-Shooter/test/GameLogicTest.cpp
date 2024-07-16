@@ -46,6 +46,7 @@ TEST_CASE("Testing GameState Functionality ") {
                         screenHeight);
     CHECK(ship1.lowestX == 6);
     CHECK(ship1.highestX == 16);
+    CHECK(ship1.middlePositionX == 11);
 
     GameLogic::moveShip(ship1, GameLogic::MoveDirection::DOWN, screenWidth,
                         screenHeight);
@@ -56,6 +57,7 @@ TEST_CASE("Testing GameState Functionality ") {
                         screenHeight);
     CHECK(ship1.lowestX == 5);
     CHECK(ship1.highestX == 15);
+    CHECK(ship1.middlePositionX == 10);
   }
 
   SUBCASE("Test moving in the top left corner") {
