@@ -2,22 +2,20 @@
 #include <raylib.h>
 
 void drawTitleScreen() {
-  /*
-DrawRectangle(0, 0, DisplayConstants::screenWidth,
-          DisplayConstants::screenHeight, GREEN);
+  DrawRectangle(0, 0, DisplayConstants::screenWidth,
+                DisplayConstants::screenHeight, GREEN);
 
-const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
-                     (4 * DisplayConstants::titleFontSize);
-const int titleYPosition = 20;
-DrawText("TITLE SCREEN", titleXMiddle, titleYPosition,
-     DisplayConstants::titleFontSize, DARKGREEN);
+  const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
+                           (4 * DisplayConstants::titleFontSize);
+  const int titleYPosition = 20;
+  DrawText("TITLE SCREEN", titleXMiddle, titleYPosition,
+           DisplayConstants::titleFontSize, DARKGREEN);
 
-const int instructionXPosition = (DisplayConstants::screenWidth / 6);
-const int instructionYPosition = 220;
-DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
-     instructionYPosition, DisplayConstants::instructionFontSize,
-     DARKGREEN);
-  */
+  const int instructionXPosition = (DisplayConstants::screenWidth / 6);
+  const int instructionYPosition = 220;
+  DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
+           instructionYPosition, DisplayConstants::instructionFontSize,
+           DARKGREEN);
 }
 
 void drawGameplayScreen(const GameLogic::Ship &player,
@@ -53,20 +51,18 @@ DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
 }
 
 void drawEndingScreen() {
-  /*
-DrawRectangle(0, 0, DisplayConstants::screenWidth,
-          DisplayConstants::screenHeight, BLUE);
+  DrawRectangle(0, 0, DisplayConstants::screenWidth,
+                DisplayConstants::screenHeight, BLUE);
 
-const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
-                     (5 * DisplayConstants::titleFontSize);
-const int titleYPosition = 10;
-DrawText("ENDING SCREEN", titleXMiddle, titleYPosition,
-     DisplayConstants::titleFontSize, DARKBLUE);
+  const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
+                           (5 * DisplayConstants::titleFontSize);
+  const int titleYPosition = 10;
+  DrawText("ENDING SCREEN", titleXMiddle, titleYPosition,
+           DisplayConstants::titleFontSize, DARKBLUE);
 
-const int instructionXPosition = (DisplayConstants::screenWidth / 6);
-const int instructionYPosition = 220;
-DrawText("PRESS ENTER to RETURN to TITLE SCREEN", instructionXPosition,
-     instructionYPosition, DisplayConstants::instructionFontSize,
-     DARKBLUE);
-  */
+  const int instructionXPosition = (DisplayConstants::screenWidth / 6);
+  const int instructionYPosition = 220;
+  DrawText("PRESS ENTER to RETURN to TITLE SCREEN", instructionXPosition,
+           instructionYPosition, DisplayConstants::instructionFontSize,
+           DARKBLUE);
 }
