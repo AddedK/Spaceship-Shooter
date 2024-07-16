@@ -38,7 +38,7 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles) {
   DrawRectangle(0, 0, DisplayConstants::screenWidth,
-                DisplayConstants::screenHeight, PURPLE);
+                DisplayConstants::screenHeight, BLACK);
 
   drawShapeFromVertices(player, BLUE);
 
