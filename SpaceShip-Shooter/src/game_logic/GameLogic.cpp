@@ -129,10 +129,26 @@ void GameState::allEnemiesShoot() {
   }
   return;
 }
+
+void GameState::spawnEnemies() {
+  if ((frameNumber % spawnEnemiesPerFrame) == 0 && frameNumber != 0) {
+    std::vector<Point> enemyVertices;
+    enemyVertices.push_back(
+        Point{screenWidth / 2 - GameConstants::playerWidth / 2, 0});
+    enemyVertices.push_back(Point{screenWidth / 2, GameConstants::playerWidth});
+    enemyVertices.push_back(
+        Point{screenWidth / 2 + GameConstants::playerWidth / 2, 0});
+    Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
+                   GameConstants::enemyInitialNrOfLives);
+    addEnemyShip(std::move(enemyShip));
+  }
+}
+
 void GameState::updateGame() {
   ++frameNumber;
   if (getPlayerAliveStatus()) {
     moveAllEnemies();
+    spawnEnemies();
     moveAllProjectiles();
     allEnemiesShoot();
     checkAndHandleCollisions();

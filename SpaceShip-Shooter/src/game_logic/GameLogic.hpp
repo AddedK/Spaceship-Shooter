@@ -21,11 +21,13 @@ constexpr int enemyInitialFramesBetweenShots = 60;
 constexpr int projectileDefaultWidth = 3;
 constexpr int projectileDefaultHeight = 3;
 constexpr int projectileDefaultSpeed = 6;
+constexpr int spawnEnemiesPerSecond = 5;
 }; // namespace GameConstants
 
 class GameState {
   int frameNumber;
   int fps;
+  int spawnEnemiesPerFrame;
   Ship player;
   std::vector<Ship> enemyShips;
   std::vector<Projectile> projectiles;
@@ -34,6 +36,7 @@ class GameState {
   bool playerIsAlive;
 
   void moveAllEnemies();
+  void spawnEnemies();
   void allEnemiesShoot();
   void clearEnemyShips();
   void movePlayer(MoveDirection direction);
@@ -71,8 +74,10 @@ public:
   // TODO: Make sanity checks on how people construct GameState
   GameState() = delete;
   GameState(int fps, int screenWidth, int screenHeight)
-      : frameNumber(0), fps(fps), screenWidth(screenWidth),
-        screenHeight(screenHeight), playerIsAlive(true) {}
+      : frameNumber(0), fps(fps),
+        spawnEnemiesPerFrame(fps * GameConstants::spawnEnemiesPerSecond),
+        screenWidth(screenWidth), screenHeight(screenHeight),
+        playerIsAlive(true) {}
   // Player default constructed
   GameState(int fps, Ship player, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps), player(player), screenWidth(screenWidth),
