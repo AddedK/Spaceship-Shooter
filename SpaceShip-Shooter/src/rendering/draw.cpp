@@ -1,6 +1,22 @@
 #include "draw.hpp"
 #include <raylib.h>
 
+Vector2 pointToVector2(GameLogic::Point point) {
+  return Vector2{static_cast<float>(point.x), static_cast<float>(point.y)};
+}
+
+template <typename T> void drawShapeFromVertices(const T &t, Color color) {
+  if (t.vertices.size() == 3) {
+    DrawTriangle(pointToVector2(t.vertices[0]), pointToVector2(t.vertices[1]),
+                 pointToVector2(t.vertices[2]), color);
+  } else if (t.vertices.size() == 4) {
+    int width = t.highestX - t.lowestX;
+    int height = t.highestY - t.lowestY;
+    DrawRectangle(t.lowestX, t.lowestY, width, height, color);
+  } else {
+    // Draw polygon
+  }
+}
 void drawTitleScreen() {
   DrawRectangle(0, 0, DisplayConstants::screenWidth,
                 DisplayConstants::screenHeight, GREEN);
@@ -21,33 +37,29 @@ void drawTitleScreen() {
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles) {
-  /*
-DrawRectangle(0, 0, DisplayConstants::screenWidth,
-          DisplayConstants::screenHeight, PURPLE);
-DrawRectangle(player.xPosition, player.yPosition, player.width, player.height,
-          BLUE);
+  DrawRectangle(0, 0, DisplayConstants::screenWidth,
+                DisplayConstants::screenHeight, PURPLE);
 
-for (const auto &enemy : enemyShips) {
-DrawRectangle(enemy.xPosition, enemy.yPosition, enemy.width, enemy.height,
-            RED);
-}
-for (const auto &projectile : projectiles) {
-DrawRectangle(projectile.xPosition, projectile.yPosition, projectile.width,
-            projectile.height, GREEN);
-}
+  drawShapeFromVertices(player, BLUE);
 
-const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
-                     (6 * DisplayConstants::titleFontSize);
-const int titleYPosition = 10;
-DrawText("GAMEPLAY SCREEN", titleXMiddle, titleYPosition,
-     DisplayConstants::titleFontSize, MAROON);
+  for (const auto &enemy : enemyShips) {
+    drawShapeFromVertices(enemy, RED);
+  }
+  for (const auto &projectile : projectiles) {
+    drawShapeFromVertices(projectile, ORANGE);
+  }
 
-const int instructionXPosition = 10;
-const int instructionYPosition = DisplayConstants::screenHeight -
-                             2 * DisplayConstants::instructionFontSize;
-DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
-     instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
-  */
+  const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
+                           (6 * DisplayConstants::titleFontSize);
+  const int titleYPosition = 10;
+  DrawText("GAMEPLAY SCREEN", titleXMiddle, titleYPosition,
+           DisplayConstants::titleFontSize, MAROON);
+
+  const int instructionXPosition = 10;
+  const int instructionYPosition = DisplayConstants::screenHeight -
+                                   2 * DisplayConstants::instructionFontSize;
+  DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
+           instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
 }
 
 void drawEndingScreen() {

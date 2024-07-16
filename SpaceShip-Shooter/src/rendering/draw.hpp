@@ -18,4 +18,6 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles);
 void drawEndingScreen();
+
+Vector2 pointToVector2(GameLogic::Point point);
 #endif
