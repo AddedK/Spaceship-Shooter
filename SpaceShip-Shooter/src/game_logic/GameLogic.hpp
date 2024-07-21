@@ -22,7 +22,7 @@ constexpr int enemyInitialFramesBetweenShots = 60;
 constexpr int projectileDefaultWidth = 3;
 constexpr int projectileDefaultHeight = 3;
 constexpr int projectileDefaultSpeed = 6;
-constexpr int spawnEnemiesPerSecond = 5;
+constexpr int spawnEnemiesPerSecond = 4;
 
 constexpr double enemyMoveSideProbability = 0.3;
 constexpr int minFramesBetweenEnemyShipSideMove = 10;
