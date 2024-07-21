@@ -66,6 +66,7 @@ public:
     }
   }
   void decrementNrOfLives(int amount) { nrOfLives -= amount; }
+  void addNrOfLives(int amount) { nrOfLives += amount; }
   int getNrOfLives() const { return nrOfLives; }
   ~Ship() = default;
 

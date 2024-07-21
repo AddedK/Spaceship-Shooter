@@ -26,6 +26,12 @@ constexpr int spawnEnemiesPerSecond = 4;
 
 constexpr double enemyMoveSideProbability = 0.3;
 constexpr int minFramesBetweenEnemyShipSideMove = 10;
+
+constexpr int thresholdToSpawnBasicShip = 0;
+constexpr int thresholdToSpawnAdvancedShip = 50;
+constexpr int thresholdToSpawnStrikerShip = 80;
+constexpr int thresholdToSpawnUltimateShip = 95;
+
 }; // namespace GameConstants
 
 class GameState {

@@ -1,4 +1,5 @@
 #include "GameLogic.hpp"
+#include "Ship.hpp"
 #include "gameEnums.hpp"
 #include <iostream>
 #include <map>
@@ -147,6 +148,22 @@ void GameState::spawnEnemies() {
     std::uniform_real_distribution<> distr2(0, 1);
     enemyShip.probabilityOfSideMoveRight = distr2(randomGenerator);
 
+    std::uniform_int_distribution<> distrShipType(0, 100);
+    int shipTypeThreshold = distrShipType(randomGenerator);
+    if (shipTypeThreshold >= GameConstants::thresholdToSpawnUltimateShip) {
+      enemyShip.shipType = ShipType::ULTIMATE;
+      enemyShip.addNrOfLives(2);
+    } else if (shipTypeThreshold >=
+               GameConstants::thresholdToSpawnStrikerShip) {
+      enemyShip.shipType = ShipType::STRIKER;
+      enemyShip.setMovementSpeed(enemyShip.movementSpeed + 4);
+    } else if (shipTypeThreshold >=
+               GameConstants::thresholdToSpawnAdvancedShip) {
+      enemyShip.addNrOfLives(1);
+      enemyShip.shipType = ShipType::ADVANCED;
+    } else {
+      enemyShip.shipType = ShipType::BASIC;
+    }
     addEnemyShip(std::move(enemyShip));
   }
 }
@@ -165,7 +182,14 @@ void GameState::updateGame() {
 }
 void GameState::moveAllEnemies() {
   // TODO: Now it just moves all enemies down
-  for (auto &enemyShip : enemyShips) {
+  for (auto shipIterator = enemyShips.begin();
+       shipIterator != enemyShips.end();) {
+    auto &enemyShip = *shipIterator;
+    if (enemyShip.highestY == screenHeight) {
+      shipIterator = enemyShips.erase(shipIterator);
+      continue;
+    }
+
     moveShip(enemyShip, MoveDirection::DOWN, screenWidth, screenHeight);
 
     // Small probability to move left or right
@@ -183,6 +207,7 @@ void GameState::moveAllEnemies() {
       moveShip(enemyShip, sideDirection, screenWidth, screenHeight, 16);
       enemyShip.frameWhenLastMovedSide = frameNumber;
     }
+    ++shipIterator;
   }
 }
 
