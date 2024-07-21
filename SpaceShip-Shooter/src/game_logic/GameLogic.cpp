@@ -167,6 +167,7 @@ void GameState::moveAllEnemies() {
   // TODO: Now it just moves all enemies down
   for (auto &enemyShip : enemyShips) {
     moveShip(enemyShip, MoveDirection::DOWN, screenWidth, screenHeight);
+
     // Small probability to move left or right
     std::uniform_real_distribution<> distr(0, 1);
     bool shouldSideMove =
