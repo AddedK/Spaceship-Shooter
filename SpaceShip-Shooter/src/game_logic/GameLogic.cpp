@@ -139,7 +139,7 @@ void GameState::spawnEnemies() {
     int centerX = distr(randomGenerator);
     std::vector<Point> enemyVertices;
     enemyVertices.push_back(Point{centerX - GameConstants::playerWidth / 2, 0});
-    enemyVertices.push_back(Point{centerX, GameConstants::playerWidth});
+    enemyVertices.push_back(Point{centerX, GameConstants::playerHeight});
     enemyVertices.push_back(Point{centerX + GameConstants::playerWidth / 2, 0});
     Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
                    GameConstants::enemyInitialNrOfLives);
