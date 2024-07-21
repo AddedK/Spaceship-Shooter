@@ -43,14 +43,14 @@ void GameState::addEnemyShip(Ship &&enemy) {
 }
 void GameState::clearEnemyShips() { this->enemyShips.clear(); }
 void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
-              int screenHeight) {
+              int screenHeight, int additionalMovement) {
+  int totalMovement = ship.movementSpeed + additionalMovement;
 
   std::vector<Point> &vertices = ship.vertices;
   switch (direction) {
   case MoveDirection::UP: {
-    int clippedMovement = (ship.lowestY - ship.movementSpeed) < 0
-                              ? ship.lowestY
-                              : ship.movementSpeed;
+    int clippedMovement =
+        (ship.lowestY - totalMovement) < 0 ? ship.lowestY : totalMovement;
     for (auto &point : vertices) {
       point.y -= clippedMovement;
     }
@@ -59,9 +59,9 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
   case MoveDirection::DOWN: {
-    int clippedMovement = (ship.highestY + ship.movementSpeed) > screenHeight
+    int clippedMovement = (ship.highestY + totalMovement) > screenHeight
                               ? screenHeight - ship.highestY
-                              : ship.movementSpeed;
+                              : totalMovement;
     for (auto &point : vertices) {
       point.y += clippedMovement;
     }
@@ -70,9 +70,8 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
   case MoveDirection::LEFT: {
-    int clippedMovement = (ship.lowestX - ship.movementSpeed) < 0
-                              ? ship.lowestX
-                              : ship.movementSpeed;
+    int clippedMovement =
+        (ship.lowestX - totalMovement) < 0 ? ship.lowestX : totalMovement;
 
     for (auto &point : vertices) {
       point.x -= clippedMovement;
@@ -83,9 +82,9 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
   case MoveDirection::RIGHT: {
-    int clippedMovement = (ship.highestX + ship.movementSpeed) > screenWidth
+    int clippedMovement = (ship.highestX + totalMovement) > screenWidth
                               ? screenWidth - ship.highestX
-                              : ship.movementSpeed;
+                              : totalMovement;
     for (auto &point : vertices) {
       point.x += clippedMovement;
     }
@@ -133,19 +132,21 @@ void GameState::allEnemiesShoot() {
 
 void GameState::spawnEnemies() {
   if ((frameNumber % spawnEnemiesPerFrame) == 0 && frameNumber != 0) {
-    std::random_device rd;  // obtain a random number from hardware
-    std::mt19937 gen(rd()); // seed the generator
     int lowXBound = 0 + GameConstants::playerWidth;
     int highXBound = screenWidth - GameConstants::playerWidth;
     std::uniform_int_distribution<> distr(lowXBound,
                                           highXBound); // define the range
-    int centerX = distr(gen);
+    int centerX = distr(randomGenerator);
     std::vector<Point> enemyVertices;
     enemyVertices.push_back(Point{centerX - GameConstants::playerWidth / 2, 0});
     enemyVertices.push_back(Point{centerX, GameConstants::playerWidth});
     enemyVertices.push_back(Point{centerX + GameConstants::playerWidth / 2, 0});
     Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
                    GameConstants::enemyInitialNrOfLives);
+
+    std::uniform_real_distribution<> distr2(0, 1);
+    enemyShip.probabilityOfSideMoveRight = distr2(randomGenerator);
+
     addEnemyShip(std::move(enemyShip));
   }
 }
@@ -166,6 +167,21 @@ void GameState::moveAllEnemies() {
   // TODO: Now it just moves all enemies down
   for (auto &enemyShip : enemyShips) {
     moveShip(enemyShip, MoveDirection::DOWN, screenWidth, screenHeight);
+    // Small probability to move left or right
+    std::uniform_real_distribution<> distr(0, 1);
+    bool shouldSideMove =
+        distr(randomGenerator) >= GameConstants::enemyMoveSideProbability &&
+        frameNumber - enemyShip.frameWhenLastMovedSide >=
+            GameConstants::minFramesBetweenEnemyShipSideMove;
+
+    if (shouldSideMove) {
+      bool shouldGoRight =
+          distr(randomGenerator) <= enemyShip.probabilityOfSideMoveRight;
+      MoveDirection sideDirection =
+          shouldGoRight ? MoveDirection::RIGHT : MoveDirection::LEFT;
+      moveShip(enemyShip, sideDirection, screenWidth, screenHeight, 16);
+      enemyShip.frameWhenLastMovedSide = frameNumber;
+    }
   }
 }
 

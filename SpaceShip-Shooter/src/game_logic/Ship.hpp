@@ -18,14 +18,19 @@ public:
 
   int movementSpeed;
   int frameWhenLastFiredProjectile;
+  int frameWhenLastMovedSide;
+
+  double probabilityOfSideMoveRight;
 
   Ship()
       : vertices(), middlePositionX(0), lowestX(0), highestX(0), lowestY(0),
         highestY(0), movementSpeed(1), nrOfLives(1),
-        frameWhenLastFiredProjectile(0) {}
+        frameWhenLastFiredProjectile(0), frameWhenLastMovedSide(0),
+        probabilityOfSideMoveRight(0.5) {}
   Ship(std::vector<Point> vertices, int movementSpeed, int nrOfLives)
       : vertices(vertices), movementSpeed(movementSpeed), nrOfLives(nrOfLives),
-        frameWhenLastFiredProjectile(0) {
+        frameWhenLastFiredProjectile(0), frameWhenLastMovedSide(0),
+        probabilityOfSideMoveRight(0.5) {
     int sumX = 0;
     for (Point point : vertices) {
       sumX += point.x;

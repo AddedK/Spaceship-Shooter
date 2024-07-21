@@ -3,6 +3,7 @@
 #include "Projectile.hpp"
 #include "Ship.hpp"
 #include "gameEnums.hpp"
+#include <random>
 #include <vector>
 namespace GameLogic {
 
@@ -22,6 +23,9 @@ constexpr int projectileDefaultWidth = 3;
 constexpr int projectileDefaultHeight = 3;
 constexpr int projectileDefaultSpeed = 6;
 constexpr int spawnEnemiesPerSecond = 5;
+
+constexpr double enemyMoveSideProbability = 0.3;
+constexpr int minFramesBetweenEnemyShipSideMove = 10;
 }; // namespace GameConstants
 
 class GameState {
@@ -34,6 +38,8 @@ class GameState {
   int screenWidth;
   int screenHeight;
   bool playerIsAlive;
+
+  std::mt19937 randomGenerator;
 
   void moveAllEnemies();
   void spawnEnemies();
@@ -77,18 +83,25 @@ public:
       : frameNumber(0), fps(fps),
         spawnEnemiesPerFrame(fps * GameConstants::spawnEnemiesPerSecond),
         screenWidth(screenWidth), screenHeight(screenHeight),
-        playerIsAlive(true) {}
-  // Player default constructed
+        playerIsAlive(true) {
+
+    std::random_device rd;              // obtain a random number from hardware
+    std::mt19937 randomGenerator(rd()); // seed the generator
+  }
   GameState(int fps, Ship player, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps), player(player), screenWidth(screenWidth),
-        screenHeight(screenHeight), playerIsAlive(true) {}
+        screenHeight(screenHeight), playerIsAlive(true) {
+
+    std::random_device rd;
+    std::mt19937 randomGenerator(rd());
+  }
   GameState(const GameState &otherGame) = delete;
   GameState &operator=(const GameState &otherGame) = delete;
   ~GameState() = default;
 };
 
 void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
-              int screenHeight);
+              int screenHeight, int additionalMovement = 0);
 void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight);
 
 bool lineIsIntersecting(const Point &p1, const Point &q1, const Point &p2,
