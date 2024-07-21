@@ -3,7 +3,7 @@ A 2d spaceship shooter game written in C++ using [raylib](https://github.com/ray
 
 ## How to run
 
-**Preqrequisite:** First you must have statically built raylib.
+**Preqrequisite:** First you must have statically built raylib. This, for example, has instructions for linux: https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux.  
 After that, run
 ```
 make game
