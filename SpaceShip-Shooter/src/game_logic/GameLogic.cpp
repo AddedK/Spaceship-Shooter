@@ -136,7 +136,14 @@ void GameState::allEnemiesShoot() {
 }
 
 void GameState::spawnEnemies() {
-  if ((frameNumber % spawnEnemiesPerFrame) == 0 && frameNumber != 0) {
+  int spawnEnemyFaster =
+      (frameNumber / fps) >=
+              GamiieConstants::nrsecondsUntilBoostEnemyShipSwawnRate
+          ? GameConstants::enemySwawnRateWaitReductionSeconds
+          : 0;
+  if ((frameNumber % fps == 0) &&
+      (frameNumber / fps) % (spawnEnemiesPerSecond - spawnEnemyFaster) == 0 &&
+      frameNumber != 0) {
     int lowXBound = 0 + GameConstants::playerWidth;
     int highXBound = screenWidth - GameConstants::playerWidth;
     std::uniform_int_distribution<> distr(lowXBound,

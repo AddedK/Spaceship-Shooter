@@ -35,12 +35,15 @@ constexpr int thresholdToSpawnUltimateShip = 95;
 constexpr int nrsecondsUntilBoostShipTypeThresholds = 60 * 1;
 constexpr int shipTypeThresholdDifficultyBoost = 20;
 
+constexpr int nrsecondsUntilBoostEnemyShipSwawnRate = 60 * 2;
+constexpr int enemySwawnRateWaitReductionSeconds = 1;
+
 }; // namespace GameConstants
 
 class GameState {
   int frameNumber;
   int fps;
-  int spawnEnemiesPerFrame;
+  int spawnEnemiesPerSecond;
   Ship player;
   std::vector<Ship> enemyShips;
   std::vector<Projectile> projectiles;
@@ -90,7 +93,7 @@ public:
   GameState() = delete;
   GameState(int fps, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps),
-        spawnEnemiesPerFrame(fps * GameConstants::spawnEnemiesPerSecond),
+        spawnEnemiesPerSecond(GameConstants::spawnEnemiesPerSecond),
         screenWidth(screenWidth), screenHeight(screenHeight),
         playerIsAlive(true) {
 
@@ -98,8 +101,10 @@ public:
     std::mt19937 randomGenerator(rd()); // seed the generator
   }
   GameState(int fps, Ship player, int screenWidth, int screenHeight)
-      : frameNumber(0), fps(fps), player(player), screenWidth(screenWidth),
-        screenHeight(screenHeight), playerIsAlive(true) {
+      : frameNumber(0), fps(fps),
+        spawnEnemiesPerSecond(GameConstants::spawnEnemiesPerSecond),
+        player(player), screenWidth(screenWidth), screenHeight(screenHeight),
+        playerIsAlive(true) {
 
     std::random_device rd;
     std::mt19937 randomGenerator(rd());
