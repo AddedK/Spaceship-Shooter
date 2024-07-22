@@ -16,12 +16,16 @@ public:
   int movementSpeed;
   MoveDirection direction;
 
+  bool isHoming;
+
   Projectile()
       : vertices(), middlePositionX(0), lowestX(0), highestX(0), lowestY(0),
-        highestY(0), movementSpeed(1), direction(MoveDirection::DOWN) {}
+        highestY(0), movementSpeed(1), direction(MoveDirection::DOWN),
+        isHoming(false) {}
   Projectile(std::vector<Point> vertices, int movementSpeed,
-             MoveDirection direction)
-      : vertices(vertices), movementSpeed(movementSpeed), direction(direction) {
+             MoveDirection direction, bool isHoming = false)
+      : vertices(vertices), movementSpeed(movementSpeed), direction(direction),
+        isHoming(isHoming) {
 
     int sumX = 0;
     for (Point point : vertices) {

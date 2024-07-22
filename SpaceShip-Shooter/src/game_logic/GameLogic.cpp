@@ -123,6 +123,10 @@ void GameState::allEnemiesShoot() {
       Projectile projectile(projectilePoints,
                             GameConstants::projectileDefaultSpeed,
                             MoveDirection::DOWN);
+      if (enemyShip.shipType == ShipType::STRIKER ||
+          enemyShip.shipType == ShipType::ULTIMATE) {
+        projectile.isHoming = true;
+      }
 
       addProjectile(std::move(projectile));
       enemyShip.frameWhenLastFiredProjectile = frameNumber;
@@ -273,6 +277,21 @@ void GameState::moveAllProjectiles() {
       begin = projectiles.erase(begin);
     } else {
       moveProjectile(*begin, screenWidth, screenHeight);
+      if (begin->isHoming) {
+        MoveDirection oldDirection = begin->direction;
+        int oldSpeed = begin->movementSpeed;
+
+        MoveDirection sideHoming =
+            (begin->middlePositionX < player.middlePositionX)
+                ? MoveDirection::RIGHT
+                : MoveDirection::LEFT;
+
+        begin->direction = sideHoming;
+        begin->setMovementSpeed(2);
+        moveProjectile(*begin, screenWidth, screenHeight);
+        begin->direction = oldDirection;
+        begin->setMovementSpeed(oldSpeed);
+      }
       ++begin;
     }
   }
