@@ -154,6 +154,10 @@ void GameState::spawnEnemies() {
 
     std::uniform_int_distribution<> distrShipType(0, 100);
     int shipTypeThreshold = distrShipType(randomGenerator);
+    if (frameNumber / fps >=
+        GameConstants::nrsecondsUntilBoostShipTypeThresholds) {
+      shipTypeThreshold += GameConstants::shipTypeThresholdDifficultyBoost;
+    }
     if (shipTypeThreshold >= GameConstants::thresholdToSpawnUltimateShip) {
       enemyShip.shipType = ShipType::ULTIMATE;
       enemyShip.addNrOfLives(2);
@@ -237,6 +241,7 @@ void GameState::startGame() {
   Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
                  GameConstants::enemyInitialNrOfLives);
   addEnemyShip(std::move(enemyShip));
+  frameNumber = 0;
 }
 
 void GameState::addProjectile(Projectile &&projectile) {

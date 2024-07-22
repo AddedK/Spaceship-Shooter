@@ -32,6 +32,9 @@ constexpr int thresholdToSpawnAdvancedShip = 50;
 constexpr int thresholdToSpawnStrikerShip = 80;
 constexpr int thresholdToSpawnUltimateShip = 95;
 
+constexpr int nrsecondsUntilBoostShipTypeThresholds = 60 * 1;
+constexpr int shipTypeThresholdDifficultyBoost = 20;
+
 }; // namespace GameConstants
 
 class GameState {
