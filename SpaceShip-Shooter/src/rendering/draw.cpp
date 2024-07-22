@@ -42,8 +42,24 @@ void drawGameplayScreen(const GameLogic::Ship &player,
 
   drawShapeFromVertices(player, BLUE);
 
+  Color enemyShipColor;
   for (const auto &enemy : enemyShips) {
-    drawShapeFromVertices(enemy, RED);
+    switch (enemy.shipType) {
+    case GameLogic::ShipType::ULTIMATE:
+      enemyShipColor = MAGENTA;
+      break;
+    case GameLogic::ShipType::STRIKER:
+      enemyShipColor = BEIGE;
+      break;
+    case GameLogic::ShipType::ADVANCED:
+      enemyShipColor = DARKGREEN;
+      break;
+    default:
+      enemyShipColor = RED;
+
+      break;
+    }
+    drawShapeFromVertices(enemy, enemyShipColor);
   }
   for (const auto &projectile : projectiles) {
     drawShapeFromVertices(projectile, ORANGE);
