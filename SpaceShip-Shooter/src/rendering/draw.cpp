@@ -62,7 +62,13 @@ void drawGameplayScreen(const GameLogic::Ship &player,
     drawShapeFromVertices(enemy, enemyShipColor);
   }
   for (const auto &projectile : projectiles) {
-    drawShapeFromVertices(projectile, ORANGE);
+    Color projectileColor;
+    if (projectile.isHoming) {
+      projectileColor = MAROON;
+    } else {
+      projectileColor = ORANGE;
+    }
+    drawShapeFromVertices(projectile, projectileColor);
   }
 
   const int titleXMiddle = (DisplayConstants::screenWidth / 2) -
