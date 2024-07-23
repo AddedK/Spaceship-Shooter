@@ -434,7 +434,7 @@ void GameState::shipAndProjectileCollisions() {
         ++projectileIterator;
         continue;
       }
-      bool shouldAdvanceIterator = true; // TODO: Better name
+      bool shouldAdvanceProjectileIterator = true;
       for (auto shipIterator = enemyShips.begin();
            shipIterator != enemyShips.end();) {
         if (isCollidingBetter(*shipIterator, *projectileIterator)) {
@@ -446,13 +446,13 @@ void GameState::shipAndProjectileCollisions() {
             ++shipIterator;
           }
           projectileIterator = projectiles.erase(projectileIterator);
-          shouldAdvanceIterator = false;
+          shouldAdvanceProjectileIterator = false;
           break;
         } else {
           ++shipIterator;
         }
       }
-      if (shouldAdvanceIterator) {
+      if (shouldAdvanceProjectileIterator) {
         ++projectileIterator;
       }
     }
