@@ -13,6 +13,13 @@ std::map<KeyPress, MoveDirection> keyToDirection = {
     {KeyPress::LEFT, MoveDirection::LEFT},
     {KeyPress::RIGHT, MoveDirection::RIGHT}};
 
+std::map<ShipType, int> scorePerDestroyedShip = {{ShipType::BASIC, 1},
+                                                 {ShipType::ADVANCED, 3},
+                                                 {ShipType::STRIKER, 3},
+                                                 {ShipType::ULTIMATE, 5}
+
+};
+
 void GameState::handleKeyPress(KeyPress keyPress) {
   switch (keyPress) {
   case KeyPress::UP:
@@ -138,12 +145,13 @@ void GameState::allEnemiesShoot() {
 void GameState::spawnEnemies() {
   int spawnEnemyFaster =
       (frameNumber / fps) >=
-              GamiieConstants::nrsecondsUntilBoostEnemyShipSwawnRate
+              GameConstants::nrsecondsUntilBoostEnemyShipSwawnRate
           ? GameConstants::enemySwawnRateWaitReductionSeconds
           : 0;
   if ((frameNumber % fps == 0) &&
       (frameNumber / fps) % (spawnEnemiesPerSecond - spawnEnemyFaster) == 0 &&
       frameNumber != 0) {
+    std::cout << "Player Score :" << playerScore << std::endl;
     int lowXBound = 0 + GameConstants::playerWidth;
     int highXBound = screenWidth - GameConstants::playerWidth;
     std::uniform_int_distribution<> distr(lowXBound,
@@ -196,7 +204,6 @@ void GameState::updateGame() {
   }
 }
 void GameState::moveAllEnemies() {
-  // TODO: Now it just moves all enemies down
   for (auto shipIterator = enemyShips.begin();
        shipIterator != enemyShips.end();) {
     auto &enemyShip = *shipIterator;
@@ -228,6 +235,9 @@ void GameState::moveAllEnemies() {
 
 void GameState::startGame() {
   setPlayerAliveStatus(true);
+  frameNumber = 0;
+  playerScore = 0;
+
   std::vector<Point> playerVertices;
   playerVertices.push_back(
       Point{screenWidth / 2, screenHeight - GameConstants::playerHeight});
@@ -248,7 +258,6 @@ void GameState::startGame() {
   Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
                  GameConstants::enemyInitialNrOfLives);
   addEnemyShip(std::move(enemyShip));
-  frameNumber = 0;
 }
 
 void GameState::addProjectile(Projectile &&projectile) {
@@ -379,6 +388,7 @@ void GameState::playerLosesLife() {
   player.decrementNrOfLives(1);
   if (player.getNrOfLives() <= 0) {
     std::cout << "Player lost a life and died" << std::endl;
+    std::cout << "Player final score: " << playerScore << std::endl;
     setPlayerAliveStatus(false);
   }
 }
@@ -392,6 +402,7 @@ void GameState::playerAndShipCollisions() {
       playerLosesLife();
       begin->decrementNrOfLives(1);
       if (begin->getNrOfLives() == 0) {
+        playerScore += scorePerDestroyedShip[begin->shipType];
         begin = enemyShips.erase(begin);
       } else {
         ++begin;
@@ -423,12 +434,13 @@ void GameState::shipAndProjectileCollisions() {
         ++projectileIterator;
         continue;
       }
-      bool shouldAdvanceIterator = true;
+      bool shouldAdvanceIterator = true; // TODO: Better name
       for (auto shipIterator = enemyShips.begin();
            shipIterator != enemyShips.end();) {
         if (isCollidingBetter(*shipIterator, *projectileIterator)) {
           shipIterator->decrementNrOfLives(1);
           if (shipIterator->getNrOfLives() == 0) {
+            playerScore += scorePerDestroyedShip[shipIterator->shipType];
             shipIterator = enemyShips.erase(shipIterator);
           } else {
             ++shipIterator;

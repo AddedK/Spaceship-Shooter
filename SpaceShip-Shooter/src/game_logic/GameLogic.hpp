@@ -53,6 +53,8 @@ class GameState {
 
   std::mt19937 randomGenerator;
 
+  int playerScore;
+
   void moveAllEnemies();
   void spawnEnemies();
   void allEnemiesShoot();
@@ -95,7 +97,7 @@ public:
       : frameNumber(0), fps(fps),
         spawnEnemiesPerSecond(GameConstants::spawnEnemiesPerSecond),
         screenWidth(screenWidth), screenHeight(screenHeight),
-        playerIsAlive(true) {
+        playerIsAlive(true), playerScore(0) {
 
     std::random_device rd;              // obtain a random number from hardware
     std::mt19937 randomGenerator(rd()); // seed the generator
@@ -104,7 +106,7 @@ public:
       : frameNumber(0), fps(fps),
         spawnEnemiesPerSecond(GameConstants::spawnEnemiesPerSecond),
         player(player), screenWidth(screenWidth), screenHeight(screenHeight),
-        playerIsAlive(true) {
+        playerIsAlive(true), playerScore(0) {
 
     std::random_device rd;
     std::mt19937 randomGenerator(rd());
