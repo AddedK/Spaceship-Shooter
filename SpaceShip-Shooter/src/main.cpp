@@ -41,8 +41,8 @@ int main(void) {
   // Note: there is no straight forward way of disabling resizing and
   // fullscreen. Despite resizing being seemingly off by default, it is still
   // possible.
-  InitWindow(DisplayConstants::gameplayScreenWidth,
-             DisplayConstants::gameplayScreenHeight, "Spaceship Shooter");
+  InitWindow(DisplayConstants::mainScreenWidth,
+             DisplayConstants::mainScreenHeight, "Spaceship Shooter");
   GameScreen currentScreen = GameScreen::TITLE;
   constexpr int FPS = 60;
   SetTargetFPS(FPS); // Set desired framerate (frames-per-second)

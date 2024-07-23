@@ -18,16 +18,16 @@ template <typename T> void drawShapeFromVertices(const T &t, Color color) {
   }
 }
 void drawTitleScreen() {
-  DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
-                DisplayConstants::gameplayScreenHeight, GREEN);
+  DrawRectangle(0, 0, DisplayConstants::mainScreenWidth,
+                DisplayConstants::mainScreenHeight, GREEN);
 
-  const int titleXMiddle = (DisplayConstants::gameplayScreenWidth / 2) -
+  const int titleXMiddle = (DisplayConstants::mainScreenWidth / 2) -
                            (4 * DisplayConstants::titleFontSize);
-  const int titleYPosition = 20;
+  const int titleYPosition = DisplayConstants::mainScreenHeight / 12;
   DrawText("TITLE SCREEN", titleXMiddle, titleYPosition,
            DisplayConstants::titleFontSize, DARKGREEN);
 
-  const int instructionXPosition = (DisplayConstants::gameplayScreenWidth / 6);
+  const int instructionXPosition = (DisplayConstants::mainScreenWidth / 6);
   const int instructionYPosition = 220;
   DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize,
@@ -82,6 +82,15 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                                    2 * DisplayConstants::instructionFontSize;
   DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
+  drawGameInfoBox();
+}
+
+void drawGameInfoBox() {
+  // TODO
+
+  DrawRectangle(DisplayConstants::gameplayScreenWidth, 0,
+                DisplayConstants::gameInfoScreenWidth,
+                DisplayConstants::gameInfoScreenHeight, YELLOW);
 }
 
 void drawEndingScreen() {
