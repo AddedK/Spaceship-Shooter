@@ -7,8 +7,8 @@
 
 namespace DisplayConstants {
 // Constants related to rendering to the screen
-constexpr int screenWidth = 600;
-constexpr int screenHeight = 800;
+constexpr int gameplayScreenWidth = 600;
+constexpr int gameplayScreenHeight = 800;
 constexpr int titleFontSize = 30;
 constexpr int instructionFontSize = 18;
 }; // namespace DisplayConstants
