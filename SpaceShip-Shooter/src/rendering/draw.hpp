@@ -1,6 +1,5 @@
 #ifndef DRAW_HPP
 #define DRAW_HPP
-#include "../game_logic/GameLogic.hpp"
 #include "../game_logic/Projectile.hpp"
 #include "../game_logic/Ship.hpp"
 #include "raylib.h"
@@ -19,13 +18,15 @@ constexpr int mainScreenHeight = gameplayScreenHeight;
 
 constexpr int titleFontSize = 30;
 constexpr int instructionFontSize = 18;
+constexpr int gameInfoFontSize = 14;
 }; // namespace DisplayConstants
 
 void drawTitleScreen();
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
-                        const std::vector<GameLogic::Projectile> &projectiles);
-void drawGameInfoBox();
+                        const std::vector<GameLogic::Projectile> &projectiles,
+                        int playerScore);
+void drawGameInfoBox(int playerLives, int playerScore);
 void drawEndingScreen();
 
 Vector2 pointToVector2(GameLogic::Point point);

@@ -84,6 +84,7 @@ public:
   } // Performance: Return by reference
   std::vector<Projectile> getProjectiles() const { return projectiles; }
   bool getPlayerAliveStatus() const { return playerIsAlive; }
+  int getPlayerScore() const { return playerScore; }
 
   void startGame();
   void updateGame();

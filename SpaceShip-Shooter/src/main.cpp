@@ -96,7 +96,7 @@ int main(void) {
     } break;
     case GameScreen::GAMEPLAY: {
       drawGameplayScreen(game.getPlayer(), game.getEnemyShips(),
-                         game.getProjectiles());
+                         game.getProjectiles(), game.getPlayerScore());
 
     } break;
     case GameScreen::ENDING: {

@@ -1,5 +1,6 @@
 #include "draw.hpp"
 #include <raylib.h>
+#include <string>
 
 Vector2 pointToVector2(GameLogic::Point point) {
   return Vector2{static_cast<float>(point.x), static_cast<float>(point.y)};
@@ -36,7 +37,8 @@ void drawTitleScreen() {
 
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
-                        const std::vector<GameLogic::Projectile> &projectiles) {
+                        const std::vector<GameLogic::Projectile> &projectiles,
+                        int playerScore) {
   DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
                 DisplayConstants::gameplayScreenHeight, BLACK);
 
@@ -82,15 +84,26 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                                    2 * DisplayConstants::instructionFontSize;
   DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
-  drawGameInfoBox();
+  drawGameInfoBox(player.getNrOfLives(), playerScore);
 }
 
-void drawGameInfoBox() {
-  // TODO
+void drawGameInfoBox(int playerLives, int playerScore) {
+  // TODO: Difficulty
 
   DrawRectangle(DisplayConstants::gameplayScreenWidth, 0,
                 DisplayConstants::gameInfoScreenWidth,
-                DisplayConstants::gameInfoScreenHeight, YELLOW);
+                DisplayConstants::gameInfoScreenHeight, GRAY);
+  DrawText("SCORE", DisplayConstants::gameplayScreenWidth + 10, 10,
+           DisplayConstants::instructionFontSize, BLUE);
+  DrawText(std::to_string(playerScore).c_str(),
+           DisplayConstants::gameplayScreenWidth + 20, 35,
+           DisplayConstants::instructionFontSize, BLUE);
+
+  DrawText("LIVES", DisplayConstants::gameplayScreenWidth + 10, 60,
+           DisplayConstants::instructionFontSize, BLUE);
+  DrawText(std::to_string(playerLives).c_str(),
+           DisplayConstants::gameplayScreenWidth + 20, 85,
+           DisplayConstants::instructionFontSize, BLUE);
 }
 
 void drawEndingScreen() {
