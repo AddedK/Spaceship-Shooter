@@ -77,6 +77,7 @@ class GameState {
   void setPlayerAliveStatus(bool);
 
 public:
+  int getFrameNumber() const { return frameNumber; }
   Ship getPlayer() const { return player; }
   void
   setPlayer(Ship player); // TODO: Sanity check on bounds on player coordinates

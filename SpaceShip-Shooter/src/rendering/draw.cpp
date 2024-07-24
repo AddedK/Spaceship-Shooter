@@ -20,12 +20,12 @@ template <typename T> void drawShapeFromVertices(const T &t, Color color) {
 }
 void drawStar(int centerX, int centerY) {
   // TODO
-  int point1Y = centerY - 5;
+  int point1Y = centerY - 5; // Top point
   int point1X = centerX;
   int point2Y = point1Y + 2;
   int point2X = point1X - 1;
   int point3Y = point2Y + 1;
-  int point3X = point2X - 2;
+  int point3X = point2X - 2; // Leftmost point
   int point4Y = point3Y + 2;
   int point4X = point3X + 2;
   int point5Y = point4Y + 2;
@@ -36,7 +36,7 @@ void drawStar(int centerX, int centerY) {
   int point7X = point6X + (point6X - point5X);
   int point8Y = point4Y;
   int point8X = point7X - (point4X - point5X);
-  int point9Y = point3Y;
+  int point9Y = point3Y; // Rightmost point
   int point9X = point8X + (point4X - point3X);
   int point10Y = point2Y;
   int point10X = point9X - (point2X - point3X);
@@ -69,20 +69,37 @@ void drawTitleScreen() {
            DARKGREEN);
 }
 
-void drawRandomWhiteBackgroundStars() {
-  drawStar(DisplayConstants::gameplayScreenWidth / 2,
-           DisplayConstants::gameplayScreenHeight / 2);
+void drawRandomWhiteBackgroundStars(int frameNumber) {
+  drawStar(1 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 15) % DisplayConstants::gameplayScreenHeight);
+  drawStar(1 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 290) % DisplayConstants::gameplayScreenHeight);
+
+  drawStar(3 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 20) % DisplayConstants::gameplayScreenHeight);
+  drawStar(3 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 320) % DisplayConstants::gameplayScreenHeight);
+
+  drawStar(5 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 47) % DisplayConstants::gameplayScreenHeight);
+  drawStar(5 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 277) % DisplayConstants::gameplayScreenHeight);
+
+  drawStar(7 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 10) % DisplayConstants::gameplayScreenHeight);
+  drawStar(7 * DisplayConstants::gameplayScreenWidth / 8,
+           (4 * frameNumber + 380) % DisplayConstants::gameplayScreenHeight);
 }
 
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,
-                        int playerScore, int gameDifficulty) {
+                        int playerScore, int gameDifficulty, int frameNumber) {
 
   DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
                 DisplayConstants::gameplayScreenHeight, BLACK);
 
-  drawRandomWhiteBackgroundStars();
+  drawRandomWhiteBackgroundStars(frameNumber);
 
   drawShapeFromVertices(player, BLUE);
 

@@ -7,8 +7,8 @@
 namespace DisplayConstants {
 // Constants related to rendering to the screen
 
-constexpr int gameplayScreenWidth = 600;
-constexpr int gameplayScreenHeight = 800;
+constexpr int gameplayScreenWidth = 700;
+constexpr int gameplayScreenHeight = 900;
 
 constexpr int gameInfoScreenWidth = 80;
 constexpr int gameInfoScreenHeight = gameplayScreenHeight;
@@ -25,9 +25,9 @@ void drawTitleScreen();
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,
-                        int playerScore, int gameDifficulty);
+                        int playerScore, int gameDifficulty, int frameNumber);
 void drawGameInfoBox(int playerLives, int playerScore, int gameDifficulty);
-void drawRandomWhiteBackgroundStars();
+void drawRandomWhiteBackgroundStars(int frameNumber);
 void drawEndingScreen();
 
 Vector2 pointToVector2(GameLogic::Point point);
