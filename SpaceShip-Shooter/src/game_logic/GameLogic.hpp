@@ -19,8 +19,8 @@ constexpr int enemyInitialSpeed = 1;
 constexpr int enemyInitialNrOfLives = 1;
 constexpr int enemyInitialFramesBetweenShots = 60;
 
-constexpr int projectileDefaultWidth = 3;
-constexpr int projectileDefaultHeight = 3;
+constexpr int projectileDefaultWidth = 5;
+constexpr int projectileDefaultHeight = 5;
 constexpr int projectileDefaultSpeed = 6;
 constexpr int spawnEnemiesPerSecond = 4;
 
