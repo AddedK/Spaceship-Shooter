@@ -143,11 +143,9 @@ void GameState::allEnemiesShoot() {
 }
 
 void GameState::spawnEnemies() {
-  int spawnEnemyFaster =
-      (frameNumber / fps) >=
-              GameConstants::nrsecondsUntilBoostEnemyShipSwawnRate
-          ? GameConstants::enemySwawnRateWaitReductionSeconds
-          : 0;
+  int spawnEnemyFaster = shouldBoostEnemyShipSpawnRate
+                             ? GameConstants::enemySwawnRateWaitReductionSeconds
+                             : 0;
   if ((frameNumber % fps == 0) &&
       (frameNumber / fps) % (spawnEnemiesPerSecond - spawnEnemyFaster) == 0 &&
       frameNumber != 0) {
@@ -169,8 +167,7 @@ void GameState::spawnEnemies() {
 
     std::uniform_int_distribution<> distrShipType(0, 100);
     int shipTypeThreshold = distrShipType(randomGenerator);
-    if (frameNumber / fps >=
-        GameConstants::nrsecondsUntilBoostShipTypeThresholds) {
+    if (shouldBoostShipTypeThreshold) {
       shipTypeThreshold += GameConstants::shipTypeThresholdDifficultyBoost;
     }
     if (shipTypeThreshold >= GameConstants::thresholdToSpawnUltimateShip) {
@@ -191,8 +188,28 @@ void GameState::spawnEnemies() {
   }
 }
 
+void GameState::calculateDifficultyModifications() {
+  if (!shouldBoostShipTypeThreshold &&
+      (frameNumber / fps >=
+       GameConstants::nrsecondsUntilBoostShipTypeThresholds)) {
+    shouldBoostShipTypeThreshold = true;
+  }
+  if (!shouldBoostEnemyShipSpawnRate &&
+      (frameNumber / fps) >=
+          GameConstants::nrsecondsUntilBoostEnemyShipSwawnRate) {
+    shouldBoostEnemyShipSpawnRate = true;
+  }
+  gameDifficulty = 1;
+  if (shouldBoostShipTypeThreshold) {
+    gameDifficulty += 1;
+  }
+  if (shouldBoostEnemyShipSpawnRate) {
+    gameDifficulty += 1;
+  }
+}
 void GameState::updateGame() {
   ++frameNumber;
+  calculateDifficultyModifications();
   if (frameNumber % fps == 0) {
     playerScore++;
   }

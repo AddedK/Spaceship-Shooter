@@ -32,7 +32,8 @@ constexpr int thresholdToSpawnAdvancedShip = 50;
 constexpr int thresholdToSpawnStrikerShip = 80;
 constexpr int thresholdToSpawnUltimateShip = 95;
 
-constexpr int nrsecondsUntilBoostShipTypeThresholds = 60 * 1;
+constexpr int nrsecondsUntilBoostShipTypeThresholds =
+    60 * 1; // TODO FIX CAMELCASE
 constexpr int shipTypeThresholdDifficultyBoost = 20;
 
 constexpr int nrsecondsUntilBoostEnemyShipSwawnRate = 60 * 2;
@@ -54,6 +55,10 @@ class GameState {
   std::mt19937 randomGenerator;
 
   int playerScore;
+  int gameDifficulty;
+
+  bool shouldBoostShipTypeThreshold;
+  bool shouldBoostEnemyShipSpawnRate;
 
   void moveAllEnemies();
   void spawnEnemies();
@@ -85,7 +90,9 @@ public:
   std::vector<Projectile> getProjectiles() const { return projectiles; }
   bool getPlayerAliveStatus() const { return playerIsAlive; }
   int getPlayerScore() const { return playerScore; }
+  int getGameDifficulty() const { return gameDifficulty; }
 
+  void calculateDifficultyModifications();
   void startGame();
   void updateGame();
   void playerAndShipCollisions(); // Public for testing
@@ -98,7 +105,9 @@ public:
       : frameNumber(0), fps(fps),
         spawnEnemiesPerSecond(GameConstants::spawnEnemiesPerSecond),
         screenWidth(screenWidth), screenHeight(screenHeight),
-        playerIsAlive(true), playerScore(0) {
+        playerIsAlive(true), playerScore(0), gameDifficulty(1),
+        shouldBoostShipTypeThreshold(false),
+        shouldBoostEnemyShipSpawnRate(false) {
 
     std::random_device rd;              // obtain a random number from hardware
     std::mt19937 randomGenerator(rd()); // seed the generator
@@ -107,7 +116,9 @@ public:
       : frameNumber(0), fps(fps),
         spawnEnemiesPerSecond(GameConstants::spawnEnemiesPerSecond),
         player(player), screenWidth(screenWidth), screenHeight(screenHeight),
-        playerIsAlive(true), playerScore(0) {
+        playerIsAlive(true), playerScore(0), gameDifficulty(1),
+        shouldBoostShipTypeThreshold(false),
+        shouldBoostEnemyShipSpawnRate(false) {
 
     std::random_device rd;
     std::mt19937 randomGenerator(rd());

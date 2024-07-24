@@ -25,8 +25,8 @@ void drawTitleScreen();
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,
-                        int playerScore);
-void drawGameInfoBox(int playerLives, int playerScore);
+                        int playerScore, int gameDifficulty);
+void drawGameInfoBox(int playerLives, int playerScore, int gameDifficulty);
 void drawEndingScreen();
 
 Vector2 pointToVector2(GameLogic::Point point);

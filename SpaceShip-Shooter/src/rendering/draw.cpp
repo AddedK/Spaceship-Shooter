@@ -38,7 +38,7 @@ void drawTitleScreen() {
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,
-                        int playerScore) {
+                        int playerScore, int gameDifficulty) {
   DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
                 DisplayConstants::gameplayScreenHeight, BLACK);
 
@@ -84,11 +84,10 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                                    2 * DisplayConstants::instructionFontSize;
   DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
-  drawGameInfoBox(player.getNrOfLives(), playerScore);
+  drawGameInfoBox(player.getNrOfLives(), playerScore, gameDifficulty);
 }
 
-void drawGameInfoBox(int playerLives, int playerScore) {
-  // TODO: Difficulty
+void drawGameInfoBox(int playerLives, int playerScore, int gameDifficulty) {
 
   DrawRectangle(DisplayConstants::gameplayScreenWidth, 0,
                 DisplayConstants::gameInfoScreenWidth,
@@ -103,6 +102,11 @@ void drawGameInfoBox(int playerLives, int playerScore) {
            DisplayConstants::instructionFontSize, BLUE);
   DrawText(std::to_string(playerLives).c_str(),
            DisplayConstants::gameplayScreenWidth + 20, 85,
+           DisplayConstants::instructionFontSize, BLUE);
+  DrawText("DIFFICULTY", DisplayConstants::gameplayScreenWidth + 2, 115,
+           DisplayConstants::instructionFontSize - 6, BLUE);
+  DrawText(std::to_string(gameDifficulty).c_str(),
+           DisplayConstants::gameplayScreenWidth + 20, 130,
            DisplayConstants::instructionFontSize, BLUE);
 }
 
