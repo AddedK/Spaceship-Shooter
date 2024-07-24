@@ -13,10 +13,10 @@ std::map<KeyPress, MoveDirection> keyToDirection = {
     {KeyPress::LEFT, MoveDirection::LEFT},
     {KeyPress::RIGHT, MoveDirection::RIGHT}};
 
-std::map<ShipType, int> scorePerDestroyedShip = {{ShipType::BASIC, 1},
-                                                 {ShipType::ADVANCED, 3},
-                                                 {ShipType::STRIKER, 3},
-                                                 {ShipType::ULTIMATE, 5}
+std::map<ShipType, int> scorePerDestroyedShip = {{ShipType::BASIC, 10},
+                                                 {ShipType::ADVANCED, 20},
+                                                 {ShipType::STRIKER, 20},
+                                                 {ShipType::ULTIMATE, 35}
 
 };
 
@@ -193,6 +193,9 @@ void GameState::spawnEnemies() {
 
 void GameState::updateGame() {
   ++frameNumber;
+  if (frameNumber % fps == 0) {
+    playerScore++;
+  }
   if (getPlayerAliveStatus()) {
     moveAllEnemies();
     spawnEnemies();
