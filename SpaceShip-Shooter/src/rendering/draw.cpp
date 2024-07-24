@@ -18,6 +18,40 @@ template <typename T> void drawShapeFromVertices(const T &t, Color color) {
     // Draw polygon
   }
 }
+void drawStar(int centerX, int centerY) {
+  // TODO
+  int point1Y = centerY - 5;
+  int point1X = centerX;
+  int point2Y = point1Y + 2;
+  int point2X = point1X - 1;
+  int point3Y = point2Y + 1;
+  int point3X = point2X - 2;
+  int point4Y = point3Y + 2;
+  int point4X = point3X + 2;
+  int point5Y = point4Y + 2;
+  int point5X = point4X - 1;
+  int point6Y = point5Y - 2;
+  int point6X = point1X;
+  int point7Y = point5Y;
+  int point7X = point6X + (point6X - point5X);
+  int point8Y = point4Y;
+  int point8X = point7X - (point4X - point5X);
+  int point9Y = point3Y;
+  int point9X = point8X + (point4X - point3X);
+  int point10Y = point2Y;
+  int point10X = point9X - (point2X - point3X);
+
+  DrawLine(point1X, point1Y, point2X, point2Y, WHITE);
+  DrawLine(point2X, point2Y, point3X, point3Y, WHITE);
+  DrawLine(point3X, point3Y, point4X, point4Y, WHITE);
+  DrawLine(point4X, point4Y, point5X, point5Y, WHITE);
+  DrawLine(point5X, point5Y, point6X, point6Y, WHITE);
+  DrawLine(point6X, point6Y, point7X, point7Y, WHITE);
+  DrawLine(point7X, point7Y, point8X, point8Y, WHITE);
+  DrawLine(point8X, point8Y, point9X, point9Y, WHITE);
+  DrawLine(point9X, point9Y, point10X, point10Y, WHITE);
+  DrawLine(point10X, point10Y, point1X, point1Y, WHITE);
+}
 void drawTitleScreen() {
   DrawRectangle(0, 0, DisplayConstants::mainScreenWidth,
                 DisplayConstants::mainScreenHeight, GREEN);
@@ -35,12 +69,20 @@ void drawTitleScreen() {
            DARKGREEN);
 }
 
+void drawRandomWhiteBackgroundStars() {
+  drawStar(DisplayConstants::gameplayScreenWidth / 2,
+           DisplayConstants::gameplayScreenHeight / 2);
+}
+
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,
                         int playerScore, int gameDifficulty) {
+
   DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
                 DisplayConstants::gameplayScreenHeight, BLACK);
+
+  drawRandomWhiteBackgroundStars();
 
   drawShapeFromVertices(player, BLUE);
 

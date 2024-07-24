@@ -27,6 +27,7 @@ void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Projectile> &projectiles,
                         int playerScore, int gameDifficulty);
 void drawGameInfoBox(int playerLives, int playerScore, int gameDifficulty);
+void drawRandomWhiteBackgroundStars();
 void drawEndingScreen();
 
 Vector2 pointToVector2(GameLogic::Point point);
