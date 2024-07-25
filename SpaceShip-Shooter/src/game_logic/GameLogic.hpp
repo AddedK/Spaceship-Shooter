@@ -33,7 +33,7 @@ constexpr int minFramesBetweenEnemyShipSideMove = 10;
 
 constexpr double spawnMovementSpeedUpgradeProbability = 0.02;
 constexpr int movementSpeedUpgradeAmount = 2;
-constexpr double spawnBonusLifeUpgradeProbability = 0.02;
+constexpr double spawnBonusLifeUpgradeProbability = 0.05;
 constexpr double spawnProjectileSpeedUpgradeProbability = 0.04;
 constexpr int projectileSpeedUpgradeAmount = 2;
 
