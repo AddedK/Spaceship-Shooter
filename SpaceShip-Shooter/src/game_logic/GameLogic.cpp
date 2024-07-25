@@ -433,7 +433,7 @@ void GameState::spawnUpgrades() {
     std::cout << std::endl;
 
     if (canSpawnMovementSpeedUpgrade &&
-        rollForMovementSpeed >=
+        rollForMovementSpeed <=
             GameConstants::spawnMovementSpeedUpgradeProbability) {
       Upgrade upgrade({screenWidth / 5, 0}, GameConstants::upgradeDefaultRadius,
                       GameConstants::upgradeDefaultSpeed, MoveDirection::DOWN,
@@ -442,7 +442,7 @@ void GameState::spawnUpgrades() {
     }
 
     if (canSpawnBonusLifeUpgrade &&
-        rollForBonusLife >= GameConstants::spawnBonusLifeUpgradeProbability) {
+        rollForBonusLife <= GameConstants::spawnBonusLifeUpgradeProbability) {
       Upgrade upgrade({2 * screenWidth / 5, 0},
                       GameConstants::upgradeDefaultRadius,
                       GameConstants::upgradeDefaultSpeed, MoveDirection::DOWN,
@@ -451,7 +451,7 @@ void GameState::spawnUpgrades() {
     }
 
     if (canSpawnProjectileSpeedUpgrade &&
-        rollForBonusLife >=
+        rollForBonusLife <=
             GameConstants::spawnProjectileSpeedUpgradeProbability) {
       Upgrade upgrade({4 * screenWidth / 5, 0},
                       GameConstants::upgradeDefaultRadius,

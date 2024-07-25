@@ -31,10 +31,10 @@ constexpr int upgradeDefaultSpeed = 3;
 constexpr double enemyMoveSideProbability = 0.3;
 constexpr int minFramesBetweenEnemyShipSideMove = 10;
 
-constexpr double spawnMovementSpeedUpgradeProbability = 0.002;
+constexpr double spawnMovementSpeedUpgradeProbability = 0.02;
 constexpr int movementSpeedUpgradeAmount = 2;
-constexpr double spawnBonusLifeUpgradeProbability = 0.002;
-constexpr double spawnProjectileSpeedUpgradeProbability = 0.004;
+constexpr double spawnBonusLifeUpgradeProbability = 0.02;
+constexpr double spawnProjectileSpeedUpgradeProbability = 0.04;
 constexpr int projectileSpeedUpgradeAmount = 2;
 
 constexpr int thresholdToSpawnBasicShip = 0;
