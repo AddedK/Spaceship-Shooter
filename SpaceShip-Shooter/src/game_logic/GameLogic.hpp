@@ -133,7 +133,7 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight, int additionalMovement = 0);
 void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight);
 
-bool lineIsIntersecting(const Point &p1, const Point &q1, const Point &p2,
+bool lineLineIntersection(const Point &p1, const Point &q1, const Point &p2,
                         const Point &q2);
 
 int orientation(const Point &p, const Point &q, const Point &r);
@@ -153,7 +153,7 @@ bool isCollidingPolygonPolygon(const T &t, const G &g) {
       // now we have pair of vertices from g
       Point g1 = g.vertices[k];
       Point g2 = g.vertices[l];
-      if (lineIsIntersecting(t1, t2, g1, g2)) {
+      if (lineLineIntersection(t1, t2, g1, g2)) {
         return true;
       }
     }
