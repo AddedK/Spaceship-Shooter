@@ -424,8 +424,13 @@ void GameState::spawnUpgrades() {
     }
     std::uniform_real_distribution<> distr(0, 1);
     double rollForMovementSpeed = distr(randomGenerator);
+    std::cout << "rollForMovementSpeed " << rollForMovementSpeed << std::endl;
     double rollForBonusLife = distr(randomGenerator);
+    std::cout << "rollForBonusLife " << rollForBonusLife << std::endl;
     double rollForProjectileSpeed = distr(randomGenerator);
+    std::cout << "rollForProjectileSpeed " << rollForProjectileSpeed
+              << std::endl;
+    std::cout << std::endl;
 
     if (canSpawnMovementSpeedUpgrade &&
         rollForMovementSpeed >=

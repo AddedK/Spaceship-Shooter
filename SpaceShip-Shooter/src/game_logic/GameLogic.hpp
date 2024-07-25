@@ -63,7 +63,7 @@ class GameState {
   int screenHeight;
   bool playerIsAlive;
 
-  std::mt19937 randomGenerator; // TODO fix randomness
+  std::mt19937 randomGenerator;
 
   int playerScore;
   int gameDifficulty;
@@ -133,8 +133,7 @@ public:
         shouldBoostEnemyShipSpawnRate(false), nrMovementSpeedUpgradesToSpawn(1),
         nrBonusLifeUpgradesToSpawn(1), nrProjectileSpeedUpgradesToSpawn(1) {
 
-    std::random_device rd;              // obtain a random number from hardware
-    std::mt19937 randomGenerator(rd()); // seed the generator
+    std::mt19937 randomGenerator(std::random_device{}()); // seed the generator
   }
   GameState(int fps, Ship player, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps),
@@ -145,8 +144,7 @@ public:
         shouldBoostEnemyShipSpawnRate(false), nrMovementSpeedUpgradesToSpawn(1),
         nrBonusLifeUpgradesToSpawn(1), nrProjectileSpeedUpgradesToSpawn(1) {
 
-    std::random_device rd;
-    std::mt19937 randomGenerator(rd());
+    std::mt19937 randomGenerator(std::random_device{}());
   }
   GameState(const GameState &otherGame) = delete;
   GameState &operator=(const GameState &otherGame) = delete;
