@@ -141,7 +141,7 @@ int orientation(const Point &p, const Point &q, const Point &r);
 bool onSegment(const Point &p, const Point &q, const Point &r);
 
 template <typename T, typename G>
-bool isCollidingBetter(const T &t, const G &g) {
+bool isCollidingPolygonPolygon(const T &t, const G &g) {
   for (int i = 0; i < t.vertices.size(); i++) {
     int j = (i + 1) % t.vertices.size();
     Point t1 = t.vertices[i];

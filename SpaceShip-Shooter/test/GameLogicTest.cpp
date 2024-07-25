@@ -175,7 +175,7 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices.push_back(GameLogic::Point{90, 100});
     playerVertices.push_back(GameLogic::Point{100, 100});
     GameLogic::Ship ship1(playerVertices, 1, 1);
-    CHECK(GameLogic::isCollidingBetter(ship1, ship1));
+    CHECK(GameLogic::isCollidingPolygonPolygon(ship1, ship1));
   }
   SUBCASE("X-adjacent ships not colliding") {
 
@@ -191,7 +191,7 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices2.push_back(GameLogic::Point{26, 15});
     GameLogic::Ship ship2(playerVertices2, 1, 1);
 
-    CHECK_FALSE(GameLogic::isCollidingBetter(ship1, ship2));
+    CHECK_FALSE(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
 
   SUBCASE("Y-adjacent ships not colliding") {
@@ -208,7 +208,7 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices2.push_back(GameLogic::Point{15, 21});
     GameLogic::Ship ship2(playerVertices2, 1, 1);
 
-    CHECK_FALSE(GameLogic::isCollidingBetter(ship1, ship2));
+    CHECK_FALSE(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
   SUBCASE("X-edge collision") {
 
@@ -226,7 +226,7 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices2.push_back(GameLogic::Point{15, 15});
     GameLogic::Ship ship2(playerVertices2, 1, 1);
 
-    CHECK(GameLogic::isCollidingBetter(ship1, ship2));
+    CHECK(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
   SUBCASE("Y-edge collision") {
     std::vector<GameLogic::Point> playerVertices1;
@@ -241,7 +241,7 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices2.push_back(GameLogic::Point{15, 20});
     GameLogic::Ship ship2(playerVertices2, 1, 1);
 
-    CHECK(GameLogic::isCollidingBetter(ship1, ship2));
+    CHECK(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
 }
 
@@ -262,7 +262,7 @@ TEST_CASE("Ship + projectile collision") {
     GameLogic::Projectile projectile1(projectileVertices, 1,
                                       GameLogic::MoveDirection::UP);
 
-    CHECK_FALSE(GameLogic::isCollidingBetter(ship1, projectile1));
+    CHECK_FALSE(GameLogic::isCollidingPolygonPolygon(ship1, projectile1));
   }
 
   SUBCASE("Hit from below") {
@@ -281,6 +281,6 @@ TEST_CASE("Ship + projectile collision") {
     GameLogic::Projectile projectile1(projectileVertices, 1,
                                       GameLogic::MoveDirection::UP);
 
-    CHECK(GameLogic::isCollidingBetter(ship1, projectile1));
+    CHECK(GameLogic::isCollidingPolygonPolygon(ship1, projectile1));
   }
 }

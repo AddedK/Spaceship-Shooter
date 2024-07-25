@@ -418,7 +418,7 @@ void GameState::playerAndShipCollisions() {
     return;
   }
   for (auto begin = enemyShips.begin(); begin != enemyShips.end();) {
-    if (isCollidingBetter(player, *begin)) {
+    if (isCollidingPolygonPolygon(player, *begin)) {
       playerLosesLife();
       begin->decrementNrOfLives(1);
       if (begin->getNrOfLives() == 0) {
@@ -445,7 +445,7 @@ void GameState::shipAndProjectileCollisions() {
 
     // Check player collision
     if (getPlayerAliveStatus() &&
-        isCollidingBetter(player, *projectileIterator)) {
+        isCollidingPolygonPolygon(player, *projectileIterator)) {
       playerLosesLife();
       projectileIterator = projectiles.erase(projectileIterator);
     } else {
@@ -457,7 +457,7 @@ void GameState::shipAndProjectileCollisions() {
       bool shouldAdvanceProjectileIterator = true;
       for (auto shipIterator = enemyShips.begin();
            shipIterator != enemyShips.end();) {
-        if (isCollidingBetter(*shipIterator, *projectileIterator)) {
+        if (isCollidingPolygonPolygon(*shipIterator, *projectileIterator)) {
           shipIterator->decrementNrOfLives(1);
           if (shipIterator->getNrOfLives() == 0) {
             playerScore += scorePerDestroyedShip[shipIterator->shipType];

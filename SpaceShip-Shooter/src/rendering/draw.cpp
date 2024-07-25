@@ -101,6 +101,9 @@ void drawGameplayScreen(const GameLogic::Ship &player,
 
   drawRandomWhiteBackgroundStars(frameNumber);
 
+  // For boon in boons
+  // DrawCirle(boon.x, boon.y, boon.radius, COLOR)
+
   drawShapeFromVertices(player, BLUE);
 
   Color enemyShipColor;
