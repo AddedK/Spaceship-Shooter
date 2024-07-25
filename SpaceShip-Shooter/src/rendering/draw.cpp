@@ -94,6 +94,7 @@ void drawRandomWhiteBackgroundStars(int frameNumber) {
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,
+                        const std::vector<GameLogic::Upgrade> &upgrades,
                         int playerScore, int gameDifficulty, int frameNumber) {
 
   DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
@@ -101,8 +102,26 @@ void drawGameplayScreen(const GameLogic::Ship &player,
 
   drawRandomWhiteBackgroundStars(frameNumber);
 
-  // For boon in boons
-  // DrawCirle(boon.x, boon.y, boon.radius, COLOR)
+  Color upgradeColor;
+  for (auto upgrade : upgrades) {
+    switch (upgrade.upgradeType) {
+    case GameLogic::UpgradeType::MOVEMENTSPEED:
+      upgradeColor = ORANGE;
+      break;
+    case GameLogic::UpgradeType::BONUSLIFE:
+      upgradeColor = YELLOW;
+      break;
+    case GameLogic::UpgradeType::PROJECTILESPEED:
+      upgradeColor = SKYBLUE;
+      break;
+    default:
+      upgradeColor = RED;
+
+      break;
+    }
+    DrawCircle(upgrade.center.x, upgrade.center.y, upgrade.radius,
+               upgradeColor);
+  }
 
   drawShapeFromVertices(player, BLUE);
 

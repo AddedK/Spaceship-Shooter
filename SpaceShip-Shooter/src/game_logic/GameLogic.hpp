@@ -2,6 +2,7 @@
 #define GAME_LOGIC_HPP
 #include "Projectile.hpp"
 #include "Ship.hpp"
+#include "Upgrade.hpp"
 #include "gameEnums.hpp"
 #include <random>
 #include <vector>
@@ -24,8 +25,17 @@ constexpr int projectileDefaultHeight = 5;
 constexpr int projectileDefaultSpeed = 6;
 constexpr int spawnEnemiesPerSecond = 4;
 
+constexpr int upgradeDefaultRadius = 3;
+constexpr int upgradeDefaultSpeed = 3;
+
 constexpr double enemyMoveSideProbability = 0.3;
 constexpr int minFramesBetweenEnemyShipSideMove = 10;
+
+constexpr double spawnMovementSpeedUpgradeProbability = 0.002;
+constexpr int movementSpeedUpgradeAmount = 2;
+constexpr double spawnBonusLifeUpgradeProbability = 0.002;
+constexpr double spawnProjectileSpeedUpgradeProbability = 0.004;
+constexpr int projectileSpeedUpgradeAmount = 2;
 
 constexpr int thresholdToSpawnBasicShip = 0;
 constexpr int thresholdToSpawnAdvancedShip = 50;
@@ -48,17 +58,22 @@ class GameState {
   Ship player;
   std::vector<Ship> enemyShips;
   std::vector<Projectile> projectiles;
+  std::vector<Upgrade> upgrades;
   int screenWidth;
   int screenHeight;
   bool playerIsAlive;
 
-  std::mt19937 randomGenerator;
+  std::mt19937 randomGenerator; // TODO fix randomness
 
   int playerScore;
   int gameDifficulty;
 
   bool shouldBoostShipTypeThreshold;
   bool shouldBoostEnemyShipSpawnRate;
+
+  int nrMovementSpeedUpgradesToSpawn;
+  int nrBonusLifeUpgradesToSpawn;
+  int nrProjectileSpeedUpgradesToSpawn;
 
   void moveAllEnemies();
   void spawnEnemies();
@@ -72,6 +87,11 @@ class GameState {
   void addPlayerProjectile();
   void removeAllProjectiles();
   void moveAllProjectiles();
+
+  void addUpgrade(Upgrade &&upgrade);
+  void spawnUpgrades();
+  void removeAllUpgrades();
+  void moveAllUpgrades();
 
   void playerLosesLife();
   void setPlayerAliveStatus(bool);
@@ -89,6 +109,7 @@ public:
     return enemyShips;
   } // Performance: Return by reference
   std::vector<Projectile> getProjectiles() const { return projectiles; }
+  std::vector<Upgrade> getUpgrades() const { return upgrades; }
   bool getPlayerAliveStatus() const { return playerIsAlive; }
   int getPlayerScore() const { return playerScore; }
   int getGameDifficulty() const { return gameDifficulty; }
@@ -97,6 +118,7 @@ public:
   void startGame();
   void updateGame();
   void playerAndShipCollisions(); // Public for testing
+  void playerAndUpgradeCollisions();
   void shipAndProjectileCollisions();
   void checkAndHandleCollisions();
 
@@ -108,7 +130,8 @@ public:
         screenWidth(screenWidth), screenHeight(screenHeight),
         playerIsAlive(true), playerScore(0), gameDifficulty(1),
         shouldBoostShipTypeThreshold(false),
-        shouldBoostEnemyShipSpawnRate(false) {
+        shouldBoostEnemyShipSpawnRate(false), nrMovementSpeedUpgradesToSpawn(1),
+        nrBonusLifeUpgradesToSpawn(1), nrProjectileSpeedUpgradesToSpawn(1) {
 
     std::random_device rd;              // obtain a random number from hardware
     std::mt19937 randomGenerator(rd()); // seed the generator
@@ -119,7 +142,8 @@ public:
         player(player), screenWidth(screenWidth), screenHeight(screenHeight),
         playerIsAlive(true), playerScore(0), gameDifficulty(1),
         shouldBoostShipTypeThreshold(false),
-        shouldBoostEnemyShipSpawnRate(false) {
+        shouldBoostEnemyShipSpawnRate(false), nrMovementSpeedUpgradesToSpawn(1),
+        nrBonusLifeUpgradesToSpawn(1), nrProjectileSpeedUpgradesToSpawn(1) {
 
     std::random_device rd;
     std::mt19937 randomGenerator(rd());
@@ -132,11 +156,15 @@ public:
 void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight, int additionalMovement = 0);
 void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight);
+void moveUpgrade(Upgrade &upgrade, int screenWidth, int screenHeight);
 
+int sq(int x);
+double distance(Point p1, Point p2);
 bool lineLineIntersection(const Point &p1, const Point &q1, const Point &p2,
-                        const Point &q2);
+                          const Point &q2);
 
 int orientation(const Point &p, const Point &q, const Point &r);
+bool lineCircleIntersection(Point p1, Point p2, Point c1, int radius);
 
 bool onSegment(const Point &p, const Point &q, const Point &r);
 
@@ -156,6 +184,20 @@ bool isCollidingPolygonPolygon(const T &t, const G &g) {
       if (lineLineIntersection(t1, t2, g1, g2)) {
         return true;
       }
+    }
+  }
+  return false;
+}
+
+template <typename T, typename G>
+bool isCollidingPolygonCircle(const T &p, const G &c) {
+  for (int i = 0; i < p.vertices.size(); i++) {
+    int j = (i + 1) % p.vertices.size();
+    Point p1 = p.vertices[i];
+    Point p2 = p.vertices[j];
+
+    if (lineCircleIntersection(p1, p2, c.center, c.radius)) {
+      return true;
     }
   }
   return false;

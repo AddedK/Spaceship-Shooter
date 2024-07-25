@@ -1,5 +1,6 @@
 #include "GameLogic.hpp"
 #include "Ship.hpp"
+#include "Upgrade.hpp"
 #include "gameEnums.hpp"
 #include <iostream>
 #include <map>
@@ -127,8 +128,7 @@ void GameState::allEnemiesShoot() {
       projectilePoints.push_back(
           {xPositionMiddle + GameConstants::projectileDefaultWidth / 2,
            enemyShip.highestY + 1});
-      Projectile projectile(projectilePoints,
-                            GameConstants::projectileDefaultSpeed,
+      Projectile projectile(projectilePoints, enemyShip.projectileSpeed,
                             MoveDirection::DOWN);
       if (enemyShip.shipType == ShipType::STRIKER ||
           enemyShip.shipType == ShipType::ULTIMATE) {
@@ -149,7 +149,6 @@ void GameState::spawnEnemies() {
   if ((frameNumber % fps == 0) &&
       (frameNumber / fps) % (spawnEnemiesPerSecond - spawnEnemyFaster) == 0 &&
       frameNumber != 0) {
-    std::cout << "Player Score :" << playerScore << std::endl;
     int lowXBound = 0 + GameConstants::playerWidth;
     int highXBound = screenWidth - GameConstants::playerWidth;
     std::uniform_int_distribution<> distr(lowXBound,
@@ -160,7 +159,8 @@ void GameState::spawnEnemies() {
     enemyVertices.push_back(Point{centerX, GameConstants::playerHeight});
     enemyVertices.push_back(Point{centerX + GameConstants::playerWidth / 2, 0});
     Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
-                   GameConstants::enemyInitialNrOfLives);
+                   GameConstants::enemyInitialNrOfLives,
+                   GameConstants::projectileDefaultSpeed);
 
     std::uniform_real_distribution<> distr2(0, 1);
     enemyShip.probabilityOfSideMoveRight = distr2(randomGenerator);
@@ -218,6 +218,8 @@ void GameState::updateGame() {
     spawnEnemies();
     moveAllProjectiles();
     allEnemiesShoot();
+    spawnUpgrades();
+    moveAllUpgrades();
     checkAndHandleCollisions();
   } else {
     std::cout << "Player is dead!" << std::endl;
@@ -257,6 +259,9 @@ void GameState::startGame() {
   setPlayerAliveStatus(true);
   frameNumber = 0;
   playerScore = 0;
+  nrMovementSpeedUpgradesToSpawn = 1;
+  nrBonusLifeUpgradesToSpawn = 1;
+  nrProjectileSpeedUpgradesToSpawn = 1;
 
   std::vector<Point> playerVertices;
   playerVertices.push_back(
@@ -266,9 +271,11 @@ void GameState::startGame() {
   playerVertices.push_back(
       Point{screenWidth / 2 + GameConstants::playerWidth / 2, screenHeight});
   setPlayer({playerVertices, GameConstants::playerInitialSpeed,
-             GameConstants::playerInitialNrOfLives});
+             GameConstants::playerInitialNrOfLives,
+             GameConstants::projectileDefaultSpeed});
   clearEnemyShips();
   removeAllProjectiles();
+  removeAllUpgrades();
   std::vector<Point> enemyVertices;
   enemyVertices.push_back(
       Point{screenWidth / 2 - GameConstants::playerWidth / 2, 0});
@@ -276,7 +283,8 @@ void GameState::startGame() {
   enemyVertices.push_back(
       Point{screenWidth / 2 + GameConstants::playerWidth / 2, 0});
   Ship enemyShip(enemyVertices, GameConstants::enemyInitialSpeed,
-                 GameConstants::enemyInitialNrOfLives);
+                 GameConstants::enemyInitialNrOfLives,
+                 GameConstants::projectileDefaultSpeed);
   addEnemyShip(std::move(enemyShip));
 }
 
@@ -302,8 +310,7 @@ void GameState::addPlayerProjectile() {
     projectilePoints.push_back(
         {xPositionMiddle - GameConstants::projectileDefaultWidth / 2,
          player.lowestY - 1 - GameConstants::projectileDefaultHeight});
-    Projectile projectile(projectilePoints,
-                          GameConstants::projectileDefaultSpeed,
+    Projectile projectile(projectilePoints, player.projectileSpeed,
                           MoveDirection::UP);
 
     addProjectile(std::move(projectile));
@@ -400,6 +407,113 @@ void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
 }
 void GameState::removeAllProjectiles() { this->projectiles.clear(); }
 
+void GameState::spawnUpgrades() {
+  if (frameNumber % fps == 0) {
+
+    bool canSpawnMovementSpeedUpgrade = nrMovementSpeedUpgradesToSpawn > 0;
+    bool canSpawnBonusLifeUpgrade = nrBonusLifeUpgradesToSpawn > 0;
+    bool canSpawnProjectileSpeedUpgrade = nrProjectileSpeedUpgradesToSpawn > 0;
+    for (auto upgrade : upgrades) {
+      if (upgrade.upgradeType == UpgradeType::MOVEMENTSPEED) {
+        canSpawnMovementSpeedUpgrade = false;
+      } else if (upgrade.upgradeType == UpgradeType::BONUSLIFE) {
+        canSpawnBonusLifeUpgrade = false;
+      } else if (upgrade.upgradeType == UpgradeType::PROJECTILESPEED) {
+        canSpawnProjectileSpeedUpgrade = false;
+      }
+    }
+    std::uniform_real_distribution<> distr(0, 1);
+    double rollForMovementSpeed = distr(randomGenerator);
+    double rollForBonusLife = distr(randomGenerator);
+    double rollForProjectileSpeed = distr(randomGenerator);
+
+    if (canSpawnMovementSpeedUpgrade &&
+        rollForMovementSpeed >=
+            GameConstants::spawnMovementSpeedUpgradeProbability) {
+      Upgrade upgrade({screenWidth / 5, 0}, GameConstants::upgradeDefaultRadius,
+                      GameConstants::upgradeDefaultSpeed, MoveDirection::DOWN,
+                      UpgradeType::MOVEMENTSPEED);
+      addUpgrade(std::move(upgrade));
+    }
+
+    if (canSpawnBonusLifeUpgrade &&
+        rollForBonusLife >= GameConstants::spawnBonusLifeUpgradeProbability) {
+      Upgrade upgrade({2 * screenWidth / 5, 0},
+                      GameConstants::upgradeDefaultRadius,
+                      GameConstants::upgradeDefaultSpeed, MoveDirection::DOWN,
+                      UpgradeType::BONUSLIFE);
+      addUpgrade(std::move(upgrade));
+    }
+
+    if (canSpawnProjectileSpeedUpgrade &&
+        rollForBonusLife >=
+            GameConstants::spawnProjectileSpeedUpgradeProbability) {
+      Upgrade upgrade({4 * screenWidth / 5, 0},
+                      GameConstants::upgradeDefaultRadius,
+                      GameConstants::upgradeDefaultSpeed, MoveDirection::DOWN,
+                      UpgradeType::PROJECTILESPEED);
+      addUpgrade(std::move(upgrade));
+    }
+  }
+}
+
+void GameState::addUpgrade(Upgrade &&upgrade) {
+  this->upgrades.push_back(upgrade);
+}
+void GameState::moveAllUpgrades() {
+  // Remove all upgrades that are at the bottom
+  for (auto begin = upgrades.begin(); begin != upgrades.end();) {
+    if (begin->center.y == screenHeight) {
+      begin = upgrades.erase(begin);
+    } else {
+      moveUpgrade(*begin, screenWidth, screenHeight);
+      ++begin;
+    }
+  }
+}
+
+void moveUpgrade(Upgrade &upgrade, int screenWidth, int screenHeight) {
+  switch (upgrade.direction) {
+  case MoveDirection::UP: {
+    int clippedMovement = (upgrade.center.y - upgrade.movementSpeed < 0)
+                              ? upgrade.center.y
+                              : upgrade.movementSpeed;
+    upgrade.center.y -= clippedMovement;
+    break;
+  }
+  case MoveDirection::DOWN: {
+    int clippedMovement =
+        (upgrade.center.y + upgrade.movementSpeed > screenHeight)
+            ? screenHeight - upgrade.center.y
+            : upgrade.movementSpeed;
+    upgrade.center.y += clippedMovement;
+
+    break;
+  }
+  case MoveDirection::LEFT: {
+    int clippedMovement = (upgrade.center.x - upgrade.movementSpeed < 0)
+                              ? upgrade.center.x
+                              : upgrade.movementSpeed;
+    upgrade.center.x -= clippedMovement;
+
+    break;
+  }
+  case MoveDirection::RIGHT: {
+    int clippedMovement =
+        (upgrade.center.x + upgrade.movementSpeed > screenWidth)
+            ? screenHeight - upgrade.center.x
+            : upgrade.movementSpeed;
+    upgrade.center.x += clippedMovement;
+
+    break;
+  }
+  default:
+    // TODO
+    break;
+  }
+}
+void GameState::removeAllUpgrades() { this->upgrades.clear(); }
+
 void GameState::setPlayerAliveStatus(bool status) {
   this->playerIsAlive = status;
 }
@@ -410,6 +524,37 @@ void GameState::playerLosesLife() {
     std::cout << "Player lost a life and died" << std::endl;
     std::cout << "Player final score: " << playerScore << std::endl;
     setPlayerAliveStatus(false);
+  }
+}
+
+void GameState::playerAndUpgradeCollisions() {
+  if (!getPlayerAliveStatus()) {
+    return;
+  }
+  for (auto begin = upgrades.begin(); begin != upgrades.end();) {
+    if (isCollidingPolygonCircle(player, *begin)) {
+      switch (begin->upgradeType) {
+      case GameLogic::UpgradeType::MOVEMENTSPEED: {
+        player.setMovementSpeed(player.movementSpeed +
+                                GameConstants::movementSpeedUpgradeAmount);
+        nrMovementSpeedUpgradesToSpawn -= 1;
+        break;
+      }
+      case GameLogic::UpgradeType::BONUSLIFE: {
+        player.addNrOfLives(1);
+        nrBonusLifeUpgradesToSpawn -= 1;
+        break;
+      }
+      case GameLogic::UpgradeType::PROJECTILESPEED: {
+        player.projectileSpeed += GameConstants::projectileSpeedUpgradeAmount;
+        nrProjectileSpeedUpgradesToSpawn -= 1;
+        break;
+      }
+      }
+      begin = upgrades.erase(begin);
+    } else {
+      ++begin;
+    }
   }
 }
 
@@ -483,10 +628,17 @@ void GameState::shipAndProjectileCollisions() {
 void GameState::checkAndHandleCollisions() {
   // Opinion: If two ships and a projectile are in the same spot and the ships
   // can destory each other, then only projectile goes unscathed
+  playerAndUpgradeCollisions();
   playerAndShipCollisions();
   if (getPlayerAliveStatus()) {
     shipAndProjectileCollisions();
   }
+}
+
+int sq(int x) { return x * x; }
+
+double distance(Point p1, Point p2) {
+  return std::sqrt(sq(p2.x - p1.x) + sq(p2.y - p1.y));
 }
 
 // To find orientation of ordered triplet (p, q, r).
@@ -515,7 +667,7 @@ bool onSegment(const Point &p, const Point &q, const Point &r) {
 // The main function that returns true if the line segment 'p1q1' and 'p2q2'
 // intersect.
 bool lineLineIntersection(const Point &p1, const Point &q1, const Point &p2,
-                        const Point &q2) {
+                          const Point &q2) {
   // Find the four orientations needed for general and special cases
   int o1 = orientation(p1, q1, p2);
   int o2 = orientation(p1, q1, q2);
@@ -545,5 +697,36 @@ bool lineLineIntersection(const Point &p1, const Point &q1, const Point &p2,
 
   // Doesn't fall in any of the above cases
   return false;
+}
+// Function to find the intersection of a line segment with a circle
+bool lineCircleIntersection(Point p1, Point p2, Point C1, int radius) {
+  // Line segment p1p2
+  double A = p2.x - p1.x;
+  double B = p2.y - p1.y;
+  double C = p1.x - C1.x;
+  double D = p1.y - C1.y;
+
+  double a = sq(A) + sq(B);
+  double b = 2 * (A * C + B * D);
+  double c = sq(C) + sq(D) - sq(radius);
+
+  // Discriminant
+  double discriminant = sq(b) - 4 * a * c;
+
+  // No real solutions, line does not intersect the circle
+  if (discriminant < 0) {
+    return false;
+  }
+
+  // Compute the two possible intersection points using the quadratic formula
+  discriminant = std::sqrt(discriminant);
+  double t1 = (-b - discriminant) / (2 * a);
+  double t2 = (-b + discriminant) / (2 * a);
+
+  // Check if either of the intersection points lie on the segment
+  bool intersection1 = (t1 >= 0 && t1 <= 1);
+  bool intersection2 = (t2 >= 0 && t2 <= 1);
+
+  return intersection1 || intersection2;
 }
 } // namespace GameLogic

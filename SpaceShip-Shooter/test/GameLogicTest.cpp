@@ -15,7 +15,8 @@ TEST_CASE("Testing GameState Functionality ") {
     playerVertices.push_back(GameLogic::Point{15, 15});
     gameState.setPlayer({playerVertices,
                          GameLogic::GameConstants::playerInitialSpeed,
-                         GameLogic::GameConstants::playerInitialNrOfLives});
+                         GameLogic::GameConstants::playerInitialNrOfLives,
+                         GameLogic::GameConstants::projectileDefaultSpeed});
     auto playerShip2 = gameState.getPlayer();
     CHECK(playerShip2.vertices.size() == 3);
     CHECK(playerShip2.lowestX == 5);
@@ -34,7 +35,7 @@ TEST_CASE("Testing GameState Functionality ") {
     playerVertices.push_back(GameLogic::Point{10, 10});
     playerVertices.push_back(GameLogic::Point{5, 15});
     playerVertices.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship1(playerVertices, 1, 1);
+    GameLogic::Ship ship1(playerVertices, 1, 1, 1);
     int screenWidth = 100;
     int screenHeight = 100;
     GameLogic::moveShip(ship1, GameLogic::MoveDirection::UP, screenWidth,
@@ -65,7 +66,7 @@ TEST_CASE("Testing GameState Functionality ") {
     playerVertices.push_back(GameLogic::Point{5, 0});
     playerVertices.push_back(GameLogic::Point{0, 5});
     playerVertices.push_back(GameLogic::Point{10, 5});
-    GameLogic::Ship ship1(playerVertices, 1, 1);
+    GameLogic::Ship ship1(playerVertices, 1, 1, 1);
     int screenWidth = 100;
     int screenHeight = 100;
 
@@ -89,7 +90,7 @@ TEST_CASE("Testing GameState Functionality ") {
     playerVertices.push_back(GameLogic::Point{95, 95});
     playerVertices.push_back(GameLogic::Point{90, 100});
     playerVertices.push_back(GameLogic::Point{100, 100});
-    GameLogic::Ship ship1(playerVertices, 1, 1);
+    GameLogic::Ship ship1(playerVertices, 1, 1, 1);
     int screenWidth = 100;
     int screenHeight = 100;
 
@@ -174,7 +175,7 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices.push_back(GameLogic::Point{95, 95});
     playerVertices.push_back(GameLogic::Point{90, 100});
     playerVertices.push_back(GameLogic::Point{100, 100});
-    GameLogic::Ship ship1(playerVertices, 1, 1);
+    GameLogic::Ship ship1(playerVertices, 1, 1, 1);
     CHECK(GameLogic::isCollidingPolygonPolygon(ship1, ship1));
   }
   SUBCASE("X-adjacent ships not colliding") {
@@ -183,13 +184,13 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices1.push_back(GameLogic::Point{10, 10});
     playerVertices1.push_back(GameLogic::Point{5, 15});
     playerVertices1.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship1(playerVertices1, 1, 1);
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
 
     std::vector<GameLogic::Point> playerVertices2;
     playerVertices2.push_back(GameLogic::Point{21, 10});
     playerVertices2.push_back(GameLogic::Point{16, 15});
     playerVertices2.push_back(GameLogic::Point{26, 15});
-    GameLogic::Ship ship2(playerVertices2, 1, 1);
+    GameLogic::Ship ship2(playerVertices2, 1, 1, 1);
 
     CHECK_FALSE(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
@@ -200,13 +201,13 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices1.push_back(GameLogic::Point{10, 10});
     playerVertices1.push_back(GameLogic::Point{5, 15});
     playerVertices1.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship1(playerVertices1, 1, 1);
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
 
     std::vector<GameLogic::Point> playerVertices2;
     playerVertices2.push_back(GameLogic::Point{10, 16});
     playerVertices2.push_back(GameLogic::Point{5, 21});
     playerVertices2.push_back(GameLogic::Point{15, 21});
-    GameLogic::Ship ship2(playerVertices2, 1, 1);
+    GameLogic::Ship ship2(playerVertices2, 1, 1, 1);
 
     CHECK_FALSE(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
@@ -217,14 +218,14 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices1.push_back(GameLogic::Point{5, 10});
     playerVertices1.push_back(GameLogic::Point{5, 15});
     playerVertices1.push_back(GameLogic::Point{10, 15});
-    GameLogic::Ship ship1(playerVertices1, 1, 1);
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
 
     std::vector<GameLogic::Point> playerVertices2;
     playerVertices2.push_back(GameLogic::Point{15, 10});
     playerVertices2.push_back(GameLogic::Point{10, 10});
     playerVertices2.push_back(GameLogic::Point{10, 15});
     playerVertices2.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship2(playerVertices2, 1, 1);
+    GameLogic::Ship ship2(playerVertices2, 1, 1, 1);
 
     CHECK(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
@@ -233,13 +234,13 @@ TEST_CASE("Test ship + ship collision checking") {
     playerVertices1.push_back(GameLogic::Point{10, 10});
     playerVertices1.push_back(GameLogic::Point{5, 15});
     playerVertices1.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship1(playerVertices1, 1, 1);
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
 
     std::vector<GameLogic::Point> playerVertices2;
     playerVertices2.push_back(GameLogic::Point{10, 15});
     playerVertices2.push_back(GameLogic::Point{5, 20});
     playerVertices2.push_back(GameLogic::Point{15, 20});
-    GameLogic::Ship ship2(playerVertices2, 1, 1);
+    GameLogic::Ship ship2(playerVertices2, 1, 1, 1);
 
     CHECK(GameLogic::isCollidingPolygonPolygon(ship1, ship2));
   }
@@ -252,7 +253,7 @@ TEST_CASE("Ship + projectile collision") {
     playerVertices1.push_back(GameLogic::Point{10, 10});
     playerVertices1.push_back(GameLogic::Point{5, 15});
     playerVertices1.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship1(playerVertices1, 1, 1);
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
 
     std::vector<GameLogic::Point> projectileVertices;
     projectileVertices.push_back(GameLogic::Point{15, 16});
@@ -271,7 +272,7 @@ TEST_CASE("Ship + projectile collision") {
     playerVertices1.push_back(GameLogic::Point{10, 10});
     playerVertices1.push_back(GameLogic::Point{5, 15});
     playerVertices1.push_back(GameLogic::Point{15, 15});
-    GameLogic::Ship ship1(playerVertices1, 1, 1);
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
 
     std::vector<GameLogic::Point> projectileVertices;
     projectileVertices.push_back(GameLogic::Point{15, 15});
@@ -282,5 +283,50 @@ TEST_CASE("Ship + projectile collision") {
                                       GameLogic::MoveDirection::UP);
 
     CHECK(GameLogic::isCollidingPolygonPolygon(ship1, projectile1));
+  }
+}
+TEST_CASE("Ship + upgrade collision") {
+  SUBCASE("Close but no collision") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
+
+    GameLogic::Point center({19, 10});
+    GameLogic::Upgrade upgrade(center, 3, 3, GameLogic::MoveDirection::DOWN,
+                               GameLogic::UpgradeType::BONUSLIFE);
+
+    CHECK_FALSE(GameLogic::isCollidingPolygonCircle(ship1, upgrade));
+  }
+  SUBCASE("Upgrade above ship") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
+
+    GameLogic::Point center({10, 8});
+    GameLogic::Upgrade upgrade(center, 2, 3, GameLogic::MoveDirection::DOWN,
+                               GameLogic::UpgradeType::BONUSLIFE);
+
+    CHECK(GameLogic::isCollidingPolygonCircle(ship1, upgrade));
+  }
+
+  SUBCASE("Upgrade right of ship") {
+
+    std::vector<GameLogic::Point> playerVertices1;
+    playerVertices1.push_back(GameLogic::Point{10, 10});
+    playerVertices1.push_back(GameLogic::Point{5, 15});
+    playerVertices1.push_back(GameLogic::Point{15, 15});
+    GameLogic::Ship ship1(playerVertices1, 1, 1, 1);
+
+    GameLogic::Point center({30, 15});
+    GameLogic::Upgrade upgrade(center, 15, 3, GameLogic::MoveDirection::DOWN,
+                               GameLogic::UpgradeType::BONUSLIFE);
+
+    CHECK(GameLogic::isCollidingPolygonCircle(ship1, upgrade));
   }
 }

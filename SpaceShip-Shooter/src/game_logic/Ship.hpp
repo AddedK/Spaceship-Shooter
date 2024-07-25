@@ -18,6 +18,7 @@ public:
   int highestY;
 
   int movementSpeed;
+  int projectileSpeed;
   int frameWhenLastFiredProjectile;
   int frameWhenLastMovedSide;
 
@@ -26,12 +27,13 @@ public:
 
   Ship()
       : vertices(), middlePositionX(0), lowestX(0), highestX(0), lowestY(0),
-        highestY(0), movementSpeed(1), nrOfLives(1),
+        highestY(0), movementSpeed(1), projectileSpeed(2), nrOfLives(1),
         frameWhenLastFiredProjectile(0), frameWhenLastMovedSide(0),
         probabilityOfSideMoveRight(0.5), shipType(ShipType::BASIC) {}
   Ship(std::vector<Point> vertices, int movementSpeed, int nrOfLives,
-       ShipType shipType = ShipType::BASIC)
-      : vertices(vertices), movementSpeed(movementSpeed), nrOfLives(nrOfLives),
+       int projectileSpeed, ShipType shipType = ShipType::BASIC)
+      : vertices(vertices), movementSpeed(movementSpeed),
+        projectileSpeed(projectileSpeed), nrOfLives(nrOfLives),
         frameWhenLastFiredProjectile(0), frameWhenLastMovedSide(0),
         probabilityOfSideMoveRight(0.5), shipType(shipType) {
     int sumX = 0;
