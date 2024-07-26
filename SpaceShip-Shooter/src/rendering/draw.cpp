@@ -56,13 +56,13 @@ void drawTitleScreen() {
   DrawRectangle(0, 0, DisplayConstants::mainScreenWidth,
                 DisplayConstants::mainScreenHeight, GREEN);
 
-  const int titleXMiddle = (DisplayConstants::mainScreenWidth / 2) -
-                           (4 * DisplayConstants::titleFontSize);
-  const int titleYPosition = DisplayConstants::mainScreenHeight / 12;
-  DrawText("TITLE SCREEN", titleXMiddle, titleYPosition,
+  const std::string title = "SPACESHIP SHOOTER";
+  const int titleStartPositionX = 220;
+  const int titleYPosition = 10;
+  DrawText(title.c_str(), titleStartPositionX, titleYPosition,
            DisplayConstants::titleFontSize, DARKGREEN);
 
-  const int instructionXPosition = (DisplayConstants::mainScreenWidth / 6);
+  const int instructionXPosition = 150;
   const int instructionYPosition = 220;
   DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize,
@@ -153,12 +153,6 @@ void drawGameplayScreen(const GameLogic::Ship &player,
     }
     drawShapeFromVertices(projectile, projectileColor);
   }
-
-  const int titleXMiddle = (DisplayConstants::gameplayScreenWidth / 2) -
-                           (6 * DisplayConstants::titleFontSize);
-  const int titleYPosition = 10;
-  DrawText("GAMEPLAY SCREEN", titleXMiddle, titleYPosition,
-           DisplayConstants::titleFontSize, MAROON);
 
   const int instructionXPosition = 10;
   const int instructionYPosition = DisplayConstants::gameplayScreenHeight -
