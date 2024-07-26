@@ -52,6 +52,7 @@ void drawStar(int centerX, int centerY) {
   DrawLine(point9X, point9Y, point10X, point10Y, WHITE);
   DrawLine(point10X, point10Y, point1X, point1Y, WHITE);
 }
+
 void drawTitleScreen() {
   DrawRectangle(0, 0, DisplayConstants::mainScreenWidth,
                 DisplayConstants::mainScreenHeight, GREEN);
@@ -64,9 +65,11 @@ void drawTitleScreen() {
 
   const int instructionXPosition = 150;
   const int instructionYPosition = 220;
-  DrawText("PRESS ENTER or TAP to go to GAMEPLAY SCREEN", instructionXPosition,
+  DrawText("PRESS ENTER or CLICK to play the game", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize,
            DARKGREEN);
+  DrawText("PRESS H for help", instructionXPosition, instructionYPosition + 200,
+           DisplayConstants::instructionFontSize, DARKGREEN);
 }
 
 void drawRandomWhiteBackgroundStars(int frameNumber) {
@@ -157,7 +160,7 @@ void drawGameplayScreen(const GameLogic::Ship &player,
   const int instructionXPosition = 10;
   const int instructionYPosition = DisplayConstants::gameplayScreenHeight -
                                    2 * DisplayConstants::instructionFontSize;
-  DrawText("PRESS Q to go to ENDING SCREEN", instructionXPosition,
+  DrawText("PRESS Q to go to the ENDING screen.", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize, MAROON);
   drawGameInfoBox(player.getNrOfLives(), playerScore, gameDifficulty);
 }
@@ -189,15 +192,14 @@ void drawEndingScreen() {
   DrawRectangle(0, 0, DisplayConstants::gameplayScreenWidth,
                 DisplayConstants::gameplayScreenHeight, BLUE);
 
-  const int titleXMiddle = (DisplayConstants::gameplayScreenWidth / 2) -
-                           (5 * DisplayConstants::titleFontSize);
+  const int titleXMiddle = 240;
   const int titleYPosition = 10;
-  DrawText("ENDING SCREEN", titleXMiddle, titleYPosition,
+  DrawText("GAME OVER", titleXMiddle, titleYPosition,
            DisplayConstants::titleFontSize, DARKBLUE);
 
   const int instructionXPosition = (DisplayConstants::gameplayScreenWidth / 6);
   const int instructionYPosition = 220;
-  DrawText("PRESS ENTER to RETURN to TITLE SCREEN", instructionXPosition,
+  DrawText("PRESS ENTER to return to the main menu.", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize,
            DARKBLUE);
 }
