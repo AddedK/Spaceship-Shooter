@@ -103,9 +103,7 @@ public:
   void handleKeyPress(KeyPress keyPress);
   int getScreenWidth() const { return screenWidth; }
   int getScreenHeight() const { return screenHeight; }
-  std::vector<Ship> getEnemyShips() const {
-    return enemyShips;
-  } // Performance: Return by reference
+  std::vector<Ship> getEnemyShips() const { return enemyShips; }
   std::vector<Projectile> getProjectiles() const { return projectiles; }
   std::vector<Upgrade> getUpgrades() const { return upgrades; }
   bool getPlayerAliveStatus() const { return playerIsAlive; }
