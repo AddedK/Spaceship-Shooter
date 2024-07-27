@@ -79,8 +79,7 @@ class GameState {
   void allEnemiesShoot();
   void clearEnemyShips();
   void movePlayer(MoveDirection direction);
-  void addEnemyShip(
-      Ship &&enemy); // TODO: sanity check on bounds on ship coordinations
+  void addEnemyShip(Ship &&enemy);
 
   void addProjectile(Projectile &&projectile);
   void addPlayerProjectile();
@@ -98,8 +97,7 @@ class GameState {
 public:
   int getFrameNumber() const { return frameNumber; }
   Ship getPlayer() const { return player; }
-  void
-  setPlayer(Ship player); // TODO: Sanity check on bounds on player coordinates
+  void setPlayer(Ship player);
   void setPlayerSpeed(int newSpeed); // Public for testing
   void handleKeyPress(KeyPress keyPress);
   int getScreenWidth() const { return screenWidth; }
@@ -121,7 +119,6 @@ public:
   void shipAndProjectileCollisions();
   void checkAndHandleCollisions();
 
-  // TODO: Make sanity checks on how people construct GameState
   GameState() = delete;
   GameState(int fps, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps),
