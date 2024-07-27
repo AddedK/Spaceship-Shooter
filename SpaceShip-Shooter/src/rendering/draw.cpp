@@ -88,14 +88,32 @@ void drawHelpScreen() {
   DrawText("Get score by surviving and destroying enemy ships.",
            instructionXPosition, 100, DisplayConstants::instructionFontSize,
            DARKGREEN);
+  std::vector<GameLogic::Point> BasicShipPoints;
+  BasicShipPoints.push_back(GameLogic::Point{200, 140});
+  BasicShipPoints.push_back(GameLogic::Point{230, 170});
+  BasicShipPoints.push_back(GameLogic::Point{260, 140});
+  GameLogic::Ship enemyShip(BasicShipPoints, 1, 1, 1,
+                            GameLogic::ShipType::BASIC);
+  drawShapeFromVertices(enemyShip, RED);
+  DrawText("<---- This is a basic enemy ship.", 300, 150,
+           DisplayConstants::instructionFontSize, DARKGREEN);
+
   DrawText("You lose when when you run out of lives.", instructionXPosition,
            200, DisplayConstants::instructionFontSize, DARKGREEN);
+
   DrawText("Press the arrow keys to move the player ship.",
            instructionXPosition, 300, DisplayConstants::instructionFontSize,
            DARKGREEN);
+
   DrawText("Press SPACEBAR to shoot a projectile.", instructionXPosition, 400,
            DisplayConstants::instructionFontSize, DARKGREEN);
+
   DrawText("Pick up boons to improve your ship.", instructionXPosition, 500,
+           DisplayConstants::instructionFontSize, DARKGREEN);
+  GameLogic::Point boonCenter({instructionXPosition + 50, 580});
+  DrawCircle(boonCenter.x, boonCenter.y, 10, SKYBLUE);
+  DrawText("<--- This is how one of the boons look like.",
+           instructionXPosition + 100, 570,
            DisplayConstants::instructionFontSize, DARKGREEN);
 
   DrawText("Press ENTER to return to the MAIN menu", instructionXPosition,
