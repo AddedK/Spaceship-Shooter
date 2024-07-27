@@ -19,7 +19,6 @@ template <typename T> void drawShapeFromVertices(const T &t, Color color) {
   }
 }
 void drawStar(int centerX, int centerY) {
-  // TODO
   int point1Y = centerY - 5; // Top point
   int point1X = centerX;
   int point2Y = point1Y + 2;

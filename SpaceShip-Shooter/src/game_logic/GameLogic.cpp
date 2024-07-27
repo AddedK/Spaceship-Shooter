@@ -33,13 +33,11 @@ void GameState::handleKeyPress(KeyPress keyPress) {
     addPlayerProjectile();
     break;
   default:
-    // TODO
     break;
   }
 }
 
 void GameState::movePlayer(MoveDirection direction) {
-  // TODO: Allow special behavior for moving player
   moveShip(player, direction, screenWidth, screenHeight);
 }
 
@@ -103,13 +101,11 @@ void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
     break;
   }
   default:
-    // TODO
     break;
   }
 }
 
 void GameState::allEnemiesShoot() {
-  // TODO Diffierent ships with different firing mechanics
   for (auto &enemyShip : enemyShips) {
     if (enemyShip.highestY < screenHeight &&
         ((frameNumber - enemyShip.frameWhenLastFiredProjectile) >=
@@ -401,7 +397,6 @@ void moveProjectile(Projectile &projectile, int screenWidth, int screenHeight) {
     break;
   }
   default:
-    // TODO
     break;
   }
 }
@@ -508,7 +503,6 @@ void moveUpgrade(Upgrade &upgrade, int screenWidth, int screenHeight) {
     break;
   }
   default:
-    // TODO
     break;
   }
 }
