@@ -13,4 +13,5 @@ To compile the game, then finally run
 make run
 ```
 To start the game.
+
 This game has been tested on Ubuntu using C++20.
