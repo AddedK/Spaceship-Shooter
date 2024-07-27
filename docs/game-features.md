@@ -1,6 +1,7 @@
 ### Game features to implement.
 * There should be a view that functions as start/main menu.✅
   * One should be able to start the main part of the game.✅
+	* One should be able to go to a help screen that describes how to play the game. ✅
 * There should be a view for space-shooting gameplay, where one controls a spaceship that travels  to the right side of the screen while facing enemies.✅
   * One should be able to move the ship up, down, left, and right.✅
   * The player ship should always be oriented straight up.✅
