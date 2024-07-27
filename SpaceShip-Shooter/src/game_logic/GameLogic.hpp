@@ -76,7 +76,7 @@ class GameState {
 
   void addEnemyShip(Ship &&enemy);
   void spawnEnemies();
-  void clearEnemyShips();
+  void removeAllEnemyShip();
   void moveAllEnemies();
   void allEnemiesShoot();
 

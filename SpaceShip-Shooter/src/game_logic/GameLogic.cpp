@@ -48,7 +48,7 @@ void GameState::setPlayerSpeed(int newSpeed) {
 void GameState::addEnemyShip(Ship &&enemy) {
   this->enemyShips.push_back(enemy);
 }
-void GameState::clearEnemyShips() { this->enemyShips.clear(); }
+void GameState::removeAllEnemyShip() { this->enemyShips.clear(); }
 void moveShip(Ship &ship, MoveDirection direction, int screenWidth,
               int screenHeight, int additionalMovement) {
   int totalMovement = ship.movementSpeed + additionalMovement;
@@ -269,7 +269,7 @@ void GameState::startGame() {
   setPlayer({playerVertices, GameConstants::playerInitialSpeed,
              GameConstants::playerInitialNrOfLives,
              GameConstants::projectileDefaultSpeed});
-  clearEnemyShips();
+  removeAllEnemyShip();
   removeAllProjectiles();
   removeAllUpgrades();
   std::vector<Point> enemyVertices;
