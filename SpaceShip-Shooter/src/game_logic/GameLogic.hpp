@@ -74,12 +74,13 @@ class GameState {
   int nrBonusLifeUpgradesToSpawn;
   int nrProjectileSpeedUpgradesToSpawn;
 
-  void moveAllEnemies();
-  void spawnEnemies();
-  void allEnemiesShoot();
-  void clearEnemyShips();
-  void movePlayer(MoveDirection direction);
   void addEnemyShip(Ship &&enemy);
+  void spawnEnemies();
+  void clearEnemyShips();
+  void moveAllEnemies();
+  void allEnemiesShoot();
+
+  void movePlayer(MoveDirection direction);
 
   void addProjectile(Projectile &&projectile);
   void addPlayerProjectile();
