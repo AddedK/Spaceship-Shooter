@@ -85,18 +85,22 @@ void drawHelpScreen() {
 
   const int instructionXPosition = 150;
   const int instructionYPosition = 640;
-  DrawText("Press ENTER to return to the MAIN menu", instructionXPosition,
-           instructionYPosition, DisplayConstants::instructionFontSize,
-           DARKGREEN);
-
   DrawText("Get score by surviving and destroying enemy ships.",
            instructionXPosition, 100, DisplayConstants::instructionFontSize,
            DARKGREEN);
+  DrawText("You lose when when you run out of lives.", instructionXPosition,
+           200, DisplayConstants::instructionFontSize, DARKGREEN);
   DrawText("Press the arrow keys to move the player ship.",
-           instructionXPosition, 200, DisplayConstants::instructionFontSize,
+           instructionXPosition, 300, DisplayConstants::instructionFontSize,
            DARKGREEN);
-  DrawText("Press SPACEBAR to shoot a projectile.", instructionXPosition, 300,
+  DrawText("Press SPACEBAR to shoot a projectile.", instructionXPosition, 400,
            DisplayConstants::instructionFontSize, DARKGREEN);
+  DrawText("Pick up boons to improve your ship.", instructionXPosition, 500,
+           DisplayConstants::instructionFontSize, DARKGREEN);
+
+  DrawText("Press ENTER to return to the MAIN menu", instructionXPosition,
+           instructionYPosition, DisplayConstants::instructionFontSize,
+           DARKGREEN);
 }
 
 void drawRandomWhiteBackgroundStars(int frameNumber) {

@@ -1,6 +1,7 @@
 #include "game_logic/GameLogic.hpp"
 #include "raylib.h"
 #include "rendering/draw.hpp"
+#include <chrono>
 #include <vector>
 
 using namespace std;
@@ -34,7 +35,13 @@ vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
 }
 
 int main(void) {
-
+  auto lastCallTimeTitle =
+      std::chrono::steady_clock::now() - std::chrono::seconds(10);
+  auto lastCallTimeHelp =
+      std::chrono::steady_clock::now() - std::chrono::seconds(10);
+  auto lastCallTimeEnding =
+      std::chrono::steady_clock::now() - std::chrono::seconds(10);
+  const int requiredDelay = 5; // Delay in seconds
   // Setup raylib window
   // Note: there is no straight forward way of disabling resizing and
   // fullscreen. Despite resizing being seemingly off by default, it is still
@@ -98,11 +105,31 @@ int main(void) {
 
     switch (currentScreen) {
     case GameScreen::TITLE: {
-      drawTitleScreen();
-
-    } break;
+      auto now = std::chrono::steady_clock::now();
+      auto durationSinceLastCall =
+          std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                           lastCallTimeTitle)
+              .count();
+      if (durationSinceLastCall >= requiredDelay) {
+        drawTitleScreen();
+        lastCallTimeTitle = now;
+        lastCallTimeHelp = now - std::chrono::seconds(10);
+        lastCallTimeEnding = now - std::chrono::seconds(10);
+      }
+      break;
+    }
     case GameScreen::HELP: {
-      drawHelpScreen();
+      auto now = std::chrono::steady_clock::now();
+      auto durationSinceLastCall =
+          std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                           lastCallTimeHelp)
+              .count();
+      if (durationSinceLastCall >= requiredDelay) {
+        drawHelpScreen();
+        lastCallTimeHelp = now;
+        lastCallTimeTitle = now - std::chrono::seconds(10);
+        lastCallTimeEnding = now - std::chrono::seconds(10);
+      }
       break;
     }
     case GameScreen::GAMEPLAY: {
@@ -110,12 +137,22 @@ int main(void) {
                          game.getProjectiles(), game.getUpgrades(),
                          game.getPlayerScore(), game.getGameDifficulty(),
                          game.getFrameNumber());
-
-    } break;
+      break;
+    }
     case GameScreen::ENDING: {
-      drawEndingScreen();
-
-    } break;
+      auto now = std::chrono::steady_clock::now();
+      auto durationSinceLastCall =
+          std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                           lastCallTimeEnding)
+              .count();
+      if (durationSinceLastCall >= requiredDelay) {
+        drawEndingScreen();
+        lastCallTimeEnding = now;
+        lastCallTimeTitle = now - std::chrono::seconds(10);
+        lastCallTimeHelp = now - std::chrono::seconds(10);
+      }
+      break;
+    }
     default:
       break;
     }
