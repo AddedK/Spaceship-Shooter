@@ -65,11 +65,29 @@ void drawTitleScreen() {
 
   const int instructionXPosition = 150;
   const int instructionYPosition = 220;
-  DrawText("PRESS ENTER or CLICK to play the game", instructionXPosition,
+  DrawText("PRESS ENTER play the game", instructionXPosition,
            instructionYPosition, DisplayConstants::instructionFontSize,
            DARKGREEN);
   DrawText("PRESS H for help", instructionXPosition, instructionYPosition + 200,
            DisplayConstants::instructionFontSize, DARKGREEN);
+}
+
+void drawHelpScreen() {
+
+  DrawRectangle(0, 0, DisplayConstants::mainScreenWidth,
+                DisplayConstants::mainScreenHeight, GREEN);
+
+  const std::string title = "HELP";
+  const int titleStartPositionX = 340;
+  const int titleYPosition = 10;
+  DrawText(title.c_str(), titleStartPositionX, titleYPosition,
+           DisplayConstants::titleFontSize, DARKGREEN);
+
+  const int instructionXPosition = 150;
+  const int instructionYPosition = 220;
+  DrawText("PRESS ENTER to go to MAIN menu", instructionXPosition,
+           instructionYPosition, DisplayConstants::instructionFontSize,
+           DARKGREEN);
 }
 
 void drawRandomWhiteBackgroundStars(int frameNumber) {

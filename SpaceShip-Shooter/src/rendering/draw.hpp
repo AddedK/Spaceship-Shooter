@@ -23,6 +23,7 @@ constexpr int gameInfoFontSize = 14;
 }; // namespace DisplayConstants
 
 void drawTitleScreen();
+void drawHelpScreen();
 void drawGameplayScreen(const GameLogic::Ship &player,
                         const std::vector<GameLogic::Ship> &enemyShips,
                         const std::vector<GameLogic::Projectile> &projectiles,

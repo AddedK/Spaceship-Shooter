@@ -5,7 +5,7 @@
 
 using namespace std;
 
-enum class GameScreen { TITLE, GAMEPLAY, ENDING };
+enum class GameScreen { TITLE, HELP, GAMEPLAY, ENDING };
 
 vector<GameLogic::KeyPress> keyPressToGameKeyPress() {
   vector<GameLogic::KeyPress> keyPresses;
@@ -53,12 +53,20 @@ int main(void) {
     switch (currentScreen) {
     case GameScreen::TITLE: {
 
-      if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
+      if (IsKeyPressed(KEY_ENTER)) {
         game.startGame();
-
         currentScreen = GameScreen::GAMEPLAY;
+      } else if (IsKeyPressed(KEY_H)) {
+        currentScreen = GameScreen::HELP;
       }
-    } break;
+      break;
+    }
+    case GameScreen::HELP: {
+      if (IsKeyPressed(KEY_ENTER)) {
+        currentScreen = GameScreen::TITLE;
+      }
+      break;
+    }
     case GameScreen::GAMEPLAY: {
       auto keyPresses = keyPressToGameKeyPress();
       for (auto &keyPress : keyPresses) {
@@ -81,7 +89,8 @@ int main(void) {
       if (IsKeyPressed(KEY_ENTER)) {
         currentScreen = GameScreen::TITLE;
       }
-    } break;
+      break;
+    }
     default:
       break;
     }
@@ -92,6 +101,10 @@ int main(void) {
       drawTitleScreen();
 
     } break;
+    case GameScreen::HELP: {
+      drawHelpScreen();
+      break;
+    }
     case GameScreen::GAMEPLAY: {
       drawGameplayScreen(game.getPlayer(), game.getEnemyShips(),
                          game.getProjectiles(), game.getUpgrades(),
