@@ -42,11 +42,10 @@ constexpr int thresholdToSpawnAdvancedShip = 50;
 constexpr int thresholdToSpawnStrikerShip = 80;
 constexpr int thresholdToSpawnUltimateShip = 95;
 
-constexpr int nrsecondsUntilBoostShipTypeThresholds =
-    60 * 1; // TODO FIX CAMELCASE
+constexpr int nrSecondsUntilBoostShipTypeThresholds = 60 * 1;
 constexpr int shipTypeThresholdDifficultyBoost = 20;
 
-constexpr int nrsecondsUntilBoostEnemyShipSwawnRate = 60 * 2;
+constexpr int nrSecondsUntilBoostEnemyShipSwawnRate = 60 * 2;
 constexpr int enemySwawnRateWaitReductionSeconds = 1;
 
 }; // namespace GameConstants

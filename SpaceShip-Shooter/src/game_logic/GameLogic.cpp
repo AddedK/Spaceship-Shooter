@@ -187,12 +187,12 @@ void GameState::spawnEnemies() {
 void GameState::calculateDifficultyModifications() {
   if (!shouldBoostShipTypeThreshold &&
       (frameNumber / fps >=
-       GameConstants::nrsecondsUntilBoostShipTypeThresholds)) {
+       GameConstants::nrSecondsUntilBoostShipTypeThresholds)) {
     shouldBoostShipTypeThreshold = true;
   }
   if (!shouldBoostEnemyShipSpawnRate &&
       (frameNumber / fps) >=
-          GameConstants::nrsecondsUntilBoostEnemyShipSwawnRate) {
+          GameConstants::nrSecondsUntilBoostEnemyShipSwawnRate) {
     shouldBoostEnemyShipSpawnRate = true;
   }
   gameDifficulty = 1;
