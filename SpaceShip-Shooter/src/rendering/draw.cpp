@@ -15,7 +15,7 @@ template <typename T> void drawShapeFromVertices(const T &t, Color color) {
     int height = t.highestY - t.lowestY;
     DrawRectangle(t.lowestX, t.lowestY, width, height, color);
   } else {
-    // Draw polygon
+    // TODO: Draw polygon
   }
 }
 void drawStar(int centerX, int centerY) {
