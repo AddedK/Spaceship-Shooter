@@ -130,7 +130,7 @@ public:
         shouldBoostEnemyShipSpawnRate(false), nrMovementSpeedUpgradesToSpawn(1),
         nrBonusLifeUpgradesToSpawn(1), nrProjectileSpeedUpgradesToSpawn(1) {
 
-    std::mt19937 randomGenerator(std::random_device{}()); // seed the generator
+    std::mt19937 randomGenerator(std::random_device{}());
   }
   GameState(int fps, Ship player, int screenWidth, int screenHeight)
       : frameNumber(0), fps(fps),

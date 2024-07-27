@@ -147,8 +147,7 @@ void GameState::spawnEnemies() {
       frameNumber != 0) {
     int lowXBound = 0 + GameConstants::playerWidth;
     int highXBound = screenWidth - GameConstants::playerWidth;
-    std::uniform_int_distribution<> distr(lowXBound,
-                                          highXBound); // define the range
+    std::uniform_int_distribution<> distr(lowXBound, highXBound);
     int centerX = distr(randomGenerator);
     std::vector<Point> enemyVertices;
     enemyVertices.push_back(Point{centerX - GameConstants::playerWidth / 2, 0});
@@ -620,8 +619,7 @@ void GameState::shipAndProjectileCollisions() {
 }
 
 void GameState::checkAndHandleCollisions() {
-  // Opinion: If two ships and a projectile are in the same spot and the ships
-  // can destory each other, then only projectile goes unscathed
+  // Prefer destroying ships over projectiles.
   playerAndUpgradeCollisions();
   playerAndShipCollisions();
   if (getPlayerAliveStatus()) {
@@ -704,7 +702,6 @@ bool lineCircleIntersection(Point p1, Point p2, Point C1, int radius) {
   double b = 2 * (A * C + B * D);
   double c = sq(C) + sq(D) - sq(radius);
 
-  // Discriminant
   double discriminant = sq(b) - 4 * a * c;
 
   // No real solutions, line does not intersect the circle
